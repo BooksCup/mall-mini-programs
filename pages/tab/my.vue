@@ -86,35 +86,35 @@
                 <ul class="order_two">
                     <li @tap="_order(1)">
                         <div class="position_quan">
-                            <img class="img skeleton-fillet" :src="qianbao" />
+                            <img class="img skeleton-fillet" :src="icon_awaiting_payment" />
                             <div class="order_b" v-if="access_id1 && dfk_num">{{ dfk_num }}</div>
                         </div>
                         <p class="skeleton-rect">待付款</p>
                     </li>
                     <li @tap="_order(2)">
                         <div class="position_quan">
-                            <img class="img skeleton-fillet" :src="zu" />
+                            <img class="img skeleton-fillet" :src="icon_awaiting_shipment" />
                             <div class="order_b" v-if="access_id1 && dfh_num">{{ dfh_num }}</div>
                         </div>
                         <p class="skeleton-rect">待发货</p>
                     </li>
                     <li @tap="_order(3)">
                         <div class="position_quan">
-                            <img class="img skeleton-fillet" :src="dizhi" />
+                            <img class="img skeleton-fillet" :src="icon_awaiting_delivery" />
                             <div class="order_b" v-if="access_id1 && dsh_num">{{ dsh_num }}</div>
                         </div>
                         <p class="skeleton-rect">待收货</p>
                     </li>
                     <li @tap="_order(4)">
                         <div class="position_quan">
-                            <img class="img skeleton-fillet" :src="messageImg" />
+                            <img class="img skeleton-fillet" :src="icon_disputes" />
                             <div class="order_b" v-if="access_id1 && dpj_num">{{ dpj_num }}</div>
                         </div>
                         <p class="skeleton-rect">待评价</p>
                     </li>
                     <li @tap="_navigateTo1('/pagesA/afterSale/afterSale')">
                         <div class="position_quan" style="width: 80rpx;margin: 0 auto;">
-                            <img class="img skeleton-fillet" :src="yueImg" />
+                            <img class="img skeleton-fillet" :src="icon_refund" />
                             <div class="order_b" v-if="access_id1 && th_num">{{ th_num }}</div>
                         </div>
                         <p class="skeleton-rect">退款/售后</p>
@@ -352,6 +352,16 @@
                 // love: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/love2x.png',
                 // messageImg: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dpj.png',
                 icon_right_arrow: this.$common.ROOT_URL + '/static/images/icon/tab/icon_right_arrow.png',
+                // 待付款
+                icon_awaiting_payment: this.$common.ROOT_URL + '/static/images/icon/tab/icon_awaiting_payment.png',
+                // 待发货
+                icon_awaiting_shipment: this.$common.ROOT_URL + '/static/images/icon/tab/icon_awaiting_shipment.png',
+                // 待收货
+                icon_awaiting_delivery: this.$common.ROOT_URL + '/static/images/icon/tab/icon_awaiting_delivery.png',
+                // 待评价
+                icon_disputes: this.$common.ROOT_URL + '/static/images/icon/tab/icon_disputes.png',
+                // 退款/售后
+                icon_refund: this.$common.ROOT_URL + '/static/images/icon/tab/icon_refund.png',
                 // qianbao: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dfk.png',
                 // zu: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dfh.png',
                 // dizhi: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dsh.png',
