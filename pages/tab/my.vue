@@ -2,7 +2,9 @@
     <div class="order_ii" style="background-color: #F8F8F8;">
         <lktauthorize ref="lktAuthorizeComp" v-on:pChangeLoginStatus="changeLoginStatus"></lktauthorize>
         <!-- #ifndef MP-ALIPAY -->
-        <div :style="{ height: halfWidth }"><div class="topHeight" :style="{ height: halfWidth }"></div></div>
+        <div :style="{ height: halfWidth }">
+            <div class="topHeight" :style="{ height: halfWidth }"></div>
+        </div>
         <!-- #endif -->
         <div class="skeleton">
             <!-- 普通会员面板 -->
@@ -18,9 +20,9 @@
                                 <span class="span">{{ user.user_name }}</span>
                             </div>
                             <span class="vip-text1">
-                            <img class="img1" :src="my_leve" />
-                            普通会员
-                        </span>
+                                <img class="img1" :src="my_leve" />
+                                普通会员
+                            </span>
                         </div>
                         <span class="skeleton-rect" v-else>Hi~等你很久了</span>
                     </div>
@@ -37,7 +39,8 @@
             <div v-else class="head panpel" :style="'background-image:url(' + imgurl_my + ');background-size: 100% 100%;'">
                 <div class="head_core">
                     <div class="core_two">
-                        <div class="skeleton-circle" style="margin: 0 30rpx;border-radius:50%;width: 120rpx;height: 120rpx;" @tap="_navigateTo1('../my/myInfo')">
+                        <div class="skeleton-circle" style="margin: 0 30rpx;border-radius:50%;width: 120rpx;height: 120rpx;"
+                            @tap="_navigateTo1('../my/myInfo')">
                             <img v-if="access_id1" lazy-load="true" style="width: 120rpx;height: 120rpx;margin:0;" :src="logo1" />
                             <img v-else lazy-load="true" style="width: 120rpx;height: 120rpx;margin:0;" :src="unLogin" />
                         </div>
@@ -61,12 +64,12 @@
                     </div>
                     <div class="loginBtn skeleton-fillet" v-if="!access_id || (!access_id1 && load)" @tap="_navigateTo('/pages/login/login?landing_code=1')">登录/注册</div>
                     <div v-else @tap="_navigateTo('/pagesA/vipClub/vipClub')" class="changeInfo">
-                            <span class="tag vip-join vip-core skeleton-rect">
-                                会员中心
-                                <image :src="vip_arrow" mode="widthFix" style="width: 8rpx;margin-left: 10rpx;"></image>
-                            </span>
+                        <span class="tag vip-join vip-core skeleton-rect">
+                            会员中心
+                            <image :src="vip_arrow" mode="widthFix" style="width: 8rpx;margin-left: 10rpx;"></image>
+                        </span>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -77,7 +80,7 @@
                         <span class="span">
                             <span class="skeleton-rect">查看全部</span>
                         </span>
-                        <img class="img" :src="jiantou" />
+                        <img class="img" :src="icon_right_arrow" />
                     </div>
                 </div>
                 <ul class="order_two">
@@ -120,7 +123,7 @@
             </div>
             <div class="my_data3">
                 <div class="data3" v-if="coupon == 1 || coupon == '1'" @tap="_navigateTo1('/pagesB/coupon/mycoupon')">
-                    <img :src="yhqBg" alt="" />
+                    <img :src="bg_coupon" alt="" />
                     <div class="data3_in skeleton-fillet">
                         <div>
                             <p v-if="access_id1" class="dataNum">{{ user.coupon_num }}</p>
@@ -132,7 +135,7 @@
 
                 <!-- #ifdef MP -->
                 <div v-if="QB == 1" class="data3" @tap="_navigateTo1('/pagesB/myWallet/myWallet')">
-                    <img :src="qbBg" alt="" />
+                    <img :src="bg_wallet" alt="" />
                     <div class="data3_in skeleton-fillet">
                         <div>
                             <p v-if="access_id1" class="dataNum">
@@ -150,7 +153,7 @@
                 <!-- #endif -->
                 <!-- #ifndef MP -->
                 <div class="data3" @tap="_navigateTo1('/pagesB/myWallet/myWallet')">
-                    <img :src="qbBg" alt="" />
+                    <img :src="bg_wallet" alt="" />
                     <div class="data3_in skeleton-fillet">
                         <div>
                             <p v-if="access_id1" class="dataNum">
@@ -168,7 +171,7 @@
                 <!-- #endif -->
 
                 <div class="data3" @tap="_navigateTo1('/pages/my/myScore?signPlugin='+sign)">
-                    <img :src="jfBg" alt="" />
+                    <img :src="bg_integral" alt="" />
                     <div class="data3_in skeleton-fillet">
                         <div>
                             <p v-if="access_id1" class="dataNum">{{ user.score }}</p>
@@ -246,7 +249,7 @@
                     <div>
                         <button class="button_kefu" open-type="contact" type="default" />
                         <img class="skeleton-fillet" style="width: 48rpx;height: 48rpx;margin-bottom: 20rpx;" :src="mdkf" />
-                        <view  class="skeleton-rect">客服</view>
+                        <view class="skeleton-rect">客服</view>
                     </div>
                 </li>
                 <!-- #endif -->
@@ -269,13 +272,13 @@
                 <!-- #endif -->
                 <li @tap="_navigateTo('/pages/my/aboutMe')">
                     <div>
-                        <img  class="skeleton-fillet" :src="gywm" />
+                        <img class="skeleton-fillet" :src="gywm" />
                         <p class="skeleton-rect">关于我们</p>
                     </div>
                 </li>
                 <li @tap="_navigateTo1('/pagesB/setUp/setUp')" style="border-bottom: none;">
                     <div>
-                        <img class="skeleton-fillet" :src="sz" />
+                        <img class="skeleton-fillet" :src="icon_setting" />
                         <p class="skeleton-rect">设置</p>
                     </div>
                 </li>
@@ -283,9 +286,9 @@
             <div class="bq" :style="{ paddingBottom: pBottom }">
                 <div class="relative">
                     <img class="bq_img" :src="storeLogo" />
-                    来客推提供技术支持
+                    BooksCup提供技术支持
                 </div>
-                <div>www.laiketui.com</div>
+                <div>BooksCup@163.com</div>
             </div>
 
             <!-- 会员到期弹窗 -->
@@ -310,340 +313,350 @@
                 </div>
             </div>
         </div>
-        <skeleton  :animation="true" :loading="!load"  bgColor="#FFF"></skeleton>
+        <skeleton :animation="true" :loading="!load" bgColor="#FFF"></skeleton>
     </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+    import {
+        mapMutations
+    } from 'vuex';
 
-export default {
-    data() {
-        return {
-            //会员各自背景图
-            baiyin_bg: '',
-            huangjin_bg: '',
-            heijin_bg: '',
-            log: '',
-            yhqBg: uni.getStorageSync('endurl') + 'images/icon/yhqBg.png',
-            qbBg: uni.getStorageSync('endurl') + 'images/icon/qbBg.png',
-            jfBg: uni.getStorageSync('endurl') + 'images/icon/jfBg.png',
-            sz: uni.getStorageSync('endurl') + 'images/icon1/sz.png',
-            shdz: uni.getStorageSync('endurl') + 'images/icon1/shdz.png',
-            gywm: uni.getStorageSync('endurl') + 'images/icon1/gywm.png',
-            wdsc: uni.getStorageSync('endurl') + 'images/icon1/wdsc.png',
-            vip_check_img1: uni.getStorageSync('endurl') + 'images/icon/vip_checked.png',
-            vip_check_img2: uni.getStorageSync('endurl') + 'images/icon/vip_nocheck.png',
-            bg_vip: 'background-image: url(' + uni.getStorageSync('endurl') + 'images/icon/vip_modal.png)',
-            close_img: uni.getStorageSync('endurl') + 'images/icon/vip_close.png',
-            shouquan2: false,
-            unLogin: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/unLogin.png',
-            xx: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/xx.png',
-            myGroup: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/myGroup.png',
-            change: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/change.png',
-            storeLogo: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/storeLogo.png',
-            vip_arrow: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/arrow.png',
-            yhq: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/yhq.png',
-            love: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/love2x.png',
-            messageImg: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dpj.png',
-            jiantou: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/jiantou2x.png',
-            qianbao: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dfk.png',
-            zu: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dfh.png',
-            dizhi: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dsh.png',
-            yueImg: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/tksh.png',
-            tanhao: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/tanhao292x.png',
-            logo: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/logo789.png',
-            mddp: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/mddp.png',
-            mdkj: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/kan3x.png',
-            mdkf: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/mdkf.png',
-            wdjp: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/jp_my.png',
-            wdfx: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/fx_centerIcon.png',
-            integral_hui: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/jf.png',
-            my_leve: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/my_leve.png',
-            logo1: '',
-            bottom: 4,
-            load: false,
-            user: '',
-            th_num: '', //退货数量
-            dfk_num: '', //待付款数量
-            dfh_num: '', //待发货数量
-            dsh_num: '', //待收货数量
-            dpj_num: '', //待评价数量
-            logoUrl: '', //程序图片
-            company: '', //程序名称
-            access_id1: false,
-            isClick: false, //防止因为频繁点击导致的页面跳转出错
-            openid: '', //微信使用
-            session_key: '', //微信使用
-            shouquanButton: true,
-            grade: '', //会员等级
-            grade_end: '', //到期时间
-            imgurl_my: '', //会员背景
-            imgurl_s: '',
-            font_color: '',
-            date_color: '',
-            have_grade: '', //0:没有会员等级  1：有会员等级
-            vip_modal_flag: false,
-            vip_check: false,
-            rate: '', //会员折率
-            JP: 1, //竞拍插件 1：开启  0：不开启
-            FX: 1, //分销插件 1.开启   0.不开启
-            JF: 1, //积分商城插件 1.开启   0.不开启
-            MS: 1, //秒杀插件 1.开启   0.不开启
-            KJ: 1, //砍价插件 1.开启   0.不开启
-            PT: 1, //拼团插件 1.开启   0.不开启
-            QB: 1, //秒杀插件 1.开启   0.不开启
-            coupon: 1, //优惠券插件 1.开启   0.不开启
-            sign: 1, //签到插件 1.开启   0.不开启
-            mch: 1 //店铺插件 1.开启   0.不开启
-        };
-    },
-    onLoad() {
-        this.$store.state.frompage = 'my';
-    },
-    onShow() {
-        
-        this.LaiKeTuiCommon.getUrlFirst(this._axios);
-        this.isClick = false;
-        // #ifdef MP-WEIXIN
-        this.LaiketuiWeixinAuth.laiketui_mp_weixin_checkauth(this, this._axios);
-        // #endif
-        // #ifdef MP-ALIPAY
-        this.LaiketuiAliAuth.laiketui_mp_alipay_check(null, this, this._axios);
-        // #endif
-        // #ifdef MP-TOUTIAO
-        this.LaiketuiTTAuth.laiketui_mp_tt_check(null, this, this._axios);
-        // #endif
-        // #ifdef MP-BAIDU
-        this.LaiketuiBDAuth.laiketui_mp_baidu_check(null, this, this._axios);
-        // #endif
-    },
-    onTabItemTap(e) {
-        this.LaiKeTuiCommon.closeMPAuthWin(this);
-    },
-    onUnload() {
-        uni.removeStorageSync('isfx');
-    },
-    computed: {
-        pBottom() {
-            var height;
-            // #ifdef H5
-            height = 120;
-            // #endif
-            // #ifndef H5
-            height = 0;
-            // #endif
-            return uni.upx2px(height) + 'px';
-        }
-    },
-    methods: {
-        check_vip_radio() {
-            this.vip_check = !this.vip_check;
+    export default {
+        data() {
+            return {
+                //会员各自背景图
+                baiyin_bg: '',
+                huangjin_bg: '',
+                heijin_bg: '',
+                log: '',
+                bg_coupon: this.$common.ROOT_URL + '/static/images/icon/tab/bg_coupon.png',
+                bg_wallet: this.$common.ROOT_URL + '/static/images/icon/tab/bg_wallet.png',
+                bg_integral: this.$common.ROOT_URL + '/static/images/icon/tab/bg_integral.png',
+                icon_setting: this.$common.ROOT_URL + '/static/images/icon/tab/icon_setting.png',
+                // shdz: uni.getStorageSync('endurl') + 'images/icon1/shdz.png',
+                // gywm: uni.getStorageSync('endurl') + 'images/icon1/gywm.png',
+                // wdsc: uni.getStorageSync('endurl') + 'images/icon1/wdsc.png',
+                // vip_check_img1: uni.getStorageSync('endurl') + 'images/icon/vip_checked.png',
+                // vip_check_img2: uni.getStorageSync('endurl') + 'images/icon/vip_nocheck.png',
+                // bg_vip: 'background-image: url(' + uni.getStorageSync('endurl') + 'images/icon/vip_modal.png)',
+                // close_img: uni.getStorageSync('endurl') + 'images/icon/vip_close.png',
+                shouquan2: false,
+                // unLogin: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/unLogin.png',
+                // xx: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/xx.png',
+                // myGroup: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/myGroup.png',
+                // change: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/change.png',
+                // storeLogo: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/storeLogo.png',
+                // vip_arrow: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/arrow.png',
+                // yhq: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/yhq.png',
+                // love: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/love2x.png',
+                // messageImg: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dpj.png',
+                icon_right_arrow: this.$common.ROOT_URL + '/static/images/icon/tab/icon_right_arrow.png',
+                // qianbao: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dfk.png',
+                // zu: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dfh.png',
+                // dizhi: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dsh.png',
+                // yueImg: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/tksh.png',
+                // tanhao: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/tanhao292x.png',
+                // logo: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/logo789.png',
+                // mddp: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/mddp.png',
+                // mdkj: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/kan3x.png',
+                // mdkf: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/mdkf.png',
+                // wdjp: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/jp_my.png',
+                // wdfx: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/fx_centerIcon.png',
+                // integral_hui: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/jf.png',
+                // my_leve: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/my_leve.png',
+                logo1: '',
+                bottom: 4,
+                load: false,
+                user: '',
+                th_num: '', //退货数量
+                dfk_num: '', //待付款数量
+                dfh_num: '', //待发货数量
+                dsh_num: '', //待收货数量
+                dpj_num: '', //待评价数量
+                logoUrl: '', //程序图片
+                company: '', //程序名称
+                access_id1: false,
+                isClick: false, //防止因为频繁点击导致的页面跳转出错
+                openid: '', //微信使用
+                session_key: '', //微信使用
+                shouquanButton: true,
+                grade: '', //会员等级
+                grade_end: '', //到期时间
+                imgurl_my: '', //会员背景
+                imgurl_s: '',
+                font_color: '',
+                date_color: '',
+                have_grade: '', //0:没有会员等级  1：有会员等级
+                vip_modal_flag: false,
+                vip_check: false,
+                rate: '', //会员折率
+                JP: 1, //竞拍插件 1：开启  0：不开启
+                FX: 1, //分销插件 1.开启   0.不开启
+                JF: 1, //积分商城插件 1.开启   0.不开启
+                MS: 1, //秒杀插件 1.开启   0.不开启
+                KJ: 1, //砍价插件 1.开启   0.不开启
+                PT: 1, //拼团插件 1.开启   0.不开启
+                QB: 1, //秒杀插件 1.开启   0.不开启
+                coupon: 1, //优惠券插件 1.开启   0.不开启
+                sign: 1, //签到插件 1.开启   0.不开启
+                mch: 1 //店铺插件 1.开启   0.不开启
+            };
         },
-        vip_modal_close() {
-            setTimeout(function() {
-                uni.showTabBar();
-            }, 10);
-            this.vip_modal_flag = !this.vip_modal_flag;
-            if (this.vip_modal_flag) {
-                uni.hideTabBar();
-            } else {
-                uni.showTabBar();
+        onLoad() {
+            this.$store.state.frompage = 'my';
+        },
+        onShow() {
+
+            this.LaiKeTuiCommon.getUrlFirst(this._axios);
+            this.isClick = false;
+            // #ifdef MP-WEIXIN
+            this.LaiketuiWeixinAuth.laiketui_mp_weixin_checkauth(this, this._axios);
+            // #endif
+            // #ifdef MP-ALIPAY
+            this.LaiketuiAliAuth.laiketui_mp_alipay_check(null, this, this._axios);
+            // #endif
+            // #ifdef MP-TOUTIAO
+            this.LaiketuiTTAuth.laiketui_mp_tt_check(null, this, this._axios);
+            // #endif
+            // #ifdef MP-BAIDU
+            this.LaiketuiBDAuth.laiketui_mp_baidu_check(null, this, this._axios);
+            // #endif
+        },
+        onTabItemTap(e) {
+            this.LaiKeTuiCommon.closeMPAuthWin(this);
+        },
+        onUnload() {
+            uni.removeStorageSync('isfx');
+        },
+        computed: {
+            pBottom() {
+                var height;
+                // #ifdef H5
+                height = 120;
+                // #endif
+                // #ifndef H5
+                height = 0;
+                // #endif
+                return uni.upx2px(height) + 'px';
             }
-            if (this.vip_check) {
+        },
+        methods: {
+            check_vip_radio() {
+                this.vip_check = !this.vip_check;
+            },
+            vip_modal_close() {
+                setTimeout(function() {
+                    uni.showTabBar();
+                }, 10);
+                this.vip_modal_flag = !this.vip_modal_flag;
+                if (this.vip_modal_flag) {
+                    uni.hideTabBar();
+                } else {
+                    uni.showTabBar();
+                }
+                if (this.vip_check) {
+                    var data = {
+                        module: 'app',
+                        action: 'recharge',
+                        app: 'close',
+
+                    };
+
+                    this.$req.post({
+                        data
+                    }).then(res => {
+
+                    })
+
+                }
+            },
+            vip_renew() {
+                // this.vip_check传给后台的数据，有无勾选不再显示续费弹窗
+                if (this.vip_check) {
+                    var data = {
+                        module: 'app',
+                        action: 'recharge',
+                        app: 'close',
+
+                    };
+
+                    this.$req.post({
+                        data
+                    }).then(res => {
+
+                    })
+
+                }
+                this.toVip(2);
+            },
+            changeLoginStatus() {
+
+                this._axios();
+            },
+            _logo() {
                 var data = {
                     module: 'app',
-                    action: 'recharge',
-                    app: 'close',
-                    
-                };
-                
-                this.$req.post({data}).then(res=>{
-                    
-                })
-                
-            }
-        },
-        vip_renew() {
-            // this.vip_check传给后台的数据，有无勾选不再显示续费弹窗
-            if (this.vip_check) {
-                var data = {
-                    module: 'app',
-                    action: 'recharge',
-                    app: 'close',
-                    
-                };
-                
-                this.$req.post({data}).then(res=>{
-                    
-                })
-                
-            }
-            this.toVip(2);
-        },
-        changeLoginStatus() {
-            
-            this._axios();
-        },
-        _logo() {
-            var data = {
-                module: 'app',
-                action: 'index',
-                app: 'index',
-                
-            };
-            
-            this.$req.post({
-                data,
-                xhrFields: {
-                    withCredentials: true
-                }
-            }).then(res=>{
-                let {
-                    data: { logo }
-                } = res;
-                this.log = logo;
-            })
-            
-        },
-        _navigateTo(url) {
-            uni.navigateTo({
-                url: url
-            });
-        },
+                    action: 'index',
+                    app: 'index',
 
-        _cancelSq() {
-            this.shouquanButton = true;
-        },
-        _navigateTo1(url) {
-            if (this.isClick == false) {
-                this.isClick = true;
-                this.isLogin(()=>{
-                	uni.navigateTo({
-                	    url: url
-                	});
-                })
-                setTimeout(() => {
-                    this.isClick = false;
-                }, 2000);
-            }
-        },
-        _order(status) {
-            this.isLogin(()=>{
-            	this.status(status);
-            	uni.navigateTo({
-            	    url: '/pages/order/myOrder'
-            	});
-            })
-        },
-        _axios() {
-            var data = {
-                module: 'app',
-                action: 'user',
-                app: 'index'
-            };
-            
-            this.$req.post({data}).then(res=>{
-                this.coupon = res.plugin.coupon;
-                this.sign = res.plugin.sign;
-                if(res.plugin.sign == undefined){
-                    this.sign = 0
-                }
-                this.mch = res.plugin.mch;
-                if (res.code == 404) {
-                    this.access_id1 = false;
-                    this.grade = '普通会员';
-                    this.JP = res.plugin.JP;
-                    this.FX = res.plugin.FX;
-                    this.JF = res.plugin.JF;
-                    this.MS = res.plugin.MS;
-                    this.KJ = res.plugin.KJ;
-                    this.PT = res.plugin.PT;
-                    // #ifdef MP
-                    this.QB = res.plugin.QB;
-                    // #endif
+                };
 
-                    this.load = true
-                } else if (res.code == 200) {
+                this.$req.post({
+                    data,
+                    xhrFields: {
+                        withCredentials: true
+                    }
+                }).then(res => {
                     let {
                         data: {
-                            user,
-                            dfh_num,
-                            logo,
-                            company,
-                            dfk_num,
-                            dpj_num,
-                            dsh_num,
-                            th,
-                            grade,
-                            grade_end,
-                            imgurl_my,
-                            imgurl_s,
-                            font_color,
-                            date_color,
-                            have_grade,
-                            remind,
-                            rate
-                        },
-                        plugin
+                            logo
+                        }
                     } = res;
-                    this.user = user;
-                    this.th_num = th;
-                    this.dfk_num = dfk_num;
-                    this.dfh_num = dfh_num;
-                    this.dsh_num = dsh_num;
-                    this.dpj_num = dpj_num;
-                    this.logoUrl = logo;
-                    this.company = company;
-                    this.logo1 = user.headimgurl;
-                    this.$store.state.user_phone = user.mobile;
-                    uni.setStorage({
-                        key: 'user_phone',
-                        data: user.mobile
-                    });
-                    this.access_id1 = true;
-                    this.grade = grade;
-                    this.grade_end = grade_end;
-                    this.imgurl_my = imgurl_my;
-                    this.imgurl_s = imgurl_s;
-                    this.font_color = font_color;
-                    this.date_color = date_color;
-                    this.have_grade = have_grade;
-                    this.rate = rate;
-                    this.vip_modal_flag = remind ? true : false;
-                    if (this.vip_modal_flag) {
-                        uni.hideTabBar();
-                    } else {
-                        uni.showTabBar();
-                    }
-                    this.JP = plugin.JP;
-                    this.FX = plugin.FX;
-                    this.JF = plugin.JF;
-                    this.MS = plugin.MS;
-                    this.KJ = plugin.KJ;
-                    this.PT = plugin.PT;
-                    // #ifdef MP
-                    this.QB = plugin.QB;
-                    // #endif
-                    
-                    this.load = true
+                    this.log = logo;
+                })
+
+            },
+            _navigateTo(url) {
+                uni.navigateTo({
+                    url: url
+                });
+            },
+
+            _cancelSq() {
+                this.shouquanButton = true;
+            },
+            _navigateTo1(url) {
+                if (this.isClick == false) {
+                    this.isClick = true;
+                    this.isLogin(() => {
+                        uni.navigateTo({
+                            url: url
+                        });
+                    })
+                    setTimeout(() => {
+                        this.isClick = false;
+                    }, 2000);
                 }
+            },
+            _order(status) {
+                this.isLogin(() => {
+                    this.status(status);
+                    uni.navigateTo({
+                        url: '/pages/order/myOrder'
+                    });
+                })
+            },
+            _axios() {
+                var data = {
+                    module: 'app',
+                    action: 'user',
+                    app: 'index'
+                };
+
+                this.$req.post({
+                    data
+                }).then(res => {
+                    this.coupon = res.plugin.coupon;
+                    this.sign = res.plugin.sign;
+                    if (res.plugin.sign == undefined) {
+                        this.sign = 0
+                    }
+                    this.mch = res.plugin.mch;
+                    if (res.code == 404) {
+                        this.access_id1 = false;
+                        this.grade = '普通会员';
+                        this.JP = res.plugin.JP;
+                        this.FX = res.plugin.FX;
+                        this.JF = res.plugin.JF;
+                        this.MS = res.plugin.MS;
+                        this.KJ = res.plugin.KJ;
+                        this.PT = res.plugin.PT;
+                        // #ifdef MP
+                        this.QB = res.plugin.QB;
+                        // #endif
+
+                        this.load = true
+                    } else if (res.code == 200) {
+                        let {
+                            data: {
+                                user,
+                                dfh_num,
+                                logo,
+                                company,
+                                dfk_num,
+                                dpj_num,
+                                dsh_num,
+                                th,
+                                grade,
+                                grade_end,
+                                imgurl_my,
+                                imgurl_s,
+                                font_color,
+                                date_color,
+                                have_grade,
+                                remind,
+                                rate
+                            },
+                            plugin
+                        } = res;
+                        this.user = user;
+                        this.th_num = th;
+                        this.dfk_num = dfk_num;
+                        this.dfh_num = dfh_num;
+                        this.dsh_num = dsh_num;
+                        this.dpj_num = dpj_num;
+                        this.logoUrl = logo;
+                        this.company = company;
+                        this.logo1 = user.headimgurl;
+                        this.$store.state.user_phone = user.mobile;
+                        uni.setStorage({
+                            key: 'user_phone',
+                            data: user.mobile
+                        });
+                        this.access_id1 = true;
+                        this.grade = grade;
+                        this.grade_end = grade_end;
+                        this.imgurl_my = imgurl_my;
+                        this.imgurl_s = imgurl_s;
+                        this.font_color = font_color;
+                        this.date_color = date_color;
+                        this.have_grade = have_grade;
+                        this.rate = rate;
+                        this.vip_modal_flag = remind ? true : false;
+                        if (this.vip_modal_flag) {
+                            uni.hideTabBar();
+                        } else {
+                            uni.showTabBar();
+                        }
+                        this.JP = plugin.JP;
+                        this.FX = plugin.FX;
+                        this.JF = plugin.JF;
+                        this.MS = plugin.MS;
+                        this.KJ = plugin.KJ;
+                        this.PT = plugin.PT;
+                        // #ifdef MP
+                        this.QB = plugin.QB;
+                        // #endif
+
+                        this.load = true
+                    }
+                })
+
+            },
+            // 进入vip支付页面
+            toVip(flag) {
+                uni.setStorageSync('edit_flag', flag);
+                uni.setStorageSync('edit_grade', this.grade);
+                this._navigateTo('../../pagesA/vip/vip');
+            },
+            ...mapMutations({
+                status: 'SET_STATUS'
             })
-            
-        },
-        // 进入vip支付页面
-        toVip(flag) {
-            uni.setStorageSync('edit_flag', flag);
-            uni.setStorageSync('edit_grade', this.grade);
-            this._navigateTo('../../pagesA/vip/vip');
-        },
-        ...mapMutations({
-            status: 'SET_STATUS'
-        })
-    }
-};
+        }
+    };
 </script>
 
 <style scoped>
-@import url('../../static/css/tab/my.css');
+    @import url('../../static/css/tab/my.css');
 </style>

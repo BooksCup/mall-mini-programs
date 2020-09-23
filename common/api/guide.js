@@ -2,7 +2,7 @@ import Request from '../req/request.js'
 import common from '../common.vue'
 
 class Guide extends Request {
-    fetchGuideList(data) {
+    getGuideList(data) {
         return super.request({
             url: common.ROOT_URL + '/guides',
             method: 'get',
