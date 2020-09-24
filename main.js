@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import App from './App'
+import guide from './common/api/guide.js'
 
 Vue.config.productionTip = false
+Vue.prototype.$guide = guide
 
 App.mpType = 'app'
 

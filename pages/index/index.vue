@@ -1,20 +1,12 @@
-<!-- <template>
-	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view class="text-area">
-			<text class="title">{{title}}</text>
-		</view>
-	</view>
-</template> -->
 <template>
     <div>
         <toload v-if="guiderImg.length == 0"></toload>
         <div v-else class="relative">
-            <!-- <div class="guiderBtn" @tap="countDown(true)">
+            <div class="countDownBtn" @tap="countDown()">
                 <span class="time">{{ time }}</span>
                 秒后进入
-            </div> -->
-            <swiper class="swiper" circular="false" :autoplay="autoplay" indicator-dots="true" interval="1000">
+            </div>
+            <swiper class="swiper" circular="false" :autoplay="autoplay" indicator-dots="true" interval="1500">
                 <swiper-item v-for="(item, index) in guiderImg" :key="index">
                     <image class="image" :src="item"></image>
                 </swiper-item>
@@ -38,10 +30,26 @@
             }
         },
         onLoad() {
-
+            this.clear = setInterval(this.countDown, 1000);
+            this.fetchGuideList()
         },
         methods: {
-
+            countDown() {
+                if (this.time == 1) {
+                    clearInterval(this.clear);
+                } else if (this.time > 1) {
+                    this.time--;
+                }
+            },
+            fetchGuideList: function() {
+                let query = {
+                    storeId: 1,
+                    storeType: 1
+                }
+                this.$guide.fetchGuideList(query).then(response => {
+                    console.log(response)
+                })
+            }
         }
     }
 </script>
