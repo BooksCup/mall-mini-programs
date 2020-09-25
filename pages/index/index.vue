@@ -1,6 +1,6 @@
 <template>
     <div>
-        <toload v-if="guiderImg.length == 0"></toload>
+        <toload v-if="guiderList.length == 0"></toload>
         <div v-else class="relative">
             <div class="countDownBtn" @tap="countDown()">
                 <span class="time">{{ time }}</span>
