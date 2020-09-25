@@ -2,7 +2,6 @@ import Vue from 'vue'
 
 class Request {
     constructor() {
-        this.URI = uni.getStorageSync('url') || ''
     }
 
     request(Param) {

@@ -7,8 +7,8 @@
                 秒后进入
             </div>
             <swiper class="swiper" circular="false" :autoplay="autoplay" indicator-dots="true" interval="1500">
-                <swiper-item v-for="(item, index) in guiderImg" :key="index">
-                    <image class="image" :src="item"></image>
+                <swiper-item v-for="(item, index) in guiderList" :key="index">
+                    <image class="image" :src="item.guideImage"></image>
                 </swiper-item>
             </swiper>
         </div>
@@ -19,18 +19,17 @@
     export default {
         data() {
             return {
-                title: 'hello nima hello',
-                guiderImg: [
-                    'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=975216563,2695721503&fm=111&gp=0.jpg',
-                    'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2873130398,3180460360&fm=26&gp=0.jpg'
-                ], // 轮播图
-                time: 3, //倒计时秒数设定
-                autoplay: true, //是否自动切换
+                title: 'index',
+                // 轮播图
+                guiderList: [],
+                // 倒计时秒数设定
+                time: 3,
+                // 是否自动切换
+                autoplay: true,
                 clear: ''
             }
         },
         onLoad() {
-            this.clear = setInterval(this.countDown, 1000);
             this.fetchGuideList()
         },
         methods: {
@@ -43,11 +42,13 @@
             },
             fetchGuideList: function() {
                 let query = {
-                    storeId: 1,
-                    storeType: 1
+                    storeId: this.$common.STORE_ID,
+                    storeType: this.$common.getStoreType()
                 }
-                this.$guide.fetchGuideList(query).then(response => {
-                    console.log(response)
+                this.$guide.fetchGuideList(query).then(res => {
+                    this.guiderList = res
+                    // 启动倒计时
+                    this.clear = setInterval(this.countDown, 1000);
                 })
             }
         }

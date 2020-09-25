@@ -2,8 +2,7 @@ import Request from '../req/request.js'
 class Guide extends Request {
     fetchGuideList(data) {
         return super.request({
-            // url: 'http://localhost:8080/guides',
-            url: 'http://localhost:8081/searchHistory/hot',
+            url: 'http://localhost:8082/guides',
             method: 'get',
             data: data
         })
