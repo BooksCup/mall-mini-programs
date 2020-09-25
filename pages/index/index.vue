@@ -23,18 +23,26 @@
                 // 轮播图
                 guiderList: [],
                 // 倒计时秒数设定
-                time: 3,
+                time: 1,
                 // 是否自动切换
                 autoplay: true,
                 clear: ''
             }
         },
         onLoad() {
+            uni.getSystemInfo({
+                success: res => {
+                    this.$store.state.data_height = res.statusBarHeight;
+                }
+            });
             this.fetchGuideList()
         },
         methods: {
             countDown() {
                 if (this.time == 1) {
+                    uni.reLaunch({
+                        url: '../tab/home'
+                    });
                     clearInterval(this.clear);
                 } else if (this.time > 1) {
                     this.time--;

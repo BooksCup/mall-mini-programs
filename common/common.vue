@@ -1,6 +1,9 @@
 <script>
+    /**
+     * 根路径
+     */
+    const ROOT_URL = 'http://localhost:8082'
     const STORE_ID = 1
-
     const DEFAULT_STORE_TYPE = 1
 
     /**
@@ -33,6 +36,7 @@
 
 
     export default {
+        ROOT_URL,
         STORE_ID,
         getStoreType
     }

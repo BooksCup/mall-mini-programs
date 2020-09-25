@@ -5,7 +5,16 @@
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
-		}
+		},
+        {
+            "path": "pages/tab/home",
+            "style": {
+                "navigationBarTitleText": "HIRRA",
+                "app-plus": {
+                    "titleNView": false
+                }
+            }
+        }
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
