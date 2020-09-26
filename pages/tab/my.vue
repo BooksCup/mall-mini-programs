@@ -13,7 +13,7 @@
                     <div class="core_two" @tap="_navigateTo1('/pages/my/myInfo')">
                         <div class="head_imgDiv skeleton-circle">
                             <img class="img" v-if="access_id1" lazy-load="true" :src="logo1" />
-                            <img class="img" v-else lazy-load="true" :src="unLogin" />
+                            <img class="img" v-else lazy-load="true" :src="icon_not_login" />
                         </div>
                         <div v-if="access_id1" class="user-msg" style="flex-direction: row;">
                             <div>
@@ -42,7 +42,7 @@
                         <div class="skeleton-circle" style="margin: 0 30rpx;border-radius:50%;width: 120rpx;height: 120rpx;"
                             @tap="_navigateTo1('../my/myInfo')">
                             <img v-if="access_id1" lazy-load="true" style="width: 120rpx;height: 120rpx;margin:0;" :src="logo1" />
-                            <img v-else lazy-load="true" style="width: 120rpx;height: 120rpx;margin:0;" :src="unLogin" />
+                            <img v-else lazy-load="true" style="width: 120rpx;height: 120rpx;margin:0;" :src="icon_not_login" />
                         </div>
                         <div v-if="access_id">
                             <div v-if="access_id1 || !load" class="user-msg" style="justify-content: center;">
@@ -185,62 +185,62 @@
                 <!-- #ifndef MP-ALIPAY -->
                 <li v-if="PT == 1" @tap="_navigateTo1('/pagesA/group/groupOrder')">
                     <div>
-                        <img class="skeleton-fillet" :src="myGroup" />
+                        <img class="skeleton-fillet" :src="icon_my_group" />
                         <p class="skeleton-rect">我的拼团</p>
                     </div>
                 </li>
                 <!-- #endif -->
                 <li v-if="mch == 1" @tap="_navigateTo1('/pagesA/myStore/myStore')">
                     <div>
-                        <img class="skeleton-fillet" :src="mddp" />
+                        <img class="skeleton-fillet" :src="icon_my_store" />
                         <p class="skeleton-rect">我的店铺</p>
                     </div>
                 </li>
                 <li v-if="KJ == 1" @tap="_navigateTo1('/pagesA/bargain/bargain')">
                     <div>
-                        <img class="skeleton-fillet" :src="mdkj" />
+                        <img class="skeleton-fillet" :src="icon_my_bargain" />
                         <p class="skeleton-rect">我的砍价</p>
                     </div>
                 </li>
                 <li v-if="MS == 1" @tap="_navigateTo1('/pagesB/seckill/seckill_my')">
                     <div>
-                        <img class="skeleton-fillet" :src="mdkj" />
+                        <img class="skeleton-fillet" :src="icon_my_seckill" />
                         <p class="skeleton-rect">我的秒杀</p>
                     </div>
                 </li>
                 <li @tap="_navigateTo1('/pages/collection/collection')">
                     <div>
-                        <img class="skeleton-fillet" :src="wdsc" />
+                        <img class="skeleton-fillet" :src="icon_my_favorites" />
                         <p class="skeleton-rect">我的收藏</p>
                     </div>
                 </li>
                 <li v-if="JP == 1" @tap="_navigateTo1('/pagesA/bidding/bidding_my')">
                     <div>
-                        <img class="skeleton-fillet" :src="wdjp" />
+                        <img class="skeleton-fillet" :src="icon_my_auction" />
                         <p class="skeleton-rect">我的竞拍</p>
                     </div>
                 </li>
                 <li v-if="FX == 1" @tap="_navigateTo1('/pagesA/distribution/distribution_center')">
                     <div>
-                        <img class="skeleton-fillet" :src="wdfx" />
+                        <img class="skeleton-fillet" :src="icon_center_agent" />
                         <p class="skeleton-rect">代理中心</p>
                     </div>
                 </li>
                 <li @tap="_navigateTo1('/pages/address/receivingAddress?state_manage=2')">
                     <div>
-                        <img class="skeleton-fillet" :src="shdz" />
+                        <img class="skeleton-fillet" :src="icon_shipping_address" />
                         <p class="skeleton-rect">收货地址</p>
                     </div>
                 </li>
                 <li @tap="_navigateTo1('/pages/message/systemMesage')">
                     <div>
-                        <img class="skeleton-fillet" :src="xx" />
+                        <img class="skeleton-fillet" :src="icon_my_message" />
                         <p class="skeleton-rect">消息</p>
                     </div>
                 </li>
                 <li v-if="JF == 1" @tap="_navigateTo1('/pagesB/integral/integral')">
                     <div>
-                        <img class="skeleton-fillet" :src="integral_hui" />
+                        <img class="skeleton-fillet" :src="icon_integral_mall" />
                         <p class="skeleton-rect">积分商城</p>
                     </div>
                 </li>
@@ -248,7 +248,7 @@
                 <li class="relative">
                     <div>
                         <button class="button_kefu" open-type="contact" type="default" />
-                        <img class="skeleton-fillet" style="width: 48rpx;height: 48rpx;margin-bottom: 20rpx;" :src="mdkf" />
+                        <img class="skeleton-fillet" style="width: 48rpx;height: 48rpx;margin-bottom: 20rpx;" :src="icon_customer_service" />
                         <view class="skeleton-rect">客服</view>
                     </div>
                 </li>
@@ -257,7 +257,7 @@
                 <li class="relative">
                     <div>
                         <button class="button_kefu" open-type="contact" bindcontact="contactCB"></button>
-                        <img class="skeleton-fillet" style="width: 48rpx;height: 48rpx;margin-bottom: 20rpx;" :src="mdkf" />
+                        <img class="skeleton-fillet" style="width: 48rpx;height: 48rpx;margin-bottom: 20rpx;" :src="icon_customer_service" />
                         <view class="skeleton-rect">客服</view>
                     </div>
                 </li>
@@ -265,14 +265,14 @@
                 <!-- #ifndef MP-WEIXIN ||  MP-TOUTIAO || MP-BAIDU -->
                 <li @tap="_navigateTo1('/pages/message/service')">
                     <div>
-                        <img class="skeleton-fillet" :src="mdkf" />
+                        <img class="skeleton-fillet" :src="icon_customer_service" />
                         <p class="skeleton-rect">客服</p>
                     </div>
                 </li>
                 <!-- #endif -->
                 <li @tap="_navigateTo('/pages/my/aboutMe')">
                     <div>
-                        <img class="skeleton-fillet" :src="gywm" />
+                        <img class="skeleton-fillet" :src="icon_about_us" />
                         <p class="skeleton-rect">关于我们</p>
                     </div>
                 </li>
@@ -330,8 +330,11 @@
                 huangjin_bg: '',
                 heijin_bg: '',
                 log: '',
+                // 优惠券
                 bg_coupon: this.$common.ROOT_URL + '/static/images/icon/tab/bg_coupon.png',
+                // 钱包
                 bg_wallet: this.$common.ROOT_URL + '/static/images/icon/tab/bg_wallet.png',
+                // 积分
                 bg_integral: this.$common.ROOT_URL + '/static/images/icon/tab/bg_integral.png',
                 icon_setting: this.$common.ROOT_URL + '/static/images/icon/tab/icon_setting.png',
                 // shdz: uni.getStorageSync('endurl') + 'images/icon1/shdz.png',
@@ -342,15 +345,12 @@
                 // bg_vip: 'background-image: url(' + uni.getStorageSync('endurl') + 'images/icon/vip_modal.png)',
                 // close_img: uni.getStorageSync('endurl') + 'images/icon/vip_close.png',
                 shouquan2: false,
-                // unLogin: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/unLogin.png',
                 // xx: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/xx.png',
-                // myGroup: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/myGroup.png',
                 // change: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/change.png',
                 // storeLogo: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/storeLogo.png',
                 // vip_arrow: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/arrow.png',
                 // yhq: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/yhq.png',
                 // love: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/love2x.png',
-                // messageImg: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dpj.png',
                 icon_right_arrow: this.$common.ROOT_URL + '/static/images/icon/tab/icon_right_arrow.png',
                 // 待付款
                 icon_awaiting_payment: this.$common.ROOT_URL + '/static/images/icon/tab/icon_awaiting_payment.png',
@@ -362,10 +362,34 @@
                 icon_disputes: this.$common.ROOT_URL + '/static/images/icon/tab/icon_disputes.png',
                 // 退款/售后
                 icon_refund: this.$common.ROOT_URL + '/static/images/icon/tab/icon_refund.png',
-                // qianbao: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dfk.png',
-                // zu: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dfh.png',
-                // dizhi: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/dsh.png',
-                // yueImg: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/tksh.png',
+
+                // 我的拼团
+                icon_my_group: this.$common.ROOT_URL + '/static/images/icon/tab/icon_my_group.png',
+                // 我的店铺
+                icon_my_store: this.$common.ROOT_URL + '/static/images/icon/tab/icon_my_store.png',
+                // 我得砍价
+                icon_my_bargain: this.$common.ROOT_URL + '/static/images/icon/tab/icon_my_bargain.png',
+                // 我的秒杀
+                icon_my_seckill: this.$common.ROOT_URL + '/static/images/icon/tab/icon_my_bargain.png',
+                // 我的收藏
+                icon_my_favorites: this.$common.ROOT_URL + '/static/images/icon/tab/icon_my_favorites.png',
+                // 我的竞拍
+                icon_my_auction: this.$common.ROOT_URL + '/static/images/icon/tab/icon_my_auction.png',
+                // 代理中心
+                icon_center_agent: this.$common.ROOT_URL + '/static/images/icon/tab/icon_center_agent.png',
+                // 收货地址
+                icon_shipping_address: this.$common.ROOT_URL + '/static/images/icon/tab/icon_shipping_address.png',
+                // 消息
+                icon_my_message: this.$common.ROOT_URL + '/static/images/icon/tab/icon_my_message.png',
+                // 积分商城
+                icon_integral_mall: this.$common.ROOT_URL + '/static/images/icon/tab/icon_integral_mall.png',
+                // 客服
+                icon_customer_service: this.$common.ROOT_URL + '/static/images/icon/tab/icon_customer_service.png',
+                // 关于我们
+                icon_about_us: this.$common.ROOT_URL + '/static/images/icon/tab/icon_about_us.png',
+                // 未登录
+                icon_not_login: this.$common.ROOT_URL + '/static/images/icon/tab/icon_not_login.png',
+
                 // tanhao: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/tanhao292x.png',
                 // logo: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/logo789.png',
                 // mddp: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/mddp.png',
