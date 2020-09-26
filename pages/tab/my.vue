@@ -285,7 +285,7 @@
             </ul>
             <div class="bq" :style="{ paddingBottom: pBottom }">
                 <div class="relative">
-                    <img class="bq_img" :src="storeLogo" />
+                    <img class="bq_img" :src="icon_store_logo" />
                     BooksCup提供技术支持
                 </div>
                 <div>BooksCup@163.com</div>
@@ -337,20 +337,14 @@
                 // 积分
                 bg_integral: this.$common.ROOT_URL + '/static/images/icon/tab/bg_integral.png',
                 icon_setting: this.$common.ROOT_URL + '/static/images/icon/tab/icon_setting.png',
-                // shdz: uni.getStorageSync('endurl') + 'images/icon1/shdz.png',
-                // gywm: uni.getStorageSync('endurl') + 'images/icon1/gywm.png',
-                // wdsc: uni.getStorageSync('endurl') + 'images/icon1/wdsc.png',
                 // vip_check_img1: uni.getStorageSync('endurl') + 'images/icon/vip_checked.png',
                 // vip_check_img2: uni.getStorageSync('endurl') + 'images/icon/vip_nocheck.png',
                 // bg_vip: 'background-image: url(' + uni.getStorageSync('endurl') + 'images/icon/vip_modal.png)',
                 // close_img: uni.getStorageSync('endurl') + 'images/icon/vip_close.png',
                 shouquan2: false,
-                // xx: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/xx.png',
                 // change: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/change.png',
-                // storeLogo: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/storeLogo.png',
+                icon_store_logo: this.$common.ROOT_URL + '/static/images/icon/tab/icon_store_logo.png',
                 // vip_arrow: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/arrow.png',
-                // yhq: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/yhq.png',
-                // love: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/love2x.png',
                 icon_right_arrow: this.$common.ROOT_URL + '/static/images/icon/tab/icon_right_arrow.png',
                 // 待付款
                 icon_awaiting_payment: this.$common.ROOT_URL + '/static/images/icon/tab/icon_awaiting_payment.png',
@@ -367,7 +361,7 @@
                 icon_my_group: this.$common.ROOT_URL + '/static/images/icon/tab/icon_my_group.png',
                 // 我的店铺
                 icon_my_store: this.$common.ROOT_URL + '/static/images/icon/tab/icon_my_store.png',
-                // 我得砍价
+                // 我的砍价
                 icon_my_bargain: this.$common.ROOT_URL + '/static/images/icon/tab/icon_my_bargain.png',
                 // 我的秒杀
                 icon_my_seckill: this.$common.ROOT_URL + '/static/images/icon/tab/icon_my_bargain.png',
@@ -390,14 +384,7 @@
                 // 未登录
                 icon_not_login: this.$common.ROOT_URL + '/static/images/icon/tab/icon_not_login.png',
 
-                // tanhao: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/tanhao292x.png',
                 // logo: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/logo789.png',
-                // mddp: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/mddp.png',
-                // mdkj: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/kan3x.png',
-                // mdkf: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/mdkf.png',
-                // wdjp: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/jp_my.png',
-                // wdfx: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/fx_centerIcon.png',
-                // integral_hui: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/jf.png',
                 // my_leve: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/my_leve.png',
                 logo1: '',
                 bottom: 4,
