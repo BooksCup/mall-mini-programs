@@ -235,15 +235,6 @@
                         icon: 'none'
                     })
                 } else {
-                    this.phoneVerifyResult = verifyPhone(this.account)
-                    if (this.phoneVerifyResult != 1) {
-                        uni.showToast({
-                            title: '请输入正确的手机号码！',
-                            duration: 1000,
-                            icon: 'none'
-                        })
-                        return
-                    }
                     let data = {
                         storeId: this.$common.STORE_ID,
                         account: this.account,
