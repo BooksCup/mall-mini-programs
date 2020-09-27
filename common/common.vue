@@ -57,6 +57,7 @@
     export default {
         ROOT_URL,
         STORE_ID,
+        SMS_TEMPLATE_TYPE,
         SMS_TEMPLATE_CATEGORY,
         getStoreType
     }

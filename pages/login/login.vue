@@ -58,7 +58,7 @@
                             :class="{color : 60 > count && count > 0 || count === 0}">{{vcBtnContent}}</p>
                     </div>
 
-                    <div class='button1' style='margin-top: 70rpx;' @tap="_landing">登录</div>
+                    <div class='button1' style='margin-top: 70rpx;' @tap="loginByCode">登录</div>
                     <div class='button2' @tap="switchToPwdlogin">密码登录</div>
                 </div>
             </div>
@@ -98,18 +98,22 @@
                 // 验证码登录按钮状态
                 codeLoginBtnStatus: false,
                 fastTap: true,
-                account: '', //登录账号
-                password: '', //登录密码
-                landing: true, //切换密码登录和手机号码登录
-                phone: '', //验证码登录手机号
-                phone_code: '', //验证码
-                one_code: '', //手机号码格式正确返回值
+                // 登录账号
+                account: '',
+                // 登录密码
+                password: '',
+                // 切换密码登录和手机号码登录
+                landing: true,
+                // 验证码登录手机号
+                phone: '',
+                // 验证码
+                verifyCode: '',
                 // 手机号码格式验证结果
                 phoneVerifyResult: '',
                 vcBtnContent: '获取验证码',
                 timer: null,
-                count: '', //倒计时时间
-                old_phone: '', //存储获取验证码时的手机号码
+                // 倒计时时间
+                count: '',
                 landing_code: '',
                 provider: '',
                 agreement1: '',
@@ -117,7 +121,8 @@
                 logo: '',
                 src: false,
                 fatherId: '', //父级id(分销商分享使用)
-                baiduHeadTop: 0 // 百度小程序头部兼容
+                // 百度小程序头部兼容
+                baiduHeadTop: 0
             }
         },
         onLoad(option) {
@@ -165,7 +170,6 @@
         },
         methods: {
             ...mapMutations({
-                set_access_id: 'SET_ACCESS_ID',
                 setToken: 'setToken',
                 user_phone: 'SET_USER_PHONE'
             }),
@@ -285,6 +289,79 @@
                 }
             },
 
+            // 验证码登录
+            loginByCode() {
+                this.phoneVerifyResult = verifyPhone(this.phone)
+                if (!this.phone) {
+                    uni.showToast({
+                        title: '手机号码不能为空',
+                        duration: 1000,
+                        icon: 'none'
+                    })
+                } else if (this.phoneVerifyResult != 1) {
+                    uni.showToast({
+                        title: '请输入正确的手机号码！',
+                        duration: 1000,
+                        icon: 'none'
+                    })
+                } else if (!this.verifyCode) {
+                    uni.showToast({
+                        title: '验证码不能为空',
+                        duration: 1000,
+                        icon: 'none'
+                    })
+                } else if (this.verifyCode.length != 6) {
+                    uni.showToast({
+                        title: '请输入完整的验证码！',
+                        duration: 1000,
+                        icon: 'none'
+                    })
+                } else {
+                    // let data = {
+                    //     storeId: this.$common.STORE_ID,
+                    //     account: this.account,
+                    //     password: this.password,
+                    //     token: this.$store.state.access_id,
+                    //     clientId: uni.getStorageSync('cid')
+                    // }
+                    // this.$user.loginByPwd(data).then(res => {
+                    //     let {
+                    //         responseCode,
+                    //         responseMessage,
+                    //         token
+                    //     } = res
+                    //     if (responseCode == 'LOGIN_SUCCESS' && token) {
+                    //         uni.showToast({
+                    //             title: '登录成功！',
+                    //             duration: 1000,
+                    //             icon: 'none'
+                    //         })
+                    //         this.setToken(token)
+                    //         if (this.togoodsDetail) {
+                    //             if (getCurrentPages().length > 1) {
+                    //                 setTimeout(function() {
+                    //                     uni.navigateBack({
+                    //                         delta: 1
+                    //                     })
+                    //                 }, 1000)
+                    //             } else {
+                    //                 uni.switchTab({
+                    //                     url: '../tabBar/my',
+                    //                     success: function() {}
+                    //                 })
+                    //             }
+                    //         }
+                    //     }
+                    // }).catch(e => {
+                    //     uni.showToast({
+                    //         title: e.responseMessage,
+                    //         duration: 1000,
+                    //         icon: 'none'
+                    //     })
+                    // })
+                }
+            },
+
             // 获取验证码
             getVerifyCode() {
                 this.phoneVerifyResult = verifyPhone(this.phone)
@@ -298,17 +375,14 @@
             // 密码登录to验证码登录
             switchToCodeLogin() {
                 this.landing = false
-                this.codeLoginBtnStatus = false
-                this.phone_codeStatus1 = false
                 this.account = ''
                 this.password = ''
             },
             // 验证码登录to密码登录
             switchToPwdlogin() {
-                this.pwdLoginBtnStatus = false
                 this.landing = true
                 this.phone = ''
-                this.phone_code = ''
+                this.verifyCode = ''
             },
             _navigateTo(url) {
                 uni.navigateTo({
