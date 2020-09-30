@@ -1,0 +1,1 @@
+<view style="width:100%;max-width:100%;" class="_div"><rich-text style="font-size:14px;width:100%;max-width:100%;" nodes="{{nodes}}"></rich-text></view>

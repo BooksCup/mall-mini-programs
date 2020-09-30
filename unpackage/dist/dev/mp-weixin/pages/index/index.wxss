@@ -1,3 +1,6 @@
+.relative {
+    position: relative;
+}
 .image {
     width: 100%;
     height: 100vh;
@@ -5,5 +8,28 @@
 }
 .swiper {
     height: 100vh;
+}
+.time {
+    color: red;
+    margin-right: 10rpx;
+}
+.countDownBtn {
+    position: absolute;
+    top: 150rpx;
+    right: 80rpx;
+    padding: 0 20rpx;
+    height: 40rpx;
+    width: auto;
+    background-color: #000;
+    color: #fff;
+    font-size: 24rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+            align-items: center;
+    border-radius: 10rpx;
+    z-index: 999;
 }
 

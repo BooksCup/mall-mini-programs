@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "HIRRA",
+  "usingComponents": {
+    "weixin-parse": "/components/mpvue-wxparse/src/wxParse"
+  }
+}

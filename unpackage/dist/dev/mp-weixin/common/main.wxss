@@ -1,17 +1,937 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@charset "utf-8";
 /*每个页面公共css */
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 订单模块颜色值 */
+/* 背景颜色 */
+/*  背景渐变色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+/*v2.1.2*/
+.allCenter {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+._article,
+._aside,
+._figure,
+._footer,
+._header,
+._nav,
+._section,
+._details,
+._summary {
+  display: block;
+}
+.topHeight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: #fff !important;
+  z-index: 999999;
+}
+._div {
+  line-height: inherit;
+}
+._p {
+  line-height: inherit;
+}
+.load {
+  height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+.load > ._div {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 10rpx;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 28rpx;
+  text-align: center;
+  margin: 0 auto;
+}
+.load > ._div > ._img {
+  width: 40rpx;
+  height: 40rpx;
+  margin: 5rpx 0 20rpx 0;
+}
+template {
+  height: 100%;
+}
+.noFindImg {
+  width: 240rpx;
+  height: 240rpx;
+  margin-bottom: 30rpx;
+}
+.noFindText {
+  font-size: 30rpx;
+  color: #666;
+}
+.noFindDiv {
+  padding-top: 200rpx;
+  text-align: center;
+}
+view {
+  line-height: inherit;
+}
+input {
+  -webkit-user-select: auto;
+  /*webkit浏览器*/
+}
+._a {
+  text-decoration: none;
+}
+._ul,
+._ol {
+  list-style: none;
+}
+input {
+  outline: none;
+}
+._div,
+._ul {
+  box-sizing: border-box;
+}
+uni-input ._div ._div {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+/* @font-face {
+	font-family:aaaaa;
+	src: url(../font/SourceHanSansCN-ExtraLight.otf);
+}
+body{font-family: aaaaa;} */
+page {
+  font-family: 微软雅黑 arial;
+  background-color: #fff;
+}
+._i {
+  font-style: normal;
+}
+uni-input input {
+  height: 100%;
+}
+.home_navigation {
+  height: 88rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  width: 100%;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  background-color: #fff;
+  padding: 0 30rpx;
+  border-bottom: 1px solid #eee;
+}
+.searchImg {
+  width: 31rpx;
+  height: 31rpx;
+  position: absolute;
+  top: 18rpx;
+  left: 16rpx;
+  z-index: 9;
+}
+.home_input {
+  width: 610rpx;
+  position: relative;
+}
+.home_input input {
+  width: 100%;
+  height: 64rpx;
+  background-color: #f4f4f4;
+  border-radius: 10rpx;
+  font-size: 26rpx;
+  color: #020202;
+  border: 0px;
+  padding-left: 57rpx;
+  box-sizing: border-box;
+}
+.clearfix {
+  clear: both;
+}
+.header {
+  width: 100%;
+  height: 88rpx;
+  border-bottom: 1px solid #eee;
+  color: #020202;
+  font-size: 40rpx;
+}
+.header_img {
+  position: absolute;
+  top: 12rpx !important;
+  left: 10rpx !important;
+  width: 64rpx !important;
+  height: 64rpx !important;
+}
+/*  登录注册样式 、找回密码共用样式     */
+.login,
+.button {
+  padding: 0 40rpx;
+}
+.login input {
+  width: 90%;
+  margin: 0 auto;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #dddddd;
+  padding: 32rpx 0;
+  font-size: 30rpx;
+  margin-bottom: 2px;
+}
+.login_inpu {
+  position: relative;
+}
+.login_inpu ._img {
+  width: 28rpx;
+  height: 28rpx;
+}
+.login_inpu ._img {
+  position: absolute;
+  right: 24rpx;
+  bottom: 24rpx;
+  z-index: 99;
+  padding: 20rpx;
+}
+.login_p {
+  bottom: 30rpx;
+  font-size: 30rpx;
+  color: #020202;
+}
+.button {
+  width: 670rpx;
+  height: 90rpx;
+  text-align: center;
+  line-height: 90rpx;
+  color: #fff;
+  font-size: 30rpx;
+  background-color: #020202;
+  margin: 72rpx auto 30rpx auto;
+}
+/*   像右箭头样式      */
+.arrow {
+  width: 16rpx;
+  height: 28rpx;
+  vertical-align: sub;
+  position: relative;
+}
+/*    选项圆圈     */
+.quan_img {
+  width: 34rpx;
+  height: 34rpx;
+}
+/*  修改mint-ui的样式*/
+.mint-tab-item-label {
+  font-size: 30rpx;
+}
+.mint-cell-wrapper {
+  background-image: none;
+}
+.mint-cell-value {
+  color: #fff;
+}
+.mint-navbar {
+  margin-bottom: 1px;
+}
+.mint-cell-wrapper,
+.mint-navbar {
+  padding: 0 30rpx;
+}
+.mint-tab-container {
+  height: 600rpx;
+  overflow-y: auto;
+}
+.mint-swipe-indicator {
+  background-color: #020202;
+  opacity: 0.5;
+}
+.mint-swipe-indicator.is-active {
+  background-color: #9d9d9d;
+}
+/*  订单页面    */
+.order_goods ._li {
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+}
+.order_one {
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.order_one ._p {
+  font-size: 28rpx;
+  color: #020202;
+}
+.order_one ._p:last-child {
+  color: #020202;
+}
+.order_one,
+.order_two,
+.order_last,
+.last_right,
+.last_right > ._div,
+.pay {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.order_two {
+  padding: 30rpx 0;
+  position: relative;
+}
+.order_two ._img {
+  width: 120rpx;
+  height: 120rpx;
+  margin-right: 20rpx;
+  vertical-align: text-top;
+}
+.order_two > ._div {
+  font-size: 24rpx;
+  color: #020202;
+  height: 120rpx;
+}
+.order_two > ._div:last-child {
+  text-align: right;
+}
+.order_space {
+  height: 90rpx;
+  overflow: hidden;
+  font-size: 24rpx;
+}
+.color_one {
+  color: #9d9d9d;
+  font-size: 20rpx;
+}
+.color_two {
+  color: #9d9d9d;
+  font-size: 24rpx;
+  padding: 6rpx 0;
+}
+.order_last {
+  height: 80rpx;
+  font-size: 24rpx;
+  color: #020202;
+}
+.order_all {
+  margin-left: 20rpx;
+}
+.order_all > ._span {
+  color: red;
+  font-weight: bold;
+}
+.last_right > ._div {
+  width: 142rpx;
+  height: 50rpx;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  font-size: 24rpx;
+  color: #020202;
+  border: 1px solid #020202;
+}
+.last_right > ._div:last-child {
+  border: none;
+  background-color: #020202;
+  color: #fff;
+  margin-left: 20rpx;
+}
+input::-webkit-input-placeholder {
+  color: #9d9d9d;
+}
+/*    设置页面样式        */
+.setup-ul {
+  margin: 0 30rpx 40rpx 30rpx;
+  background-color: #fff;
+  color: #020202;
+  font-size: 30rpx;
+  padding-bottom: 5rpx;
+}
+.setup-ul .li {
+  padding: 22rpx 15rpx;
+  width: 700rpx;
+  margin: 0 auto;
+  border-bottom: 1rpx solid #eee;
+}
+/*.setup-ul>li:last-child{border:none;}*/
+.setup-buttom {
+  width: 670rpx;
+  background-color: #020202;
+  font-size: 30rpx;
+  color: #fff;
+  margin: 0 auto;
+  text-align: center;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+#setupButtomWrap {
+  border: none;
+  padding: 0rpx;
+  height: 100rpx;
+  margin-top: 20rpx;
+}
+.setup-ul > ._li input {
+  border: none;
+}
+/* 支付方式    */
+.pay {
+  padding: 30rpx;
+  border-bottom: 1px solid #eee;
+  font-size: 24rpx;
+  color: #020202;
+}
+.pay_img {
+  width: 44rpx;
+  height: 44rpx;
+}
+/**/
+.go_shopping,
+.look_order {
+  height: 90rpx;
+  text-align: center;
+  line-height: 90rpx;
+  font-size: 30rpx;
+}
+.go_shopping {
+  margin: 72rpx 30rpx 30rpx 30rpx;
+  background-color: #020202;
+  color: #fff;
+}
+.look_order {
+  margin: 0 30rpx;
+  border: 1px solid #020202;
+}
+.mint-loadmore-bottom ._span {
+  display: inline-block;
+  -webkit-transition: 0.2s linear;
+  transition: 0.2s linear;
+  vertical-align: middle;
+}
+.mint-loadmore-bottom ._span.is-rotate {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+/*  没有订单页面   */
+.empty_play {
+  text-align: center;
+  font-size: 30rpx;
+  color: #020202;
+}
+.empty_play ._img {
+  margin: 140rpx 0 30rpx 0;
+  width: 200rpx;
+  height: 200rpx;
+}
+.empty_p {
+  font-size: 24rpx;
+  color: #9d9d9d;
+  margin-top: 16rpx;
+}
+.empty_play ._div {
+  width: 690rpx;
+  height: 90rpx;
+  border: 1px solid #020202;
+  margin: 0 auto;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  margin-top: 72rpx;
+  line-height: 90rpx;
+  color: #020202;
+}
+.content_d > ._p {
+  width: 100%;
+}
+.content_d ._img {
+  width: 100% !important;
+  height: auto !important;
+}
+/*  全部商品     */
+.allgoods,
+.allgoods_ul {
+  width: 100%;
+}
+.allgoods:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.allgoods_li {
+  width: 50%;
+  border: 2px solid #f8f8f8;
+  padding: 78rpx 20rpx 20rpx 30rpx;
+  text-align: center;
+  float: left;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.allgoods > ._li > ._img,
+.allgoods_ul > ._li > ._img {
+  width: 220rpx;
+  height: 220rpx;
+  margin-bottom: 50rpx;
+}
+.allgoods > ._li ._p,
+.allgoods_ul > ._li ._p {
+  text-align: left;
+}
+.allgoods > ._li ._p {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.allgoods_p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 22rpx;
+  color: #9d9d9d;
+  margin: 16rpx 0 34rpx 0;
+}
+.allgoods > ._li > ._div,
+.allgoods_ul > ._li > ._div {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+/*  等待加载页面     */
+.load {
+  height: 100vh;
+}
+.load > ._div {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 10rpx;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 28rpx;
+  text-align: center;
+  margin: 0 auto;
+}
+.load > ._div > ._img {
+  width: 40rpx;
+  height: 40rpx;
+  margin: 50rpx 0 20rpx 0;
+}
+/*  商品规格现则     */
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 99999;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.mask_d {
+  height: 800rpx;
+  width: 100%;
+  background-color: #fff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  font-size: 28rpx;
+  color: #999;
+  z-index: 9999;
+}
+.mask_one {
+  margin: 30rpx 30rpx 0 30rpx;
+  position: relative;
+  padding-bottom: 30rpx;
+  border-bottom: 1px solid #eee;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.mask_one > ._div:first-child {
+  bottom: 35rpx;
+  left: 0;
+  border: 1px solid #eee;
+  width: 140rpx;
+  height: 140rpx;
+}
+.mask_one:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.mask_pric {
+  float: left;
+  margin-left: 20rpx;
+  color: #020202;
+  font-size: 24rpx;
+  -webkit-align-self: flex-end;
+          align-self: flex-end;
+}
+.mask_pric > ._p:first-child {
+  margin-bottom: 20rpx;
+}
+.shangp {
+  width: 100%;
+  height: 100%;
+}
+.mask_two,
+.mask_num {
+  margin: 0 30rpx;
+  padding: 30rpx 0;
+  border-bottom: 1px solid #eee;
+}
+.mask_two ._p,
+.mask_num ._p {
+  color: #999999;
+  font-size: 28rpx;
+}
+.mask_two ._li {
+  float: left;
+  width: auto;
+  border: 1px solid #eee;
+  margin: 40rpx 20rpx 0 0;
+  padding: 10rpx 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+.mask_two ._ul:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.mask_num {
+  border-bottom: 1px solid #eee;
+}
+.numb {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.mask_num ._i {
+  color: #020202;
+  font-size: 30rpx;
+  display: inline-block;
+  width: 80rpx;
+  text-align: center;
+}
+.mask_num ._img {
+  width: 16rpx;
+  height: 16rpx;
+  padding: 10rpx;
+}
+.mask_quren {
+  width: 100%;
+  height: 98rpx;
+  background-color: #020202;
+  color: #fff;
+  text-align: center;
+  line-height: 98rpx;
+  font-size: 30rpx;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+.mask_over {
+  height: 500rpx;
+  overflow: hidden;
+  overflow-y: auto;
+}
+/*  两行，超出隐藏    */
+.order_p_name {
+  margin-bottom: 20rpx;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  height: 60rpx;
+  text-overflow: ellipsis;
+}
+/*  优惠券样式    */
+.coupon_ul {
+  width: 100%;
+  padding: 30rpx;
+}
+.coupon_li,
+.coupon_but {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.coupon_left {
+  width: 47%;
+  text-align: right;
+  margin: 30rpx 10rpx 30rpx 30rpx;
+  border-right: 1px solid #be9e5f;
+  padding-right: 30rpx;
+  z-index: 9;
+}
+.coupon_price {
+  font-size: 100rpx;
+  font-weight: bold;
+  color: #be9e5f;
+}
+.coupon_t {
+  font-size: 24rpx;
+  color: #be9e5f;
+  padding-left: 30rpx;
+}
+.coupon_right {
+  width: 60%;
+  text-align: left;
+  padding-left: 20rpx;
+  position: relative;
+  height: 180rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column;
+          flex-flow: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+          align-items: flex-start;
+  z-index: 9;
+}
+.coupon_p {
+  font-size: 28rpx;
+  color: #020202;
+}
+.coupon_time {
+  font-size: 24rpx;
+  color: #888;
+  margin-top: 15rpx;
+}
+.coupon_but {
+  width: 200rpx;
+  height: 50rpx;
+  background-color: #be9e5f;
+  color: #fff;
+  font-size: 24rpx;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  margin-top: 20rpx;
+}
+.order_ii {
+  height: 100vh;
+}
+.active_color {
+  color: #bbb;
+}
+.active_back {
+  background-color: #bbb;
+}
+.active_border {
+  border-right: 1px solid #bbb;
+}
+._img[lazy="loading"] {
+  height: 200rpx;
+  margin: auto;
+  background-color: #eee;
+}
+._img[lazy="error"] {
+  height: 200rpx;
+  margin: auto;
+  background-color: #eee;
+}
+/* 弹框 */
+.data_totol {
+  position: fixed;
+  bottom: 24%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 999;
+}
+.data_pops {
+  max-width: 400rpx;
+  text-align: left;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.data_pops ._div {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  width: auto;
+  margin: auto;
+  padding: 20rpx 24rpx;
+  font-size: 26rpx;
+  line-height: 36rpx;
+  border-radius: 10rpx;
+}
+/* end 弹框 */
+/* 分割线 */
+.hr {
+  height: 20rpx;
+  background: #F6F6F6;
+}
+/* 预览图片 */
+.yulan {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+.yulan .img {
+  width: 224rpx;
+  height: 56rpx;
+}
+/* 相对定位 */
+.relative {
+  position: relative;
+}
+.border_0 {
+  border: none;
+}
+
+
+
+
+
+
+
+/**
+适配 iPhoneX 底部小黑条，在需要适配的元素上添加 safe-area-inset-bottom 这个类。
+参考链接 https://aotu.io/notes/2017/11/27/iphonex/index.html
+ */
+@supports (bottom: constant(safe-area-inset-bottom)) or (bottom: env(safe-area-inset-bottom)) {
+.goods_bottom,
+  .mask_d,
+  .mask_quren,
+  .content_d,
+  shareMask,
+  .submitDiv,
+  .okBtn,
+  .goodsDetail .content_d,
+  .goodsDetail .shareMask,
+  .goodsDetail .goods_bottom,
+  .goodsDetail .mask_quren,
+  .goodsDetail .mask_d,
+  .order_ii .goods_bottom,
+  .mycoupon_bottom,
+  .pages-pay-orderDetailsr .select-pay-ul,
+  .pages-pay-orderDetailsr .foot2,
+  .receivingAddress .bottom,
+  .uploadPro .relative,
+  .vip-footer,
+  .distribution_share .save-btn,
+  .systemMesage .systemMesage-ul,
+  .systemMesage .messagetail,
+  .safe-area-inset-bottom {
+    box-sizing: content-box;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+.shoppingCart .mask_d,
+  .shoppingCart .mask_quren {
+    padding-bottom: 0;
+}
+.submitDiv {
+    background: #F6F6F6;
+}
+}
 
