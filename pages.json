@@ -16,7 +16,7 @@
             }
         },
 		{
-		    "path": "pages/tab/allGoods",
+		    "path": "pages/tab/goodsClass",
 		    "style": {
 		        "navigationBarTitleText": "全部分类",
 		        // "navigationStyle": "custom",
@@ -63,7 +63,7 @@
 	            "text": "首页"
 	        },
 	        {
-	            "pagePath": "pages/tab/allGoods",
+	            "pagePath": "pages/tab/goodsClass",
 	            "iconPath": "static/img/goShoppingWx.png",
 	            "selectedIconPath": "static/img/goShoppingWxh.png",
 	            "text": "全部分类"

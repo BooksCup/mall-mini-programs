@@ -1,15 +1,15 @@
 import Request from '../req/request.js'
 import common from '../common.vue'
 
-class Guide extends Request {
-    fetchGuideList(data) {
+class GoodsClass extends Request {
+    getGoodsClassList(data) {
         return super.request({
-            url: common.ROOT_URL + '/guides',
+            url: common.ROOT_URL + '/goodsClass',
             method: 'get',
             data: data
         })
     }
 }
 
-const guide = new Guide()
-export default guide
+const goodsClass = new GoodsClass()
+export default goodsClass
