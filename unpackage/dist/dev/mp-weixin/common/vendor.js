@@ -1943,12 +1943,13 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../req/request.js */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}function _get(target, property, receiver) {if (typeof Reflect !== "undefined" && Reflect.get) {_get = Reflect.get;} else {_get = function _get(target, property, receiver) {var base = _superPropBase(target, property);if (!base) return;var desc = Object.getOwnPropertyDescriptor(base, property);if (desc.get) {return desc.get.call(receiver);}return desc.value;};}return _get(target, property, receiver || target);}function _superPropBase(object, property) {while (!Object.prototype.hasOwnProperty.call(object, property)) {object = _getPrototypeOf(object);if (object === null) break;}return object;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function");}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } });if (superClass) _setPrototypeOf(subClass, superClass);}function _setPrototypeOf(o, p) {_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {o.__proto__ = p;return o;};return _setPrototypeOf(o, p);}function _createSuper(Derived) {var hasNativeReflectConstruct = _isNativeReflectConstruct();return function _createSuperInternal() {var Super = _getPrototypeOf(Derived),result;if (hasNativeReflectConstruct) {var NewTarget = _getPrototypeOf(this).constructor;result = Reflect.construct(Super, arguments, NewTarget);} else {result = Super.apply(this, arguments);}return _possibleConstructorReturn(this, result);};}function _possibleConstructorReturn(self, call) {if (call && (typeof call === "object" || typeof call === "function")) {return call;}return _assertThisInitialized(self);}function _assertThisInitialized(self) {if (self === void 0) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return self;}function _isNativeReflectConstruct() {if (typeof Reflect === "undefined" || !Reflect.construct) return false;if (Reflect.construct.sham) return false;if (typeof Proxy === "function") return true;try {Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));return true;} catch (e) {return false;}}function _getPrototypeOf(o) {_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {return o.__proto__ || Object.getPrototypeOf(o);};return _getPrototypeOf(o);}var
-Guide = /*#__PURE__*/function (_Request) {_inherits(Guide, _Request);var _super = _createSuper(Guide);function Guide() {_classCallCheck(this, Guide);return _super.apply(this, arguments);}_createClass(Guide, [{ key: "fetchGuideList", value: function fetchGuideList(
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../req/request.js */ 15));
+var _common = _interopRequireDefault(__webpack_require__(/*! ../common.vue */ 11));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}function _get(target, property, receiver) {if (typeof Reflect !== "undefined" && Reflect.get) {_get = Reflect.get;} else {_get = function _get(target, property, receiver) {var base = _superPropBase(target, property);if (!base) return;var desc = Object.getOwnPropertyDescriptor(base, property);if (desc.get) {return desc.get.call(receiver);}return desc.value;};}return _get(target, property, receiver || target);}function _superPropBase(object, property) {while (!Object.prototype.hasOwnProperty.call(object, property)) {object = _getPrototypeOf(object);if (object === null) break;}return object;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function");}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } });if (superClass) _setPrototypeOf(subClass, superClass);}function _setPrototypeOf(o, p) {_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {o.__proto__ = p;return o;};return _setPrototypeOf(o, p);}function _createSuper(Derived) {var hasNativeReflectConstruct = _isNativeReflectConstruct();return function _createSuperInternal() {var Super = _getPrototypeOf(Derived),result;if (hasNativeReflectConstruct) {var NewTarget = _getPrototypeOf(this).constructor;result = Reflect.construct(Super, arguments, NewTarget);} else {result = Super.apply(this, arguments);}return _possibleConstructorReturn(this, result);};}function _possibleConstructorReturn(self, call) {if (call && (typeof call === "object" || typeof call === "function")) {return call;}return _assertThisInitialized(self);}function _assertThisInitialized(self) {if (self === void 0) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return self;}function _isNativeReflectConstruct() {if (typeof Reflect === "undefined" || !Reflect.construct) return false;if (Reflect.construct.sham) return false;if (typeof Proxy === "function") return true;try {Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));return true;} catch (e) {return false;}}function _getPrototypeOf(o) {_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {return o.__proto__ || Object.getPrototypeOf(o);};return _getPrototypeOf(o);}var
+
+Guide = /*#__PURE__*/function (_Request) {_inherits(Guide, _Request);var _super = _createSuper(Guide);function Guide() {_classCallCheck(this, Guide);return _super.apply(this, arguments);}_createClass(Guide, [{ key: "getGuideList", value: function getGuideList(
     data) {
       return _get(_getPrototypeOf(Guide.prototype), "request", this).call(this, {
-        // url: 'http://localhost:8082/guides',
-        url: 'http://192.168.0.133:8082/guides',
+        url: _common.default.ROOT_URL + '/guides',
         method: 'get',
         data: data });
 
@@ -2024,6 +2025,32 @@ Request = /*#__PURE__*/function () {
 
 Request;exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 16:
+/*!*********************************************************************!*\
+  !*** E:/APC/small-mall/mall-mini-programs/common/api/goodsClass.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../req/request.js */ 15));
+var _common = _interopRequireDefault(__webpack_require__(/*! ../common.vue */ 11));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}function _get(target, property, receiver) {if (typeof Reflect !== "undefined" && Reflect.get) {_get = Reflect.get;} else {_get = function _get(target, property, receiver) {var base = _superPropBase(target, property);if (!base) return;var desc = Object.getOwnPropertyDescriptor(base, property);if (desc.get) {return desc.get.call(receiver);}return desc.value;};}return _get(target, property, receiver || target);}function _superPropBase(object, property) {while (!Object.prototype.hasOwnProperty.call(object, property)) {object = _getPrototypeOf(object);if (object === null) break;}return object;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function");}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } });if (superClass) _setPrototypeOf(subClass, superClass);}function _setPrototypeOf(o, p) {_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {o.__proto__ = p;return o;};return _setPrototypeOf(o, p);}function _createSuper(Derived) {var hasNativeReflectConstruct = _isNativeReflectConstruct();return function _createSuperInternal() {var Super = _getPrototypeOf(Derived),result;if (hasNativeReflectConstruct) {var NewTarget = _getPrototypeOf(this).constructor;result = Reflect.construct(Super, arguments, NewTarget);} else {result = Super.apply(this, arguments);}return _possibleConstructorReturn(this, result);};}function _possibleConstructorReturn(self, call) {if (call && (typeof call === "object" || typeof call === "function")) {return call;}return _assertThisInitialized(self);}function _assertThisInitialized(self) {if (self === void 0) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return self;}function _isNativeReflectConstruct() {if (typeof Reflect === "undefined" || !Reflect.construct) return false;if (Reflect.construct.sham) return false;if (typeof Proxy === "function") return true;try {Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));return true;} catch (e) {return false;}}function _getPrototypeOf(o) {_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {return o.__proto__ || Object.getPrototypeOf(o);};return _getPrototypeOf(o);}var
+
+GoodsClass = /*#__PURE__*/function (_Request) {_inherits(GoodsClass, _Request);var _super = _createSuper(GoodsClass);function GoodsClass() {_classCallCheck(this, GoodsClass);return _super.apply(this, arguments);}_createClass(GoodsClass, [{ key: "getGoodsClassList", value: function getGoodsClassList(
+    data) {
+      return _get(_getPrototypeOf(GoodsClass.prototype), "request", this).call(this, {
+        url: _common.default.ROOT_URL + '/goodsClass',
+        method: 'get',
+        data: data });
+
+    } }]);return GoodsClass;}(_request.default);
+
+
+var goodsClass = new GoodsClass();var _default =
+goodsClass;exports.default = _default;
 
 /***/ }),
 
@@ -8071,38 +8098,7 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 3:
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 30:
+/***/ 23:
 /*!********************************************!*\
   !*** ./node_modules/vuex/dist/vuex.esm.js ***!
   \********************************************/
@@ -9215,6 +9211,37 @@ var index = {
 
 /***/ }),
 
+/***/ 3:
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
 /***/ 4:
 /*!*******************************************************!*\
   !*** E:/APC/small-mall/mall-mini-programs/pages.json ***!
@@ -9226,7 +9253,281 @@ var index = {
 
 /***/ }),
 
-/***/ 62:
+/***/ 64:
+/*!**************************************************************!*\
+  !*** E:/APC/small-mall/mall-mini-programs/common/landing.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.onblur = onblur;exports.pass = pass;exports.confirmpass = confirmpass;exports.telephone = telephone;exports.time = time;exports.empty = empty; //用户名验证
+function onblur(value, display) {
+  var re = /^\w{6,20}$/g;
+  var rez = re.test(value);
+  if (rez == true) {
+    uni.showToast({
+      title: '格式正确！',
+      duration: 1000,
+      icon: 'none' });
+
+    return;
+  }
+  if (value == '') {
+    display.style.display = 'block';
+    display.innerHTML = '用户名不能为空';
+    uni.showToast({
+      title: '用户名不能为空',
+      duration: 1000,
+      icon: 'none' });
+
+  } else {
+    display.style.display = 'block';
+    value = '';
+  }
+}
+
+//密码验证
+function pass(value, display, a) {
+  var re = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+  var rez = re.test(value);
+  if (rez == true) {
+    return;
+  }
+  if (value == '') {
+    uni.showToast({
+      title: '密码不能为空！',
+      duration: 1000,
+      icon: 'none' });
+
+  } else {
+    uni.showToast({
+      title: '请输入6-16位数密码（数字和字母组合）！',
+      duration: 1000,
+      icon: 'none' });
+
+  }
+}
+
+//确认密码验证
+function confirmpass(value1, value2) {
+  if (value1 == '') {
+    uni.showToast({
+      title: '请输入密码！',
+      duration: 1000,
+      icon: 'none' });
+
+    return false;
+  }
+
+  if (value2 == '') {
+    uni.showToast({
+      title: '请输入确认密码！',
+      duration: 1000,
+      icon: 'none' });
+
+    return false;
+  }
+
+  if (value1 != value2) {
+    uni.showToast({
+      title: '两次输入不一致！',
+      duration: 1000,
+      icon: 'none' });
+
+    return false;
+  }
+
+  return 1;
+}
+
+//验证手机号码
+function telephone(value) {
+  var re = /^1[3|4|5|6|7|8|9][0-9]\d{4,8}$/;
+  var wrResult = re.test(value);
+  if (wrResult && value.length == 11) {
+    return 1;
+  } else if (value == '') {
+    return 2;
+  } else {
+    uni.showToast({
+      title: '请输入正确的手机号！',
+      duration: 1000,
+      icon: 'none' });
+
+    return 3;
+  }
+}
+
+//一分钟倒计时
+function time(timer, count) {
+  var TIME_COUNT = 60;
+  if (!timer) {
+    count = TIME_COUNT;
+    timer = setInterval(function () {
+      if (count > 0 && count <= TIME_COUNT) {
+        count--;
+      } else {
+        clearInterval(timer);
+        timer = null;
+      }
+    }, 1000);
+  }
+}
+
+//清空内容
+function empty(value) {
+  value = '';
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 65:
+/*!*********************************************************************!*\
+  !*** E:/APC/small-mall/mall-mini-programs/static/js/login/login.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.lkt_pwStatus = lkt_pwStatus;exports.lkt_telephone = lkt_telephone;exports.lkt_phone_code = lkt_phone_code; // 密码是否可见 1登录密码 2注册密码 3再次输入注册密码
+function lkt_pwStatus(type, me) {
+  if (type == 1) {
+    me.LoginPWStatus = !me.LoginPWStatus;
+  } else if (type == 2) {
+    me.regPWStatus1 = !me.regPWStatus1;
+  } else if (type == 3) {
+    me.regPWStatus2 = !me.regPWStatus2;
+  }
+}
+
+//手机号输入失焦 type2验证码登录输入手机号，3注册输入手机号
+function lkt_telephone(type, me) {
+  if (type == 1) {
+    me.passLoginCodePH = me.passLoginCodePH1;
+    me.account_f = false;
+  } else if (type == 2) {
+    console.log('我输入了验证码登录手机号');
+    me.codeLoginCodePH = me.codeLoginCodePH1;
+    me.pone_f = false;
+  } else if (type == 3) {
+    console.log('我输入了注册手机号');
+    me.phone_y = false;
+  }
+}
+
+//获取验证码 type1验证码登录 2注册
+function lkt_phone_code(type, me) {
+  if (!me.fastTap) {
+    return;
+  }
+  me.fastTap = false;
+  console.log(111);
+  console.log(me);
+  if (me.phone) {
+    if (me.one_code == 1 && !me.count) {
+      me.old_phone = me.phone;
+      var TIME_COUNT = 60;
+      me.time_code = TIME_COUNT + "s\u540E\u53EF\u91CD\u83B7";
+      if (!me.timer) {
+        me.count = TIME_COUNT;
+        me.timer = setInterval(function () {
+          if (me.count > 0 && me.count <= TIME_COUNT) {
+            me.count--;
+            me.time_code = "".concat(me.count, "s\u540E\u53EF\u91CD\u83B7");
+          } else {
+            clearInterval(me.timer);
+            me.time_code = '获取验证码';
+            me.timer = null;
+            me.count = '';
+          }
+        }, 1000);
+      }
+
+      var data = {
+        module: 'app',
+        action: 'user',
+        app: 'secret_key',
+        phone: me.phone };
+
+      if (type == 1) {
+        data.message_type = 0; // 短信类型 0.验证码 1.短信通知
+        data.message_type1 = 1; // 短信类别 1.登录
+      } else {
+        data.message_type = 0; // 短信类型 0.验证码 1.短信通知
+        data.message_type1 = 2; // 短信类别 2.注册
+      }
+      // 补充变量url，解决uni.request中url为undefined的问题
+      var url = uni.getStorageSync('url');
+      uni.request({
+        data: data,
+        url: url,
+        header: {
+          'content-type': 'application/x-www-form-urlencoded' },
+
+        method: 'POST',
+        success: function success(res) {
+          console.log('获取验证码 res');
+          console.log(res);
+          var _code = {
+            200: '发送成功',
+            220: '短信发送频率超限！' };
+
+          if (_code[res.data.code]) {
+            uni.showToast({
+              title: _code[res.data.code],
+              duration: 1500,
+              icon: 'none' });
+
+          }
+          if (type == 1) {
+            me.phone_codeStatus1 = true;
+            if (me.phone_code.length == 6 && me.phone.length == 11 && me.phone_codeStatus1 == true) {
+              me.codeLoginBtnStatus = true;
+            } else {
+              me.codeLoginBtnStatus = false;
+            }
+          } else if (type == 2) {
+            me.phone_codeStatus2 = true;
+            if (me.phone.length == 11 && me.phone_codeStatus2 && me.phone_code.length == 6 &&
+            me.passtwo.length > 5 && me.phone_code.length == 6 && me.passone.length == me.passtwo.length) {
+              me.regBtnStatus = true;
+            } else {
+              me.regBtnStatus = false;
+            }
+          }
+
+          me.fastTap = true;
+          console.log(res);var _res$data =
+
+
+
+
+
+          res.data,code = _res$data.code,message = _res$data.message;
+        },
+        error: function error(err) {
+          me.fastTap = true;
+        } });
+
+    } else {
+      me.fastTap = true;
+    }
+  } else {
+    uni.showToast({
+      title: '请输入手机号码！',
+      duration: 1000,
+      icon: 'none' });
+
+    me.fastTap = true;
+  }
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 89:
 /*!******************************************************************!*\
   !*** E:/APC/small-mall/mall-mini-programs/common/html-parser.js ***!
   \******************************************************************/

@@ -43,6 +43,36 @@
 		            "titleNView": false
 		        }
 		    }
+		},
+		{
+		    "path": "pages/login/login",
+		    "style": {
+		        "navigationStyle": "custom",
+		        "navigationBarTitleText": "用户登录",
+		        "app-plus": {
+		            "titleNView": false
+		        }
+		    }
+		},
+		{
+		    "path": "pages/login/register",
+		    "style": {
+		        "navigationStyle": "custom",
+		        "navigationBarTitleText": "用户注册",
+		        "app-plus": {
+		            "titleNView": false
+		        }
+		    }
+		},
+		{
+		    "path": "pages/login/retrievepassword",
+		    "style": {
+		        "navigationBarTitleText": "找回密码",
+		        "navigationStyle": "custom",
+		        "app-plus": {
+		            "titleNView": false
+		        }
+		    }
 		}
 	],
 	"globalStyle": {

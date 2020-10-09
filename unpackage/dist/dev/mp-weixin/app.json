@@ -2,9 +2,12 @@
   "pages": [
     "pages/index/index",
     "pages/tab/home",
-    "pages/tab/allGoods",
+    "pages/tab/goodsClass",
     "pages/tab/shoppingCart",
-    "pages/tab/my"
+    "pages/tab/my",
+    "pages/login/login",
+    "pages/login/register",
+    "pages/login/retrievepassword"
   ],
   "subPackages": [],
   "window": {
@@ -26,7 +29,7 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/tab/allGoods",
+        "pagePath": "pages/tab/goodsClass",
         "iconPath": "static/img/goShoppingWx.png",
         "selectedIconPath": "static/img/goShoppingWxh.png",
         "text": "全部分类"

@@ -13,7 +13,7 @@
     color: red;
     margin-right: 10rpx;
 }
-.countDownBtn {
+.count-down-btn {
     position: absolute;
     top: 150rpx;
     right: 80rpx;
