@@ -326,6 +326,13 @@
                     }
                     this.$user.register(data).then(res => {
 
+                    }).catch(e => {
+                        this.fastTap = true
+                        uni.showToast({
+                            title: e.responseMessage,
+                            duration: 1000,
+                            icon: 'none'
+                        })
                     })
                 } else if (this.phoneVerifyResult != 1) {
                     uni.showToast({

@@ -24,6 +24,8 @@ class Request {
                 success: (res) => {
                     if (this.response(res)) {
                         resolve(res.data)
+                    } else {
+                        reject(res.data)
                     }
                 },
                 fail: (err) => {
@@ -33,7 +35,7 @@ class Request {
             })
         })
     }
-
+    
     response(res) {
         let {
             statusCode
