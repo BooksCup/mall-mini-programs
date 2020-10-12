@@ -1,16 +1,16 @@
 // 密码是否可见 1登录密码 2注册密码 3再次输入注册密码
-export function lkt_pwStatus (type, me) {
+export function changePwdIsShow(type, me) {
     if (type == 1) {
         me.LoginPWStatus = !me.LoginPWStatus
     } else if (type == 2) {
-        me.regPWStatus1 = !me.regPWStatus1
+        me.pwdIsShow = !me.pwdIsShow
     } else if (type == 3) {
-        me.regPWStatus2 = !me.regPWStatus2
+        me.confirmPwdIsShow = !me.confirmPwdIsShow
     }
 }
 
 //手机号输入失焦 type2验证码登录输入手机号，3注册输入手机号
-export function lkt_telephone (type, me) {
+export function lkt_telephone(type, me) {
     if (type == 1) {
         me.passLoginCodePH = me.passLoginCodePH1
         me.account_f = false
@@ -24,8 +24,8 @@ export function lkt_telephone (type, me) {
     }
 }
 
-//获取验证码 type1验证码登录 2注册
-export function lkt_phone_code (type, me) {
+// 获取验证码 1 验证码登录 2 注册
+export function getVerificationCode(type, me) {
     if (!me.fastTap) {
         return
     }
@@ -36,16 +36,16 @@ export function lkt_phone_code (type, me) {
         if (me.one_code == 1 && !me.count) {
             me.old_phone = me.phone
             const TIME_COUNT = 60
-            me.time_code = TIME_COUNT + `s后可重获`
+            me.vcBtnContent = TIME_COUNT + `s后可重获`
             if (!me.timer) {
                 me.count = TIME_COUNT
                 me.timer = setInterval(() => {
                     if (me.count > 0 && me.count <= TIME_COUNT) {
                         me.count--
-                        me.time_code = `${me.count}s后可重获`
+                        me.vcBtnContent = `${me.count}s后可重获`
                     } else {
                         clearInterval(me.timer)
-                        me.time_code = '获取验证码'
+                        me.vcBtnContent = '获取验证码'
                         me.timer = null
                         me.count = ''
                     }
@@ -74,7 +74,7 @@ export function lkt_phone_code (type, me) {
                     'content-type': 'application/x-www-form-urlencoded'
                 },
                 method: 'POST',
-                success: function (res) {
+                success: function(res) {
                     console.log('获取验证码 res')
                     console.log(res)
                     var _code = {
@@ -90,7 +90,8 @@ export function lkt_phone_code (type, me) {
                     }
                     if (type == 1) {
                         me.phone_codeStatus1 = true
-                        if (me.phone_code.length == 6 && me.phone.length == 11 && me.phone_codeStatus1 == true) {
+                        if (me.phone_code.length == 6 && me.phone.length == 11 && me.phone_codeStatus1 ==
+                            true) {
                             me.codeLoginBtnStatus = true
                         } else {
                             me.codeLoginBtnStatus = false
@@ -98,7 +99,8 @@ export function lkt_phone_code (type, me) {
                     } else if (type == 2) {
                         me.phone_codeStatus2 = true
                         if (me.phone.length == 11 && me.phone_codeStatus2 && me.phone_code.length == 6 &&
-                            me.passtwo.length > 5 && me.phone_code.length == 6 && me.passone.length == me.passtwo.length) {
+                            me.passtwo.length > 5 && me.phone_code.length == 6 && me.passone.length == me.passtwo
+                            .length) {
                             me.regBtnStatus = true
                         } else {
                             me.regBtnStatus = false
@@ -114,7 +116,7 @@ export function lkt_phone_code (type, me) {
                         }
                     } = res
                 },
-                error: function (err) {
+                error: function(err) {
                     me.fastTap = true
                 }
             })

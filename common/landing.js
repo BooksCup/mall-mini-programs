@@ -78,11 +78,11 @@ export function confirmpass(value1, value2) {
     return 1
 }
 
-//验证手机号码
-export function telephone(value) {
+// 验证手机号码
+export function verifyPhone(value) {
     var re = /^1[3|4|5|6|7|8|9][0-9]\d{4,8}$/
-    var wrResult = re.test(value)
-    if (wrResult && value.length == 11) {
+    var result = re.test(value)
+    if (result && value.length == 11) {
         return 1
     } else if (value == '') {
         return 2

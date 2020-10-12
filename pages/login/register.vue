@@ -8,7 +8,7 @@
             <div :style="{position:'relative',top:baiduHeadTop + 'px'}">
 
                 <div class="head">
-                    <img class='head_close' :src="guanbi" @tap="_banck"/>
+                    <img class='head_close' :src="icon_close" @tap="_banck" />
                     <div @tap="_landing_q()">
                         登录
                     </div>
@@ -21,46 +21,43 @@
                 <div class='login'>
                     <!-- 账号 -->
                     <div class='login_inpu'>
-                        <input placeholder-style="color:#b8b8b8" type="text" placeholder="请输入账号（6-15位字母或数字）"
-                               @input="_regIdIpt" v-model="regId" @focus="_close_empty(1)" @blur="blurReg"/>
-                        <img :src="del" v-show="regId.length" @tap="_empty(1)"/>
+                        <input placeholder-style="color:#b8b8b8" type="text" placeholder="请输入账号（6-15位字母或数字）" @input="inputUserName"
+                            v-model="userName" @focus="_close_empty(1)" @blur="blurUserName" />
+                        <img :src="icon_delete" v-show="userName.length" @tap="clear(1)" />
                     </div>
 
                     <!-- 密码 -->
                     <div class='login_inpu'>
-                        <input placeholder-style="color:#b8b8b8" type="text" :password="regPWStatus1"
-                               @input="_regPW1Ipt" placeholder="请输入6-16位数的新密码" v-model="passone"
-                               @focus="_close_empty(2)" @blur="_passone"/>
-                        <img :src="regPWStatus1?pwHide:pwShow" class="login-inpu-img" @tap="pwStatus(2)"/>
+                        <input placeholder-style="color:#b8b8b8" type="text" :password="pwdIsShow" @input="inputPwd"
+                            placeholder="请输入6-16位数的新密码" v-model="pwd" @focus="_close_empty(2)" @blur="blurPwd" />
+                        <img :src="pwdIsShow ? icon_hide_password : icon_show_password" class="login-inpu-img" @tap="changePwdIsShow(2)" />
                     </div>
 
                     <!-- 再次输入密码 -->
                     <div class='login_inpu'>
-                        <input placeholder-style="color:#b8b8b8" type="text" :password="regPWStatus2"
-                               @input='_regPW2Ipt' placeholder="请再次输入密码" v-model="passtwo" @focus="_close_empty(3)"
-                               @blur="_passtwo_t"/>
-                        <img :src="regPWStatus2?pwHide:pwShow" class="login-inpu-img" @tap="pwStatus(3)"/>
+                        <input placeholder-style="color:#b8b8b8" type="text" :password="confirmPwdIsShow" @input='inputConfirmPwd'
+                            placeholder="请再次输入密码" v-model="confirmPwd" @focus="_close_empty(3)" @blur="blurConfirmPwd" />
+                        <img :src="confirmPwdIsShow ? icon_hide_password : icon_show_password" class="login-inpu-img"
+                            @tap="changePwdIsShow(3)" />
                     </div>
 
                     <!-- 手机号 -->
                     <div class='login_inpu'>
-                        <input placeholder-style="color:#b8b8b8" type="number" placeholder="请输入手机号"
-                               @input="_regPhoneIpt" v-model="phone" @focus="_close_empty(1)"
-                               @blur="_telephone(phone,3)" maxlength="11"/>
+                        <input placeholder-style="color:#b8b8b8" type="number" placeholder="请输入手机号" @input="inputPhone"
+                            v-model="phone" @focus="_close_empty(1)" @blur="bluePhone(phone, 3)" maxlength="11" />
                     </div>
 
                     <!-- 验证码 -->
                     <div class='login_inpu regCode'>
                         <input class='flex1' placeholder-style="color:#b8b8b8" type="number" placeholder="请输入验证码"
-                               @input="_regCodeIpt" v-model="phone_code" maxlength="6"/>
-                        <p class='login_p login-inpu-p' @tap="_phone_code(2)"
-                           :class="{color:61>count&&count>0||count===0}">{{time_code}}</p>
+                            @input="_regCodeIpt" v-model="verificationCode" maxlength="6" />
+                        <p class='login_p login-inpu-p' @tap="getVerificationCode(2)" :class="{color:61>count&&count>0||count===0}">{{vcBtnContent}}</p>
                     </div>
 
                 </div>
 
                 <div style='padding: 0 40rpx;'>
-                    <div class='button1 button-top' v-if='regBtnStatus' @tap='_register'>注册</div>
+                    <div class='button1 button-top' v-if='regBtnStatus' @tap='register'>注册</div>
                     <div class='button1 button-top button-opacity' v-else>注册</div>
                 </div>
 
@@ -74,50 +71,52 @@
 
 <script>
     import {
-        telephone
+        verifyPhone
     } from '../../common/landing.js'
     import {
         mapMutations
     } from 'vuex'
     import {
-        lkt_pwStatus,
+        changePwdIsShow,
         lkt_telephone,
-        lkt_phone_code,
+        getVerificationCode,
     } from '../../static/js/login/login.js'
 
     export default {
-        data () {
+        data() {
             return {
-                del: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/delete2x.png',
-                guanbi: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/guanbi2x.png',
-                regId: '',
+                icon_delete: this.$common.ROOT_URL + '/static/images/icon/login/icon_delete.png',
+                icon_close: this.$common.ROOT_URL + '/static/images/icon/login/icon_close.png',
+                icon_show_password: this.$common.ROOT_URL + '/static/images/icon/login/icon_show_password.png',
+                icon_hide_password: this.$common.ROOT_URL + '/static/images/icon/login/icon_hide_password.png',
+                userName: '',
                 toHome: false,
-                regPWStatus1: true,
-                regPWStatus2: true,
+                pwdIsShow: true,
+                confirmPwdIsShow: true,
                 regBtnStatus: false,
                 phone_codeStatus2: false,
                 fastTap: true,
-                passone: '',
-                passtwo: '',
+                pwd: '',
+                confirmPwd: '',
                 phone_y: '',
                 passone_y: '',
                 passtwo_y: '',
-                pwShow: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/pwShow.png',
-                pwHide: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/pwHide.png',
                 phone: '', //验证码登录手机号
-                phone_code: '', //验证码
-                one_code: '', //手机号码格式正确返回值
-                time_code: '获取验证码',
+                verificationCode: '', //验证码
+                // 手机号码格式验证结果
+                phoneVerifyResult: '',
+                // 验证码按钮内容
+                vcBtnContent: '获取验证码',
                 timer: null,
                 count: '', //倒计时时间
                 old_phone: '', //存储获取验证码时的手机号码
                 flag: true, //返回
-                fatherId: '',//父级id(分销商分享使用)
-                baiduHeadTop: 0,// 百度小程序头部高度兼容
+                fatherId: '', //父级id(分销商分享使用)
+                baiduHeadTop: 0, // 百度小程序头部高度兼容
                 Agreement: ''
             }
         },
-        onLoad (option) {
+        onLoad(option) {
 
             // #ifdef MP-BAIDU
             // 百度小程序头部兼容
@@ -137,7 +136,9 @@
                 action: 'login',
                 app: 'index',
             }
-            this.$req.post({ data }).then(res => {
+            this.$req.post({
+                data
+            }).then(res => {
                 if (res.code == 200) {
                     this.Agreement = res.Agreement
                 }
@@ -145,7 +146,7 @@
         },
         methods: {
             // 返回
-            _banck () {
+            _banck() {
                 if (this.toHome) {
                     uni.switchTab({
                         url: '../tabBar/home'
@@ -157,17 +158,17 @@
                 }
             },
             // 到登录页面
-            _landing_q () {
-                this.regId = ''
+            _landing_q() {
+                this.userName = ''
                 this.flag = false
                 this.regBtnStatus = false
                 this.phone_codeStatus2 = false
                 this.phone = ''
-                this.phone_code = ''
-                this.passone = ''
-                this.passtwo = ''
+                this.verificationCode = ''
+                this.pwd = ''
+                this.confirmPwd = ''
                 clearInterval(this.timer)
-                this.time_code = '获取验证码'
+                this.vcBtnContent = '获取验证码'
                 this.timer = null
                 this.count = ''
                 this.flag = true
@@ -176,7 +177,7 @@
                 })
             },
             // input聚焦
-            _close_empty (type) {
+            _close_empty(type) {
                 if (type == 1) {
                     this.phone_y = true
                 } else if (type == 2) {
@@ -186,37 +187,39 @@
                 }
             },
             // 叉，清空内容 1登录账号 3验证码登录手机号 245没用到
-            _empty (val) {
+            clear(val) {
                 if (val == 1) {
-                    this.regId = ''
+                    this.userName = ''
                 } else if (val == 2) {
                     this.password = ''
                 } else if (val == 3) {
                     this.phone = ''
                 } else if (val == 4) {
-                    this.passone = ''
+                    this.pwd = ''
                 } else if (val == 5) {
-                    this.passtwo = ''
+                    this.confirmPwd = ''
                 }
             },
             // 账号输入
-            _regIdIpt: function (e) {
-                if (e.target.value.length > 5 && this.passone.length > 5 &&
-                    this.passtwo.length > 5 && this.phone_code.length == 6 && this.passone.length == this.passtwo.length) {
+            inputUserName: function(e) {
+                if (e.target.value.length > 5 && this.pwd.length > 5 &&
+                    this.confirmPwd.length > 5 && this.verificationCode.length == 6 && this.pwd.length == this.confirmPwd
+                    .length
+                ) {
                     this.regBtnStatus = true
                 } else {
                     this.regBtnStatus = false
                 }
             },
             // 账号失焦  账号正则，限定输入数字与字母组合
-            blurReg: function (e) {
+            blurUserName: function(e) {
                 let re = /^[a-z0-9]{6,15}$/i
                 if (e.target.value != '') {
                     let rez = re.test(e.target.value)
                     if (rez == true) {
 
                     } else {
-                        e.target.value = ''
+                        // e.target.value = ''
                         uni.showToast({
                             title: '请输入6-15位数字或字母账号！',
                             duration: 2000,
@@ -225,36 +228,37 @@
 
                     }
                 }
-                this.regId = e.target.value
+                this.userName = e.target.value
             },
-            // 首次密码输入
-            _regPW1Ipt: function (e) {
-                if (this.regId.length > 5 && this.phone.length == 11 && e.target.value.length > 5 &&
-                    this.passtwo.length > 5 && this.phone_code.length == 6) {
+            // 密码输入
+            inputPwd: function(e) {
+                if (this.userName.length > 5 && this.phone.length == 11 && e.target.value.length > 5 &&
+                    this.confirmPwd.length > 5 && this.verificationCode.length == 6) {
                     this.regBtnStatus = true
                 } else {
                     this.regBtnStatus = false
                 }
             },
-            // 再次密码输入
-            _regPW2Ipt: function (e) {
-                if (this.regId.length > 5 && this.phone.length == 11 && this.passone.length > 5 && this.passtwo.length > 5 &&
-                    e.target.value.length > 5 && this.phone_code.length == 6) {
+            // 确认密码输入
+            inputConfirmPwd: function(e) {
+                if (this.userName.length > 5 && this.phone.length == 11 && this.pwd.length > 5 && this.confirmPwd.length >
+                    5 &&
+                    e.target.value.length > 5 && this.verificationCode.length == 6) {
                     this.regBtnStatus = true
                 } else {
                     this.regBtnStatus = false
                 }
             },
             // 密码失焦
-            _passone () {
+            blurPwd() {
                 this.passone_y = false
                 var re = /^[a-z0-9]{6,15}$/i
-                if (this.passone != '') {
-                    var rez = re.test(this.passone)
+                if (this.pwd != '') {
+                    var rez = re.test(this.pwd)
                     if (rez == true) {
 
                     } else {
-                        this.passone = ''
+                        // this.pwd = ''
                         uni.showToast({
                             title: '请输入6-15位数字或字母密码！',
                             duration: 3000,
@@ -263,10 +267,10 @@
                     }
                 }
             },
-            // 两次密码输入是否一致
-            _passtwo_t () {
+            // 确认密码失焦
+            blurConfirmPwd() {
                 this.passtwo_y = false
-                if (this.passone != this.passtwo) {
+                if (this.pwd != this.confirmPwd) {
                     uni.showToast({
                         title: '确认密码与密码不一致',
                         duration: 1000,
@@ -275,40 +279,84 @@
                 }
             },
             // 密码是否可见 1登录密码 2注册密码 3再次输入注册密码
-            pwStatus (type) {
-                lkt_pwStatus(type, this)
+            changePwdIsShow(type) {
+                changePwdIsShow(type, this)
             },
             // 手机号输入
-            _regPhoneIpt: function (e) {
-                if (e.target.value.length == 11 && this.passone.length > 5 &&
-                    this.passtwo.length > 5 && this.phone_code.length == 6 && this.passone.length == this.passtwo.length) {
+            inputPhone: function(e) {
+                if (e.target.value.length == 11 && this.pwd.length > 5 &&
+                    this.confirmPwd.length > 5 && this.verificationCode.length == 6 && this.pwd.length == this.confirmPwd
+                    .length
+                ) {
                     this.regBtnStatus = true
                 } else {
                     this.regBtnStatus = false
                 }
             },
-            //手机号码正则验证 type2验证码登录输入手机号，3注册输入手机号
-            _telephone (value, type) {
-                this.one_code = telephone(value)
+            // 手机号码正则验证 type2验证码登录输入手机号，3注册输入手机号
+            bluePhone(value, type) {
+                this.phoneVerifyResult = verifyPhone(value)
                 lkt_telephone(type, this)
             },
-            //获取验证码 type1验证码登录 2注册
-            _phone_code (type) {
-                lkt_phone_code(type, this)
+            // 获取验证码 1 验证码登录 2 注册
+            getVerificationCode(type) {
+                getVerificationCode(type, this)
             },
             // 验证码输入
-            _regCodeIpt: function (e) {
-                if (this.regId.length > 5 && this.phone.length == 11 && this.passone.length > 5 &&
-                    this.passtwo.length > 5 && e.target.value.length == 6 && this.passone.length == this.passtwo.length) {
+            _regCodeIpt: function(e) {
+                if (this.userName.length > 5 && this.phone.length == 11 && this.pwd.length > 5 &&
+                    this.confirmPwd.length > 5 && e.target.value.length == 6 && this.pwd.length == this.confirmPwd.length
+                ) {
                     this.regBtnStatus = true
                 } else {
                     this.regBtnStatus = false
                 }
             },
             // 注册
-            _register () {
+            register() {
+                if (this.phone && this.phoneVerifyResult == 1 && this.pwd == this.confirmPwd && this.pwd) {
+                    let data = {
+                        storeId: this.$common.STORE_ID,
+                        storeType: this.$common.getStoreType(),
+                        phone: this.phone,
+                        password: this.pwd,
+                        // access_id: this.$store.state.access_id,
+                        verificationCode: this.verificationCode,
+                        userName: this.userName
+                    }
+                    this.$user.register(data).then(res => {
+
+                    })
+                } else if (this.phoneVerifyResult != 1) {
+                    uni.showToast({
+                        title: '请输入正确的手机号码！',
+                        duration: 1000,
+                        icon: 'none'
+                    })
+                } else if (this.verificationCode.length != 6) {
+                    uni.showToast({
+                        title: '验证码输入错误！',
+                        duration: 1000,
+                        icon: 'none'
+                    })
+                } else if (this.pwd != this.confirmPwd && this.pwd) {
+                    uni.showToast({
+                        title: '两次密码输入不一致，请重新输入！',
+                        duration: 1000,
+                        icon: 'none'
+                    })
+                } else {
+                    uni.showToast({
+                        title: '请填写完整信息！',
+                        duration: 1000,
+                        icon: 'none'
+                    })
+                }
+            },
+            // 注册
+            _register() {
                 var me = this
-                if (this.phone && this.one_code == 1 && this.passone == this.passtwo && this.passone) {
+                if (this.phone && this.phoneVerifyResult == 1 && this.pwd == this.confirmPwd && this.pwd) {
                     if (!this.fastTap) {
                         return
                     }
@@ -318,9 +366,9 @@
                         action: 'login',
                         app: 'user_register',
                         phone: this.phone,
-                        password: this.passone,
+                        password: this.pwd,
                         access_id: this.$store.state.access_id,
-                        keyCode: this.phone_code,
+                        keyCode: this.verificationCode,
                         userId: this.regId
                     }
                     if (this.fatherId != '') {
@@ -333,7 +381,9 @@
                     data.store_type = 2
                     // #endif
                     // 补充变量url，解决uni.request中url为undefined的问题
-                    this.$req.post({data}).then(res => {
+                    this.$req.post({
+                        data
+                    }).then(res => {
                         me.fastTap = true
                         let {
                             data: {
@@ -353,10 +403,10 @@
                             uni.setStorageSync('LoingByHand', true)
                             me.set_access_id(access_id)
                             uni.setStorageSync('access_id', access_id)
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 uni.reLaunch({
                                     url: '../tabBar/my',
-                                    success: function () {
+                                    success: function() {
                                         if (wx_status != 1) {
                                             me.$store.state.shouquan = true
                                         }
@@ -369,21 +419,23 @@
                                 icon: 'none'
                             })
                         }
-                    }).catch(e => { me.fastTap = true })
-                    
-                } else if (this.one_code != 1) {
+                    }).catch(e => {
+                        me.fastTap = true
+                    })
+
+                } else if (this.phoneVerifyResult != 1) {
                     uni.showToast({
                         title: '请输入正确的手机号码！',
                         duration: 1000,
                         icon: 'none'
                     })
-                } else if (this.phone_code.length != 6) {
+                } else if (this.verificationCode.length != 6) {
                     uni.showToast({
                         title: '验证码输入错误！',
                         duration: 1000,
                         icon: 'none'
                     })
-                } else if (this.passone != this.passtwo && this.passone) {
+                } else if (this.pwd != this.confirmPwd && this.pwd) {
                     uni.showToast({
                         title: '两次密码输入不一致，请重新输入！',
                         duration: 1000,
@@ -397,7 +449,7 @@
                     })
                 }
             },
-            _navigateTo (url) {
+            _navigateTo(url) {
                 uni.navigateTo({
                     url
                 })

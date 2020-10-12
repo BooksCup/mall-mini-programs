@@ -2,8 +2,8 @@
     /**
      * 根路径
      */
-    const ROOT_URL = 'http://localhost:8082'
-    // const ROOT_URL = 'http://192.168.0.133:8082'
+    // const ROOT_URL = 'http://localhost:8082'
+    const ROOT_URL = 'http://192.168.0.133:8082'
     const STORE_ID = 1
     const DEFAULT_STORE_TYPE = 1
 
