@@ -9,7 +9,7 @@
             <div :style="{position:'relative',top:baiduHeadTop + 'px'}">
 
                 <div class="head">
-                    <img class='head_close' :src="guanbi" @tap="navBack()"/>
+                    <img class='head_close' :src="icon_close" @tap="back" />
                     <div @tap="_register_q()">
                         注册
                     </div>
@@ -22,24 +22,21 @@
                     </div>
 
                     <div class='login_inpu'>
-                        <input type="text" :placeholder="passLoginCodePH" v-model='account'
-                               placeholder-style="color:#b8b8b8" @blur="_noNull(1)"/>
-                        <img :src="del" v-show="account.length && account_f" @tap="_empty(1)"/>
+                        <input type="text" placeholder="请输入账号/手机号" v-model='account' placeholder-style="color:#b8b8b8" />
+                        <img :src="icon_delete" v-show="account.length" @tap="clearAccount()" />
                     </div>
 
                     <div class='login_inpu'>
-                        <input type="text" :password="LoginPWStatus" :placeholder="passLoginPWPH" v-model='password'
-                               placeholder-style="color:#b8b8b8"
-                               @blur='_noNull(1)'/>
-                        <img :src="LoginPWStatus?pwHide:pwShow"
-                             style='height: 32rpx;width: 32rpx;right: 20rpx;bottom: 24rpx;' @tap="pwStatus(1)"/>
+                        <input type="text" :password="loginPwdIsShow" placeholder="请输入密码" v-model='password'
+                            placeholder-style="color:#b8b8b8" />
+                        <img :src="loginPwdIsShow ? icon_hide_password : icon_show_password" style='height: 32rpx;width: 32rpx;right: 20rpx;bottom: 24rpx;'
+                            @tap="changePwdIsShow(1)" />
                     </div>
 
                     <p class='login_pass' v-if="landing"><span @tap='_navigateTo("retrievepassword")'>忘记密码？</span></p>
-                    <div class='button1' style='margin-top: 70rpx;' v-if='pwLoginBtnStatus' @tap="_landing">登录</div>
-                    <div class='button1' v-else style='opacity: 0.4;margin-top: 70rpx;'>登录</div>
-                    <div style='text-align: center;font-size: 28rpx;color: #999999;'>或</div>
-                    <div class='button2' @tap="_phone">验证码登录</div>
+                    <div class='button1' style='margin-top: 70rpx;' @tap="loginByPwd">登录</div>
+                    <!-- <div class='button1' v-else style='opacity: 0.4;margin-top: 70rpx;'>登录</div> -->
+                    <div class='button2' @tap="switchToCodeLogin">验证码登录</div>
                 </div>
 
                 <!--验证码登录-->
@@ -50,24 +47,21 @@
                     </div>
 
                     <div class='login_inpu'>
-                        <input type="number" :placeholder="codeLoginCodePH" v-model="phone" @focus="_pone_f"
-                               @blur="_telephone(phone,2)"
-                               placeholder-style="color:#b8b8b8" @input='_codeChangePhone' maxlength="11"/>
-                        <img :src="del" v-show="phone.length&&pone_f" @tap="_empty(3)"/>
+                        <input type="number" :placeholder="codeLoginCodePH" v-model="phone" @focus="_pone_f" @blur="_telephone(phone,2)"
+                            placeholder-style="color:#b8b8b8" @input='_codeChangePhone' maxlength="11" />
+                        <img :src="icon_delete" v-show="phone.length&&pone_f" @tap="clearPhone()" />
                     </div>
 
                     <div class='login_inpu' style='margin-bottom: 100rpx;'>
-                        <input type="number" @focus='_codeF()' @blur='_codeB()' :placeholder="codeLoginPWPH"
-                               v-model="phone_code"
-                               placeholder-style="color:#b8b8b8" @input='_codeChangeCode' maxlength="6"/>
+                        <input type="number" @focus='_codeF()' @blur='_codeB()' :placeholder="codeLoginPWPH" v-model="phone_code"
+                            placeholder-style="color:#b8b8b8" @input='_codeChangeCode' maxlength="6" />
                         <p class='login_p' style='z-index: 99;position: absolute;right: 24rpx;' @tap="_phone_code(1)"
-                           :class="{color:60>count&&count>0||count===0}">{{time_code}}</p>
+                            :class="{color:60>count&&count>0||count===0}">{{time_code}}</p>
                     </div>
 
                     <div class='button1' style='margin-top: 70rpx;' v-if='codeLoginBtnStatus' @tap="_landing">登录</div>
                     <div class='button1' v-else style='opacity: 0.4;margin-top: 70rpx;'>登录</div>
-                    <div style='text-align: center;font-size: 28rpx;color: #999999;'>或</div>
-                    <div class='button2' @tap="_landing_passw">密码登录</div>
+                    <div class='button2' @tap="switchToPwdlogin">密码登录</div>
                 </div>
             </div>
         </div>
@@ -78,35 +72,36 @@
 
 <script>
     import {
-        telephone
+        verifyPhone
     } from '../../common/landing.js'
     import {
         mapMutations
     } from 'vuex'
     import {
-        lkt_pwStatus,
+        changePwdIsShow,
         lkt_telephone,
         lkt_phone_code,
     } from '../../static/js/login/login.js'
 
     export default {
-        data () {
+        data() {
             return {
+                icon_delete: this.$common.ROOT_URL + '/static/images/icon/login/icon_delete.png',
+                icon_close: this.$common.ROOT_URL + '/static/images/icon/login/icon_close.png',
+                icon_show_password: this.$common.ROOT_URL + '/static/images/icon/login/icon_show_password.png',
+                icon_hide_password: this.$common.ROOT_URL + '/static/images/icon/login/icon_hide_password.png',
                 toHome: false,
                 togoodsDetail: false,
                 phone_codeStatus1: false,
-                LoginPWStatus: true,
-                pwLoginBtnStatus: false,
+                loginPwdIsShow: true,
+                // 密码登录按钮状态
+                pwdLoginBtnStatus: false,
+                // 验证码登录按钮状态
                 codeLoginBtnStatus: false,
                 fastTap: true,
-                // del: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/delete2x.png',
-                // guanbi: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/guanbi2x.png',
-                // pwHide: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/pwHide.png',
-                // pwShow: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/pwShow.png',
                 passLoginCodePH: '请输入账号/手机号',
                 passLoginCodePH1: '请输入账号/手机号',
                 passLoginPWPH: '请输入密码',
-                passLoginPWPH1: '请输入密码',
                 codeLoginCodePH: '请输入手机号',
                 codeLoginCodePH1: '请输入手机号',
                 codeLoginPWPH: '请输入验证码',
@@ -117,6 +112,8 @@
                 phone: '', //验证码登录手机号
                 phone_code: '', //验证码
                 one_code: '', //手机号码格式正确返回值
+                // 手机号码格式验证结果
+                phoneVerifyResult: '',
                 time_code: '获取验证码',
                 timer: null,
                 count: '', //倒计时时间
@@ -131,11 +128,11 @@
                 company: '',
                 logo: '',
                 src: false,
-                fatherId: '',//父级id(分销商分享使用)
+                fatherId: '', //父级id(分销商分享使用)
                 baiduHeadTop: 0 // 百度小程序头部兼容
             }
         },
-        onLoad (option) {
+        onLoad(option) {
             // #ifdef MP-BAIDU
             // 百度小程序头部兼容
             uni.getSystemInfo({
@@ -181,15 +178,28 @@
         methods: {
             ...mapMutations({
                 set_access_id: 'SET_ACCESS_ID',
+                setToken: 'setToken',
                 user_phone: 'SET_USER_PHONE'
             }),
+            // 返回
+            back() {
+                if (this.toHome) {
+                    uni.switchTab({
+                        url: '../tabBar/home'
+                    })
+                } else {
+                    uni.navigateBack({
+                        delta: 2
+                    })
+                }
+            },
             //to注册页面
-            _register_q () {
+            _register_q() {
                 this.account = ''
                 this.password = ''
                 this.phone = ''
                 this.phone_code = ''
-                this.pwLoginBtnStatus = false
+                this.pwdLoginBtnStatus = false
                 this.codeLoginBtnStatus = false
                 this.phone_codeStatus1 = false
                 clearInterval(this.timer)
@@ -208,18 +218,18 @@
                 }
 
             },
-            //账号、密码输入框失焦 判断账号不为空
-            _noNull (type) {
+            // 账号、密码输入框失焦 判断账号不为空
+            _noNull(type) {
                 var me = this
 
-                function in_noNull () {
+                function in_noNull() {
                     if (type == 1 && me.account && me) {
                         me.passLoginCodePH = me.passLoginCodePH1
                         me.one_code = 1
                         me.account_f = true
-                        me.pwLoginBtnStatus = true
+                        me.pwdLoginBtnStatus = true
                     } else {
-                        me.pwLoginBtnStatus = false
+                        me.pwdLoginBtnStatus = false
                     }
                 }
 
@@ -227,27 +237,85 @@
                     in_noNull()
                 })
             },
-            //叉，清空内容 1登录账号 3验证码登录手机号 245没用到
-            _empty (val) {
-                if (val == 1) {
-                    this.account = ''
-                    this.pwLoginBtnStatus = false
-                } else if (val == 2) {
-                    this.password = ''
-                } else if (val == 3) {
-                    this.phone = ''
-                } else if (val == 4) {
-                    this.passone = ''
-                } else if (val == 5) {
-                    this.passtwo = ''
+            // 清空账号
+            clearAccount() {
+                this.account = ''
+            },
+
+            // 情况手机号
+            clearPhone() {
+                this.phone = ''
+            },
+
+            // 密码是否可见 1登录密码 2注册密码 3再次输入注册密码
+            changePwdIsShow(type) {
+                changePwdIsShow(type, this)
+            },
+            // 密码登录
+            loginByPwd() {
+                if (!this.account || !this.password) {
+                    uni.showToast({
+                        title: '账号或密码不能为空',
+                        duration: 1000,
+                        icon: 'none'
+                    })
+                } else {
+                    this.phoneVerifyResult = verifyPhone(this.account)
+                    if (this.phoneVerifyResult != 1) {
+                        uni.showToast({
+                            title: '请输入正确的手机号码！',
+                            duration: 1000,
+                            icon: 'none'
+                        })
+                        return
+                    }
+                    let data = {
+                        storeId: this.$common.STORE_ID,
+                        account: this.account,
+                        password: this.password,
+                        token: this.$store.state.access_id,
+                        clientId: uni.getStorageSync('cid')
+                    }
+                    this.$user.loginByPwd(data).then(res => {
+                        let {
+                            responseCode,
+                            responseMessage,
+                            token
+                        } = res
+                        if (responseCode == 'LOGIN_SUCCESS' && token) {
+                            uni.showToast({
+                                title: '登录成功！',
+                                duration: 1000,
+                                icon: 'none'
+                            })
+                            this.setToken(token)
+                            if (this.togoodsDetail) {
+                                if (getCurrentPages().length > 1) {
+                                    setTimeout(function() {
+                                        uni.navigateBack({
+                                            delta: 1
+                                        })
+                                    }, 1000)
+                                } else {
+                                    uni.switchTab({
+                                        url: '../tabBar/my',
+                                        success: function() {}
+                                    })
+                                }
+                            }
+                        }
+                    }).catch(e => {
+                        uni.showToast({
+                            title: e.responseMessage,
+                            duration: 1000,
+                            icon: 'none'
+                        })
+                    })
                 }
             },
-            // 密码是否可见 1登录密码 2注册密码 3再次输入注册密码
-            pwStatus (type) {
-                lkt_pwStatus(type, this)
-            },
+
             //登录
-            _landing () {
+            _landing() {
                 var me = this
                 if (this.landing) {
                     if (!this.account || !this.password) {
@@ -257,8 +325,8 @@
                             icon: 'none'
                         })
                     } else if (this.account && this.password) {
-                        
-                        
+
+
                         let data = {
                             module: 'app',
                             action: 'login',
@@ -268,10 +336,10 @@
                             access_id: this.$store.state.access_id,
                             clientid: uni.getStorageSync('cid')
                         }
-                        
+
                         console.log('-------this.fatherId2----------' + this.fatherId)
                         if (this.fatherId != '') {
-                            data.pid = this.fatherId//分销推荐人id
+                            data.pid = this.fatherId //分销推荐人id
                         }
                         // #ifdef MP-WEIXIN
                         data.store_type = 1
@@ -279,8 +347,10 @@
                         // #ifndef MP-WEIXIN
                         data.store_type = 2
                         // #endif
-                        
-                        this.$req.post({data}).then(res => {
+
+                        this.$req.post({
+                            data
+                        }).then(res => {
                             let {
                                 message,
                                 code,
@@ -300,7 +370,7 @@
                                 uni.setStorage({
                                     key: 'access_id',
                                     data: access_id,
-                                    success: function () {
+                                    success: function() {
 
                                     }
                                 })
@@ -310,7 +380,7 @@
                                 if (me.togoodsDetail) {
 
                                     if (getCurrentPages().length > 1) {
-                                        setTimeout(function () {
+                                        setTimeout(function() {
                                             uni.navigateBack({
                                                 delta: 1
                                             })
@@ -318,21 +388,22 @@
                                     } else {
                                         uni.switchTab({
                                             url: '../tabBar/my',
-                                            success: function () {}
+                                            success: function() {}
                                         })
                                     }
 
                                 } else {
 
-                                    setTimeout(function () {
+                                    setTimeout(function() {
 
                                         console.log(me.fatherId)
 
-                                        if (me.fatherId != '' && me.fatherId != undefined && me.fatherId != 'undefined') {
+                                        if (me.fatherId != '' && me.fatherId != undefined && me.fatherId !=
+                                            'undefined') {
 
                                             uni.navigateTo({
                                                 url: '/pagesA/distribution/distribution_center',
-                                                success: function () {
+                                                success: function() {
                                                     if (wx_status != 1) {
                                                         me.$store.state.shouquan = true
                                                     }
@@ -342,7 +413,7 @@
                                         } else {
                                             uni.switchTab({
                                                 url: '/pages/tabBar/my',
-                                                success: function () {
+                                                success: function() {
                                                     if (wx_status != 1) {
                                                         me.$store.state.shouquan = true
                                                     }
@@ -357,9 +428,9 @@
                                     duration: 1000,
                                     icon: 'none'
                                 })
-                            }    
+                            }
                         })
-                        
+
                     }
                 } else {
                     if (!this.old_phone) {
@@ -406,8 +477,10 @@
                         data.store_type = 2
                         // #endif
 
-                        
-                        this.$req.post({data}).then(res => {
+
+                        this.$req.post({
+                            data
+                        }).then(res => {
                             let {
                                 code,
                                 message,
@@ -432,30 +505,37 @@
                                     uni.showModal({
                                         title: '提示',
                                         content: '您的账号还未设置密码，是否前往设置？',
-                                        success: function (res) {
+                                        success: function(res) {
                                             if (res.confirm) {
-                                                setTimeout(function () {
+                                                setTimeout(function() {
                                                     uni.reLaunch({
                                                         url: '/pagesB/setUp/loginPassword',
                                                     })
                                                 }, 1000)
                                             } else if (res.cancel) {
-                                                setTimeout(function () {
-                                                    if (me.fatherId != '' && me.fatherId != undefined) {
+                                                setTimeout(function() {
+                                                    if (me.fatherId != '' && me.fatherId !=
+                                                        undefined) {
                                                         uni.navigateTo({
                                                             url: '/pagesA/distribution/distribution_center',
-                                                            success: function () {
-                                                                if (wx_status != 1) {
-                                                                    me.$store.state.shouquan = true
+                                                            success: function() {
+                                                                if (wx_status !=
+                                                                    1) {
+                                                                    me.$store.state
+                                                                        .shouquan =
+                                                                        true
                                                                 }
                                                             }
                                                         })
                                                     } else {
                                                         uni.reLaunch({
                                                             url: '/pages/tabBar/my',
-                                                            success: function () {
-                                                                if (wx_status != 1) {
-                                                                    me.$store.state.shouquan = true
+                                                            success: function() {
+                                                                if (wx_status !=
+                                                                    1) {
+                                                                    me.$store.state
+                                                                        .shouquan =
+                                                                        true
                                                                 }
                                                             }
                                                         })
@@ -465,11 +545,11 @@
                                         }
                                     })
                                 } else {
-                                    setTimeout(function () {
+                                    setTimeout(function() {
                                         if (me.fatherId != '' && me.fatherId != undefined) {
                                             uni.navigateTo({
                                                 url: '/pagesA/distribution/distribution_center',
-                                                success: function () {
+                                                success: function() {
                                                     if (wx_status != 1) {
                                                         me.$store.state.shouquan = true
                                                     }
@@ -478,7 +558,7 @@
                                         } else {
                                             uni.reLaunch({
                                                 url: '/pages/tabBar/my',
-                                                success: function () {
+                                                success: function() {
                                                     if (wx_status != 1) {
                                                         me.$store.state.shouquan = true
                                                     }
@@ -492,18 +572,18 @@
                                     title: message,
                                     icon: 'none'
                                 })
-                            }  
+                            }
                         })
                     }
                 }
             },
             // 验证码登录 手机号聚焦
-            _pone_f () {
-                this.codeLoginCodePH = ''
+            _pone_f() {
+                this.codeLoginCodePH = this.codeLoginCodePH1
                 this.pone_f = true
             },
             // 验证码登录 手机号输入
-            _codeChangePhone: function (e) {
+            _codeChangePhone: function(e) {
                 if (e.target.value.length == 11 && this.phone.length == 11 && this.phone_codeStatus1) {
                     this.codeLoginBtnStatus = true
                 } else {
@@ -511,17 +591,17 @@
                 }
             },
             //手机号码正则验证 type2验证码登录输入手机号，3注册输入手机号
-            _telephone (value, type) {
+            _telephone(value, type) {
                 this.one_code = telephone(value)
                 lkt_telephone(type, this)
             },
             // 验证码登录 验证码聚焦
-            _codeF () {
+            _codeF() {
                 this.codeLoginPWPH = ''
                 this.codeLoginBtnStatus = true
             },
             // 验证码登录 验证码输入
-            _codeChangeCode: function (e) {
+            _codeChangeCode: function(e) {
                 if (e.target.value.length == 6 && this.phone.length == 11 && this.phone_codeStatus1) {
                     this.codeLoginBtnStatus = true
                 } else {
@@ -529,37 +609,37 @@
                 }
             },
             // 验证码登录 验证码失焦
-            _codeB () {
+            _codeB() {
                 this.codeLoginPWPH = this.codeLoginPWPH1
             },
             //获取验证码 type1验证码登录 2注册
-            _phone_code (type) {
+            _phone_code(type) {
                 console.log('====')
                 lkt_phone_code(type, this)
             },
-            //密码登录to验证码登录
-            _phone () {
+            // 密码登录to验证码登录
+            switchToCodeLogin() {
                 this.landing = false
                 this.codeLoginBtnStatus = false
                 this.phone_codeStatus1 = false
                 this.account = ''
                 this.password = ''
             },
-            //验证码登录to密码登录
-            _landing_passw () {
-                this.pwLoginBtnStatus = false
+            // 验证码登录to密码登录
+            switchToPwdlogin() {
+                this.pwdLoginBtnStatus = false
                 this.landing = true
                 this.phone = ''
                 this.phone_code = ''
             },
-            _navigateTo (url) {
+            _navigateTo(url) {
                 uni.navigateTo({
                     url
                 })
             }
         },
         computed: {
-            halfLoginIosWidth () {
+            halfLoginIosWidth() {
                 var gru = uni.getStorageSync('data_height') ? uni.getStorageSync('data_height') : this.$store.state.data_height
                 var heigh = parseInt(gru)
                 var he = heigh * 2

@@ -1,7 +1,7 @@
 // 密码是否可见 1登录密码 2注册密码 3再次输入注册密码
 export function changePwdIsShow(type, me) {
     if (type == 1) {
-        me.LoginPWStatus = !me.LoginPWStatus
+        me.loginPwdIsShow = !me.loginPwdIsShow
     } else if (type == 2) {
         me.pwdIsShow = !me.pwdIsShow
     } else if (type == 3) {

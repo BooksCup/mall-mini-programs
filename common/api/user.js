@@ -9,6 +9,14 @@ class User extends Request {
             data: data
         })
     }
+
+    loginByPwd(data) {
+        return super.request({
+            url: common.ROOT_URL + '/users/loginByPwd',
+            method: 'get',
+            data: data
+        })
+    }
 }
 
 const user = new User()

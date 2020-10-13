@@ -8,7 +8,7 @@
             <div :style="{position:'relative',top:baiduHeadTop + 'px'}">
 
                 <div class="head">
-                    <img class='head_close' :src="icon_close" @tap="_banck" />
+                    <img class='head_close' :src="icon_close" @tap="back" />
                     <div @tap="_landing_q()">
                         登录
                     </div>
@@ -146,7 +146,7 @@
         },
         methods: {
             // 返回
-            _banck() {
+            back() {
                 if (this.toHome) {
                     uni.switchTab({
                         url: '../tabBar/home'
@@ -315,17 +315,20 @@
             // 注册
             register() {
                 if (this.phone && this.phoneVerifyResult == 1 && this.pwd == this.confirmPwd && this.pwd) {
+                    if (!this.fastTap) {
+                        return
+                    }
                     let data = {
                         storeId: this.$common.STORE_ID,
                         storeType: this.$common.getStoreType(),
                         phone: this.phone,
                         password: this.pwd,
-                        // access_id: this.$store.state.access_id,
+                        access_id: this.$store.state.access_id,
                         verificationCode: this.verificationCode,
                         userName: this.userName
                     }
                     this.$user.register(data).then(res => {
-
+                        this.fastTap = true
                     }).catch(e => {
                         this.fastTap = true
                         uni.showToast({
