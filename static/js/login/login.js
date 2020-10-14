@@ -132,3 +132,54 @@ export function getVerificationCode(type, me) {
         me.fastTap = true
     }
 }
+
+// 获取验证码
+export function getVerifyCode(me, type, category) {
+    if (!me.fastTap) {
+        return
+    }
+    me.fastTap = false
+    if (me.phone) {
+        if (me.phoneVerifyResult == 1 && !me.count) {
+            me.old_phone = me.phone
+            const TIME_COUNT = 60
+            me.vcBtnContent = TIME_COUNT + `s后可重获`
+            if (!me.timer) {
+                me.count = TIME_COUNT
+                me.timer = setInterval(() => {
+                    if (me.count > 0 && me.count <= TIME_COUNT) {
+                        me.count--
+                        me.vcBtnContent = `${me.count}s后可重获`
+                    } else {
+                        clearInterval(me.timer)
+                        me.vcBtnContent = '获取验证码'
+                        me.timer = null
+                        me.count = ''
+                    }
+                }, 1000)
+            }
+            
+            let data = {
+                storeId: me.$common.STORE_ID,
+                phone: me.phone,
+                templateType: type,
+                templateCategory: category
+            }
+            
+            me.$verifyCode.getVerifyCode(data).then(res => {
+                me.fastTap = true
+            }).catch(e => {
+                me.fastTap = true
+            })
+        } else {
+            me.fastTap = true
+        }
+    } else {
+        uni.showToast({
+            title: '请输入手机号码！',
+            duration: 1000,
+            icon: 'none'
+        })
+        me.fastTap = true
+    }
+}

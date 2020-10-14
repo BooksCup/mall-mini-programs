@@ -7,6 +7,24 @@
     const STORE_ID = 1
     const DEFAULT_STORE_TYPE = 1
 
+    // 短信模板类型
+    const SMS_TEMPLATE_TYPE = {
+        // 验证码
+        VERIFY_CODE: 0,
+        // 短信通知
+        NOTIFY: 1,
+        // 推广短信
+        POPULARIZE: 2
+    }
+
+    // 短信模板类别
+    const SMS_TEMPLATE_CATEGORY = {
+        // 注册
+        REGISTER: 0,
+        // 登录
+        LOGIN: 1
+    }
+
     /**
      * 获取店铺类型
      * 1:微信小程序
@@ -39,6 +57,7 @@
     export default {
         ROOT_URL,
         STORE_ID,
+        SMS_TEMPLATE_CATEGORY,
         getStoreType
     }
 </script>

@@ -35,7 +35,6 @@
 
                     <p class='login_pass' v-if="landing"><span @tap='_navigateTo("retrievepassword")'>忘记密码？</span></p>
                     <div class='button1' style='margin-top: 70rpx;' @tap="loginByPwd">登录</div>
-                    <!-- <div class='button1' v-else style='opacity: 0.4;margin-top: 70rpx;'>登录</div> -->
                     <div class='button2' @tap="switchToCodeLogin">验证码登录</div>
                 </div>
 
@@ -47,20 +46,19 @@
                     </div>
 
                     <div class='login_inpu'>
-                        <input type="number" :placeholder="codeLoginCodePH" v-model="phone" @focus="_pone_f" @blur="_telephone(phone,2)"
-                            placeholder-style="color:#b8b8b8" @input='_codeChangePhone' maxlength="11" />
-                        <img :src="icon_delete" v-show="phone.length&&pone_f" @tap="clearPhone()" />
+                        <input type="number" placeholder="请输入手机号" v-model="phone" placeholder-style="color:#b8b8b8"
+                            maxlength="11" />
+                        <img :src="icon_delete" v-show="phone.length" @tap="clearPhone()" />
                     </div>
 
                     <div class='login_inpu' style='margin-bottom: 100rpx;'>
-                        <input type="number" @focus='_codeF()' @blur='_codeB()' :placeholder="codeLoginPWPH" v-model="phone_code"
-                            placeholder-style="color:#b8b8b8" @input='_codeChangeCode' maxlength="6" />
-                        <p class='login_p' style='z-index: 99;position: absolute;right: 24rpx;' @tap="_phone_code(1)"
-                            :class="{color:60>count&&count>0||count===0}">{{time_code}}</p>
+                        <input type="number" placeholder="请输入验证码" v-model="verifyCode" placeholder-style="color:#b8b8b8"
+                            maxlength="6" />
+                        <p class='login_p' style='z-index: 99;position: absolute;right: 24rpx;' @tap="getVerifyCode()"
+                            :class="{color : 60 > count && count > 0 || count === 0}">{{vcBtnContent}}</p>
                     </div>
 
-                    <div class='button1' style='margin-top: 70rpx;' v-if='codeLoginBtnStatus' @tap="_landing">登录</div>
-                    <div class='button1' v-else style='opacity: 0.4;margin-top: 70rpx;'>登录</div>
+                    <div class='button1' style='margin-top: 70rpx;' @tap="_landing">登录</div>
                     <div class='button2' @tap="switchToPwdlogin">密码登录</div>
                 </div>
             </div>
@@ -81,6 +79,7 @@
         changePwdIsShow,
         lkt_telephone,
         lkt_phone_code,
+        getVerifyCode,
     } from '../../static/js/login/login.js'
 
     export default {
@@ -99,13 +98,6 @@
                 // 验证码登录按钮状态
                 codeLoginBtnStatus: false,
                 fastTap: true,
-                passLoginCodePH: '请输入账号/手机号',
-                passLoginCodePH1: '请输入账号/手机号',
-                passLoginPWPH: '请输入密码',
-                codeLoginCodePH: '请输入手机号',
-                codeLoginCodePH1: '请输入手机号',
-                codeLoginPWPH: '请输入验证码',
-                codeLoginPWPH1: '请输入验证码',
                 account: '', //登录账号
                 password: '', //登录密码
                 landing: true, //切换密码登录和手机号码登录
@@ -114,15 +106,11 @@
                 one_code: '', //手机号码格式正确返回值
                 // 手机号码格式验证结果
                 phoneVerifyResult: '',
-                time_code: '获取验证码',
+                vcBtnContent: '获取验证码',
                 timer: null,
                 count: '', //倒计时时间
                 old_phone: '', //存储获取验证码时的手机号码
                 landing_code: '',
-                passone: '',
-                passtwo: '',
-                account_f: '',
-                pone_f: '',
                 provider: '',
                 agreement1: '',
                 company: '',
@@ -218,25 +206,7 @@
                 }
 
             },
-            // 账号、密码输入框失焦 判断账号不为空
-            _noNull(type) {
-                var me = this
 
-                function in_noNull() {
-                    if (type == 1 && me.account && me) {
-                        me.passLoginCodePH = me.passLoginCodePH1
-                        me.one_code = 1
-                        me.account_f = true
-                        me.pwdLoginBtnStatus = true
-                    } else {
-                        me.pwdLoginBtnStatus = false
-                    }
-                }
-
-                me.$nextTick(() => {
-                    in_noNull()
-                })
-            },
             // 清空账号
             clearAccount() {
                 this.account = ''
@@ -251,6 +221,7 @@
             changePwdIsShow(type) {
                 changePwdIsShow(type, this)
             },
+
             // 密码登录
             loginByPwd() {
                 if (!this.account || !this.password) {
@@ -314,309 +285,16 @@
                 }
             },
 
-            //登录
-            _landing() {
-                var me = this
-                if (this.landing) {
-                    if (!this.account || !this.password) {
-                        uni.showToast({
-                            title: '账号或密码不能为空',
-                            duration: 1000,
-                            icon: 'none'
-                        })
-                    } else if (this.account && this.password) {
-
-
-                        let data = {
-                            module: 'app',
-                            action: 'login',
-                            app: 'login',
-                            phone: this.account,
-                            password: this.password,
-                            access_id: this.$store.state.access_id,
-                            clientid: uni.getStorageSync('cid')
-                        }
-
-                        console.log('-------this.fatherId2----------' + this.fatherId)
-                        if (this.fatherId != '') {
-                            data.pid = this.fatherId //分销推荐人id
-                        }
-                        // #ifdef MP-WEIXIN
-                        data.store_type = 1
-                        // #endif
-                        // #ifndef MP-WEIXIN
-                        data.store_type = 2
-                        // #endif
-
-                        this.$req.post({
-                            data
-                        }).then(res => {
-                            let {
-                                message,
-                                code,
-                                access_id,
-                                wx_status
-                            } = res
-                            if (code == 200 && access_id) {
-                                me.$store.state.access_id = []
-
-                                uni.showToast({
-                                    title: '登录成功！',
-                                    duration: 1000,
-                                    icon: 'none'
-                                })
-
-                                me.set_access_id(access_id)
-                                uni.setStorage({
-                                    key: 'access_id',
-                                    data: access_id,
-                                    success: function() {
-
-                                    }
-                                })
-
-                                //免注册登录下用账户或手机号登录
-                                uni.setStorageSync('LoingByHand', true)
-                                if (me.togoodsDetail) {
-
-                                    if (getCurrentPages().length > 1) {
-                                        setTimeout(function() {
-                                            uni.navigateBack({
-                                                delta: 1
-                                            })
-                                        }, 1000)
-                                    } else {
-                                        uni.switchTab({
-                                            url: '../tabBar/my',
-                                            success: function() {}
-                                        })
-                                    }
-
-                                } else {
-
-                                    setTimeout(function() {
-
-                                        console.log(me.fatherId)
-
-                                        if (me.fatherId != '' && me.fatherId != undefined && me.fatherId !=
-                                            'undefined') {
-
-                                            uni.navigateTo({
-                                                url: '/pagesA/distribution/distribution_center',
-                                                success: function() {
-                                                    if (wx_status != 1) {
-                                                        me.$store.state.shouquan = true
-                                                    }
-                                                }
-                                            })
-
-                                        } else {
-                                            uni.switchTab({
-                                                url: '/pages/tabBar/my',
-                                                success: function() {
-                                                    if (wx_status != 1) {
-                                                        me.$store.state.shouquan = true
-                                                    }
-                                                }
-                                            })
-                                        }
-                                    }, 1000)
-                                }
-                            } else {
-                                uni.showToast({
-                                    title: message,
-                                    duration: 1000,
-                                    icon: 'none'
-                                })
-                            }
-                        })
-
-                    }
-                } else {
-                    if (!this.old_phone) {
-                        uni.showToast({
-                            title: '请先获取验证码！',
-                            duration: 1000,
-                            icon: 'none'
-                        })
-                    } else if (!this.phone_code) {
-                        uni.showToast({
-                            title: '验证码不能为空！',
-                            duration: 1000,
-                            icon: 'none'
-                        })
-                    } else if (this.phone != this.old_phone) {
-                        uni.showToast({
-                            title: '手机号码输入错误！',
-                            duration: 1000,
-                            icon: 'none'
-                        })
-                    } else if (this.phone_code.length != 6) {
-                        uni.showToast({
-                            title: '请输入完整的验证码！',
-                            duration: 1000,
-                            icon: 'none'
-                        })
-                    } else if (this.phone_code.length == 6 && this.phone == this.old_phone) {
-                        var data = {
-                            module: 'app',
-                            action: 'login',
-                            app: 'register',
-                            phone: this.phone,
-                            access_id: this.$store.state.access_id,
-                            keyCode: this.phone_code,
-                            clientid: uni.getStorageSync('cid')
-                        }
-                        if (this.fatherId != '') {
-                            data.pid = this.fatherId
-                        }
-                        // #ifdef MP-WEIXIN || MP-ALIPAY
-                        data.store_type = 1
-                        // #endif
-                        // #ifndef MP
-                        data.store_type = 2
-                        // #endif
-
-
-                        this.$req.post({
-                            data
-                        }).then(res => {
-                            let {
-                                code,
-                                message,
-                                access_id,
-                                y_password,
-                                wx_status
-                            } = res
-                            if (code == 200 && access_id) {
-
-                                me.$store.state.access_id = []
-                                uni.showToast({
-                                    title: '登录成功！',
-                                    duration: 1000,
-                                    icon: 'none'
-                                })
-                                me.set_access_id(access_id)
-                                uni.setStorageSync('access_id', access_id)
-                                uni.setStorageSync('user_phone', me.phone)
-                                //免注册登录下用账户或手机号登录
-                                uni.setStorageSync('LoingByHand', true)
-                                if (y_password == 0) {
-                                    uni.showModal({
-                                        title: '提示',
-                                        content: '您的账号还未设置密码，是否前往设置？',
-                                        success: function(res) {
-                                            if (res.confirm) {
-                                                setTimeout(function() {
-                                                    uni.reLaunch({
-                                                        url: '/pagesB/setUp/loginPassword',
-                                                    })
-                                                }, 1000)
-                                            } else if (res.cancel) {
-                                                setTimeout(function() {
-                                                    if (me.fatherId != '' && me.fatherId !=
-                                                        undefined) {
-                                                        uni.navigateTo({
-                                                            url: '/pagesA/distribution/distribution_center',
-                                                            success: function() {
-                                                                if (wx_status !=
-                                                                    1) {
-                                                                    me.$store.state
-                                                                        .shouquan =
-                                                                        true
-                                                                }
-                                                            }
-                                                        })
-                                                    } else {
-                                                        uni.reLaunch({
-                                                            url: '/pages/tabBar/my',
-                                                            success: function() {
-                                                                if (wx_status !=
-                                                                    1) {
-                                                                    me.$store.state
-                                                                        .shouquan =
-                                                                        true
-                                                                }
-                                                            }
-                                                        })
-                                                    }
-                                                }, 1000)
-                                            }
-                                        }
-                                    })
-                                } else {
-                                    setTimeout(function() {
-                                        if (me.fatherId != '' && me.fatherId != undefined) {
-                                            uni.navigateTo({
-                                                url: '/pagesA/distribution/distribution_center',
-                                                success: function() {
-                                                    if (wx_status != 1) {
-                                                        me.$store.state.shouquan = true
-                                                    }
-                                                }
-                                            })
-                                        } else {
-                                            uni.reLaunch({
-                                                url: '/pages/tabBar/my',
-                                                success: function() {
-                                                    if (wx_status != 1) {
-                                                        me.$store.state.shouquan = true
-                                                    }
-                                                }
-                                            })
-                                        }
-                                    }, 1000)
-                                }
-                            } else {
-                                uni.showToast({
-                                    title: message,
-                                    icon: 'none'
-                                })
-                            }
-                        })
-                    }
-                }
+            // 获取验证码
+            getVerifyCode() {
+                this.phoneVerifyResult = verifyPhone(this.phone)
+                // 类型: 验证码
+                var type = this.$common.SMS_TEMPLATE_TYPE.VERIFY_CODE
+                // 类别: 登录
+                var category = this.$common.SMS_TEMPLATE_CATEGORY.LOGIN
+                getVerifyCode(this, type, category)
             },
-            // 验证码登录 手机号聚焦
-            _pone_f() {
-                this.codeLoginCodePH = this.codeLoginCodePH1
-                this.pone_f = true
-            },
-            // 验证码登录 手机号输入
-            _codeChangePhone: function(e) {
-                if (e.target.value.length == 11 && this.phone.length == 11 && this.phone_codeStatus1) {
-                    this.codeLoginBtnStatus = true
-                } else {
-                    this.codeLoginBtnStatus = false
-                }
-            },
-            //手机号码正则验证 type2验证码登录输入手机号，3注册输入手机号
-            _telephone(value, type) {
-                this.one_code = telephone(value)
-                lkt_telephone(type, this)
-            },
-            // 验证码登录 验证码聚焦
-            _codeF() {
-                this.codeLoginPWPH = ''
-                this.codeLoginBtnStatus = true
-            },
-            // 验证码登录 验证码输入
-            _codeChangeCode: function(e) {
-                if (e.target.value.length == 6 && this.phone.length == 11 && this.phone_codeStatus1) {
-                    this.codeLoginBtnStatus = true
-                } else {
-                    this.codeLoginBtnStatus = false
-                }
-            },
-            // 验证码登录 验证码失焦
-            _codeB() {
-                this.codeLoginPWPH = this.codeLoginPWPH1
-            },
-            //获取验证码 type1验证码登录 2注册
-            _phone_code(type) {
-                console.log('====')
-                lkt_phone_code(type, this)
-            },
+
             // 密码登录to验证码登录
             switchToCodeLogin() {
                 this.landing = false
