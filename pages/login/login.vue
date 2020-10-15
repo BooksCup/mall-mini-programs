@@ -308,48 +308,49 @@
                         icon: 'none'
                     })
                 } else {
-                    // let data = {
-                    //     storeId: this.$common.STORE_ID,
-                    //     account: this.account,
-                    //     password: this.password,
-                    //     token: this.$store.state.access_id,
-                    //     clientId: uni.getStorageSync('cid')
-                    // }
-                    // this.$user.loginByPwd(data).then(res => {
-                    //     let {
-                    //         responseCode,
-                    //         responseMessage,
-                    //         token
-                    //     } = res
-                    //     if (responseCode == 'LOGIN_SUCCESS' && token) {
-                    //         uni.showToast({
-                    //             title: '登录成功！',
-                    //             duration: 1000,
-                    //             icon: 'none'
-                    //         })
-                    //         this.setToken(token)
-                    //         if (this.togoodsDetail) {
-                    //             if (getCurrentPages().length > 1) {
-                    //                 setTimeout(function() {
-                    //                     uni.navigateBack({
-                    //                         delta: 1
-                    //                     })
-                    //                 }, 1000)
-                    //             } else {
-                    //                 uni.switchTab({
-                    //                     url: '../tabBar/my',
-                    //                     success: function() {}
-                    //                 })
-                    //             }
-                    //         }
-                    //     }
-                    // }).catch(e => {
-                    //     uni.showToast({
-                    //         title: e.responseMessage,
-                    //         duration: 1000,
-                    //         icon: 'none'
-                    //     })
-                    // })
+                    let data = {
+                        storeId: this.$common.STORE_ID,
+                        storeType: this.$common.getStoreType(),
+                        phone: this.phone,
+                        verifyCode: this.verifyCode,
+                        token: this.$store.state.token,
+                        clientId: uni.getStorageSync('cid')
+                    }
+                    this.$user.loginByCode(data).then(res => {
+                        let {
+                            responseCode,
+                            responseMessage,
+                            token
+                        } = res
+                        if (responseCode == 'LOGIN_SUCCESS' && token) {
+                            uni.showToast({
+                                title: '登录成功！',
+                                duration: 1000,
+                                icon: 'none'
+                            })
+                            this.setToken(token)
+                            if (this.togoodsDetail) {
+                                if (getCurrentPages().length > 1) {
+                                    setTimeout(function() {
+                                        uni.navigateBack({
+                                            delta: 1
+                                        })
+                                    }, 1000)
+                                } else {
+                                    uni.switchTab({
+                                        url: '../tabBar/my',
+                                        success: function() {}
+                                    })
+                                }
+                            }
+                        }
+                    }).catch(e => {
+                        uni.showToast({
+                            title: e.responseMessage,
+                            duration: 1000,
+                            icon: 'none'
+                        })
+                    })
                 }
             },
 

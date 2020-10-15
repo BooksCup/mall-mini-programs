@@ -17,6 +17,14 @@ class User extends Request {
             data: data
         })
     }
+
+    loginByCode(data) {
+        return super.request({
+            url: common.ROOT_URL + '/users/loginByCode',
+            method: 'get',
+            data: data
+        })
+    }
 }
 
 const user = new User()
