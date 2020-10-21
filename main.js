@@ -4,16 +4,27 @@ import store from './store'
 
 import common from './common/common.vue'
 
+import authorize from './components/authorize.vue'
+import weixinAuth from './components/auth/mpweixin/mpweixin.vue'
+
+import index from './common/api/index.js'
 import guide from './common/api/guide.js'
 import goodsClass from './common/api/goodsClass.js'
 import user from './common/api/user.js'
 import verifyCode from './common/api/verifyCode.js'
 
 Vue.config.productionTip = false
+
+Vue.prototype.authorize = authorize
+Vue.prototype.weixinAuth = weixinAuth
+
+Vue.prototype.$index = index
 Vue.prototype.$guide = guide
 Vue.prototype.$goodsClass = goodsClass
 Vue.prototype.$user = user
 Vue.prototype.$verifyCode = verifyCode
+
+Vue.component('authorize', authorize)
 
 Vue.prototype.$common = common
 
@@ -50,7 +61,7 @@ Vue.mixin({
         // 检测登录
         isLogin(callback) {
             this.$nextTick(() => {
-                this.$refs.lktAuthorizeComp.handleAfterAuth(this, '/pages/login/login?landing_code=1',
+                this.$refs.authorizeComp.handleAfterAuth(this, '/pages/login/login?landing_code=1',
                     function() {
                         callback && callback()
                     });

@@ -453,7 +453,8 @@
             this.loadingType = 0;
             var isfx = uni.getStorageSync('isfx');
 
-            this.LaiKeTuiCommon.getUrlFirst(this._axios);
+            // this.LaiKeTuiCommon.getUrlFirst(this._axios);
+            this.getHomeProfile();
 
             if (isfx) {
                 var pages = uni.getStorageSync('pages');
@@ -557,6 +558,18 @@
             }
         },
         methods: {
+            getHomeProfile() {
+                let data = {
+                    storeId: this.$common.STORE_ID,
+                    storeType: this.$common.getStoreType(),
+                    token: this.$store.state.token
+                }
+                this.$index.getHomeProfile(data).then(res => {
+                    this.banner = res.bannerList;
+                    console.log(this.banner)
+                }).catch(e => {})
+            },
+
             getAppPluginImg(img) {
                 let plugin_shortcoin = this.LaiKeTuiCommon.LKT_ENDURL + img;
                 return plugin_shortcoin;

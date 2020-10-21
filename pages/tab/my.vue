@@ -1,6 +1,6 @@
 <template>
     <div class="order_ii" style="background-color: #F8F8F8;">
-        <lktauthorize ref="lktAuthorizeComp" v-on:pChangeLoginStatus="changeLoginStatus"></lktauthorize>
+        <authorize ref="authorizeComp" v-on:pChangeLoginStatus="changeLoginStatus"></authorize>
         <!-- #ifndef MP-ALIPAY -->
         <div :style="{ height: halfWidth }">
             <div class="topHeight" :style="{ height: halfWidth }"></div>
@@ -183,7 +183,7 @@
             </div>
             <ul class="list_ul">
                 <!-- #ifndef MP-ALIPAY -->
-                <li v-if="PT == 1" @tap="_navigateTo1('/pagesA/group/groupOrder')">
+                <li v-if="plugin_group == 1" @tap="_navigateTo1('/pagesA/group/groupOrder')">
                     <div>
                         <img class="skeleton-fillet" :src="icon_my_group" />
                         <p class="skeleton-rect">我的拼团</p>
@@ -196,13 +196,13 @@
                         <p class="skeleton-rect">我的店铺</p>
                     </div>
                 </li>
-                <li v-if="KJ == 1" @tap="_navigateTo1('/pagesA/bargain/bargain')">
+                <li v-if="plugin_bargain == 1" @tap="_navigateTo1('/pagesA/bargain/bargain')">
                     <div>
                         <img class="skeleton-fillet" :src="icon_my_bargain" />
                         <p class="skeleton-rect">我的砍价</p>
                     </div>
                 </li>
-                <li v-if="MS == 1" @tap="_navigateTo1('/pagesB/seckill/seckill_my')">
+                <li v-if="plugin_seckill == 1" @tap="_navigateTo1('/pagesB/seckill/seckill_my')">
                     <div>
                         <img class="skeleton-fillet" :src="icon_my_seckill" />
                         <p class="skeleton-rect">我的秒杀</p>
@@ -214,13 +214,13 @@
                         <p class="skeleton-rect">我的收藏</p>
                     </div>
                 </li>
-                <li v-if="JP == 1" @tap="_navigateTo1('/pagesA/bidding/bidding_my')">
+                <li v-if="plugin_auction == 1" @tap="_navigateTo1('/pagesA/bidding/bidding_my')">
                     <div>
                         <img class="skeleton-fillet" :src="icon_my_auction" />
                         <p class="skeleton-rect">我的竞拍</p>
                     </div>
                 </li>
-                <li v-if="FX == 1" @tap="_navigateTo1('/pagesA/distribution/distribution_center')">
+                <li v-if="plugin_distributor == 1" @tap="_navigateTo1('/pagesA/distribution/distribution_center')">
                     <div>
                         <img class="skeleton-fillet" :src="icon_center_agent" />
                         <p class="skeleton-rect">代理中心</p>
@@ -238,7 +238,7 @@
                         <p class="skeleton-rect">消息</p>
                     </div>
                 </li>
-                <li v-if="JF == 1" @tap="_navigateTo1('/pagesB/integral/integral')">
+                <li v-if="plugin_integral == 1" @tap="_navigateTo1('/pagesB/integral/integral')">
                     <div>
                         <img class="skeleton-fillet" :src="icon_integral_mall" />
                         <p class="skeleton-rect">积分商城</p>
@@ -337,14 +337,9 @@
                 // 积分
                 bg_integral: this.$common.ROOT_URL + '/static/images/icon/tab/bg_integral.png',
                 icon_setting: this.$common.ROOT_URL + '/static/images/icon/tab/icon_setting.png',
-                // vip_check_img1: uni.getStorageSync('endurl') + 'images/icon/vip_checked.png',
-                // vip_check_img2: uni.getStorageSync('endurl') + 'images/icon/vip_nocheck.png',
-                // bg_vip: 'background-image: url(' + uni.getStorageSync('endurl') + 'images/icon/vip_modal.png)',
-                // close_img: uni.getStorageSync('endurl') + 'images/icon/vip_close.png',
+
                 shouquan2: false,
-                // change: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/change.png',
                 icon_store_logo: this.$common.ROOT_URL + '/static/images/icon/tab/icon_store_logo.png',
-                // vip_arrow: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/arrow.png',
                 icon_right_arrow: this.$common.ROOT_URL + '/static/images/icon/tab/icon_right_arrow.png',
                 // 待付款
                 icon_awaiting_payment: this.$common.ROOT_URL + '/static/images/icon/tab/icon_awaiting_payment.png',
@@ -421,18 +416,38 @@
                 QB: 1, //秒杀插件 1.开启   0.不开启
                 coupon: 1, //优惠券插件 1.开启   0.不开启
                 sign: 1, //签到插件 1.开启   0.不开启
-                mch: 1 //店铺插件 1.开启   0.不开启
+                mch: 1, //店铺插件 1.开启   0.不开启
+
+                // 分销插件 0: 不开启  1: 开启
+                plugin_distributor: 1,
+                // 竞拍插件 0: 不开启  1: 开启
+                plugin_auction: 1,
+                // 积分商城插件 0: 不开启  1: 开启
+                plugin_integral: 1,
+                // 秒杀插件 0: 不开启  1: 开启
+                plugin_seckill: 1,
+                // 砍价插件 0: 不开启  1: 开启
+                plugin_bargain: 1,
+                // 拼团插件 0: 不开启  1: 开启
+                plugin_group: 1,
+                // 钱包插件 0: 不开启  1: 开启
+                plugin_wallet: 1,
+                // 优惠券插件 0: 不开启  1: 开启
+                plugin_coupon: 1,
+                // 签到插件 0: 不开启  1: 开启
+                plugin_sign: 1
             };
         },
         onLoad() {
             this.$store.state.frompage = 'my';
         },
         onShow() {
-
-            this.LaiKeTuiCommon.getUrlFirst(this._axios);
+            // 获取个人信息
+            this.getMyProfile()
+            // this.LaiKeTuiCommon.getUrlFirst(this._axios);
             this.isClick = false;
             // #ifdef MP-WEIXIN
-            this.LaiketuiWeixinAuth.laiketui_mp_weixin_checkauth(this, this._axios);
+            // this.LaiketuiWeixinAuth.laiketui_mp_weixin_checkauth(this, this._axios);
             // #endif
             // #ifdef MP-ALIPAY
             this.LaiketuiAliAuth.laiketui_mp_alipay_check(null, this, this._axios);
@@ -445,7 +460,7 @@
             // #endif
         },
         onTabItemTap(e) {
-            this.LaiKeTuiCommon.closeMPAuthWin(this);
+            // this.LaiKeTuiCommon.closeMPAuthWin(this);
         },
         onUnload() {
             uni.removeStorageSync('isfx');
@@ -463,6 +478,23 @@
             }
         },
         methods: {
+            getMyProfile() {
+                let data = {
+                    storeId: this.$common.STORE_ID,
+                    storeType: this.$common.getStoreType(),
+                    token: this.$store.state.token
+                }
+                this.$index.getMyProfile(data).then(res => {
+                    // 插件
+                    this.plugin_auction = res.plugin.auctionPluginState;
+                    this.plugin_distributor = res.plugin.distributorPluginState;
+                    this.plugin_integral = res.plugin.integralPluginState;
+                    this.plugin_bargain = res.plugin.bargainPluginState;
+                    this.plugin_group = res.plugin.groupPluginState;
+                    this.plugin_seckill = res.plugin.seckillPluginState;
+                }).catch(e => {})
+            },
+
             check_vip_radio() {
                 this.vip_check = !this.vip_check;
             },
@@ -512,7 +544,6 @@
                 this.toVip(2);
             },
             changeLoginStatus() {
-
                 this._axios();
             },
             _logo() {
