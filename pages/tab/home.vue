@@ -6,14 +6,14 @@
             <div class="data_h_h" :style="{ height: halfWidth }"></div>
         </div>
         <!-- #endif -->
-        <div v-if="!banner" class="skeleton">
+        <div v-if="!bannerList" class="skeleton">
             <!-- 头部 -->
             <div style="height: 89upx;">
                 <!-- #ifdef MP-WEIXIN -->
                 <div class="head" :style="{ top: halfWidth }" style="position: fixed;">
                     <div class="search" @tap="_focus">
                         <img class="skeleton-rect" :src="icon_search" />
-                        <div class="search_div">搜索你想要的商品2</div>
+                        <div class="search_div">搜索你想要的商品</div>
                     </div>
 
                     <div class="message skeleton-rect" @tap="_navigateTo('/pages/message/systemMesage')">
@@ -58,7 +58,7 @@
                     <ul class="goods">
                         <li class="goods_li" v-for="(item, index) in 5" :key="index">
                             <span class="skeleton-rect">美妆护理</span>
-                            <div class="goods_li_border" v-if="title_index == index"></div>
+                            <div class="goods_li_border" v-if="goodsClassIndex == index"></div>
                         </li>
                     </ul>
                 </div>
@@ -118,7 +118,6 @@
             </div>
         </div>
 
-
         <div v-else>
             <div>
                 <!-- 头部 -->
@@ -154,14 +153,14 @@
                 </div>
                 <!--  轮播图   -->
                 <swiper class="swiper" autoplay="true" indicator-dots="true" interval="3000" circular="true">
-                    <swiper-item v-for="(item, index) in banner" :key="index">
+                    <swiper-item v-for="(item, index) in bannerList" :key="index">
                         <img class="swipe" :src="item.image" @tap="_toAllGoods(item.url, item.type, item.parameter)" />
                     </swiper-item>
                 </swiper>
                 <ul class="home_new">
-                    <li v-for="(item, index) in plugin_arr" :key="index" @touchstart="_coupon(index)" @click="_oncoupon(item.url, index)">
+                    <li v-for="(item, index) in pluginList" :key="index" @touchstart="_coupon(index)" @click="_oncoupon(item.url, index)">
                         <!-- #ifndef MP-ALIPAY -->
-                        <img :src="item.status ? item.appimg : item.appimg" />
+                        <img :src="getPluginShortIcon(item.icon)" />
                         <p>{{ item.name }}</p>
                         <!-- #endif -->
                         <!-- #ifdef MP-ALIPAY -->
@@ -174,26 +173,26 @@
                 <div class="relative">
                     <div class="goods_all">
                         <ul class="goods" :style="{ width: width1 }">
-                            <li class="goods_li" v-for="(item, index) in goods_centre" :key="index" @tap="_title(index)">
-                                <span :class="{ color: title_index == index }">{{ item.pname }}</span>
-                                <div class="goods_li_border" v-if="title_index == index"></div>
+                            <li class="goods_li" v-for="(item, index) in goodsClassList" :key="index" @tap="changeGoodsClassNav(index)">
+                                <span :class="{ color: goodsClassIndex == index }">{{ item.name }}</span>
+                                <div class="goods_li_border" v-if="goodsClassIndex == index"></div>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="home_l">
                     <ul class="home_slider" id="goods_slider" ref="goods_slider">
-                        <li class="goods_slider_li" v-for="(item, index) in centre_list" :key="index" @tap="_goods(item.id)">
+                        <li class="goods_slider_li" v-for="(item, index) in goodsList" :key="index" @tap="_goods(item.id)">
                             <div style="display: flex;position: relative;justify-content: center;">
-                                <image lazy-load="true" :src="item.imgurl" />
+                                <image lazy-load="true" :src="item.image" />
                                 <div v-if="item.status == 3" class="dowmPro">
                                     已下架
                                 </div>
                             </div>
-                            <p style="margin-top: 20upx;">{{ item.product_title }}</p>
+                            <p style="margin-top: 20upx;">{{ item.name }}</p>
                             <p style="margin: 10upx 0 30upx 5upx;color:#FF0000;text-align: center;width: 90%;">
                                 ￥
-                                <span style="font-size: 28upx;font-weight: bold;color:#FF0000">{{ item.price }}</span>
+                                <span style="font-size: 28upx;font-weight: bold;color:#FF0000">{{ item.sellPrice }}</span>
                             </p>
                         </li>
                     </ul>
@@ -310,7 +309,7 @@
             </div>
         </div>
 
-        <skeleton :animation="true" :loading="true" v-if="!banner" bgColor="#FFF"></skeleton>
+        <skeleton :animation="true" :loading="true" v-if="!bannerList" bgColor="#FFF"></skeleton>
     </div>
 </template>
 
@@ -332,11 +331,19 @@
                 icon_search: this.$common.ROOT_URL + '/static/images/icon/icon_search.png',
                 icon_message: this.$common.ROOT_URL + '/static/images/icon/icon_message.png',
                 bottom: 1,
-                banner: '', //banner轮播图
+                // banner轮播图
+                bannerList: [],
+                // 插件
+                pluginList: [],
+                // 商品分类
+                goodsClassList: [],
+                // 分类商品
+                goodsList: [],
+                // 分类索引
+                goodsClassIndex: 0,
                 goods_centre: '', //中间商品
                 goods_like: '', //猜你喜欢商品
                 centre_list: '', //中间商品对应的商品列表
-                title_index: 0,
                 page: 1, //加载页面
                 loadingType: 0,
                 scan: '',
@@ -442,7 +449,7 @@
             },
             width1: function() {
                 var width;
-                width = this.goods_centre.length * 150;
+                width = this.goodsClassList.length * 150;
                 return uni.upx2px(width) + 'px';
             },
             ...mapState({
@@ -565,9 +572,16 @@
                     token: this.$store.state.token
                 }
                 this.$index.getHomeProfile(data).then(res => {
-                    this.banner = res.bannerList;
-                    console.log(this.banner)
+                    this.bannerList = res.bannerList;
+                    this.pluginList = res.pluginList;
+                    this.goodsClassList = res.goodsClassList;
+                    this.goodsList = this.goodsClassList[this.goodsClassIndex].goodsList;
                 }).catch(e => {})
+            },
+
+            getPluginShortIcon(icon) {
+                let plugin_short_icon = this.$common.ROOT_URL + icon;
+                return plugin_short_icon;
             },
 
             getAppPluginImg(img) {
@@ -653,10 +667,10 @@
                     url: '/pagesA/search/search'
                 });
             },
-            /*   商品导航切换    */
-            _title(index) {
-                this.title_index = index;
-                this.centre_list = this.goods_centre[index].list;
+            // 切换商品导航(分类商品模块)
+            changeGoodsClassNav(index) {
+                this.goodsClassIndex = index;
+                this.goodsList = this.goodsClassList[index].goodsList;
             },
             /*   跳转商品详情页    */
             _goods(id) {

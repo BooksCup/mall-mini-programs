@@ -486,12 +486,12 @@
                 }
                 this.$index.getMyProfile(data).then(res => {
                     // 插件
-                    this.plugin_auction = res.plugin.auctionPluginState;
-                    this.plugin_distributor = res.plugin.distributorPluginState;
-                    this.plugin_integral = res.plugin.integralPluginState;
-                    this.plugin_bargain = res.plugin.bargainPluginState;
-                    this.plugin_group = res.plugin.groupPluginState;
-                    this.plugin_seckill = res.plugin.seckillPluginState;
+                    this.plugin_auction = res.pluginState.auctionPluginState;
+                    this.plugin_distributor = res.pluginState.distributorPluginState;
+                    this.plugin_integral = res.pluginState.integralPluginState;
+                    this.plugin_bargain = res.pluginState.bargainPluginState;
+                    this.plugin_group = res.pluginState.groupPluginState;
+                    this.plugin_seckill = res.pluginState.seckillPluginState;
                 }).catch(e => {})
             },
 
