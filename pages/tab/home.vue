@@ -249,14 +249,14 @@
                     </div>
 
                     <ul class="goods_ul">
-                        <li class="goods_like" v-for="(item, index) in goods_like" :key="index" @tap="_goods(item.id)">
+                        <li class="goods_like" v-for="(item, index) in likeGoodsList" :key="index" @tap="_goods(item.id)">
                             <div style="display: flex;position: relative;">
-                                <image class="goods_like_img" lazy-load :src="item.imgurl" />
+                                <image class="goods_like_img" lazy-load :src="item.image" />
                                 <div v-if="item.status == 3" class="dowmPro">
                                     已下架
                                 </div>
                             </div>
-                            <p>{{ item.product_title || item.name }}</p>
+                            <p>{{ item.name }}</p>
                             <div class="tags">
                                 <span class="darkred tag" v-if="item.rx">热销</span>
                                 <span class="yellow tag" v-if="item.tj">推荐</span>
@@ -266,10 +266,10 @@
                                 <div>
                                     <span class="goods_mun_price">
                                         ￥
-                                        <span class="span">{{ item.price }}</span>
+                                        <span class="span">{{ item.sellPrice }}</span>
                                     </span>
                                     <div class="goods_mun_data">
-                                        <span class="span">月销量：{{ item.volume }}件</span>
+                                        <span class="span">月销量：{{ item.salesVolume }}件</span>
                                         <img class="img" @tap.stop="_discover(item.id)" :src="disc" />
                                     </div>
                                 </div>
@@ -341,35 +341,16 @@
                 goodsList: [],
                 // 分类索引
                 goodsClassIndex: 0,
-                goods_centre: '', //中间商品
-                goods_like: '', //猜你喜欢商品
-                centre_list: '', //中间商品对应的商品列表
-                page: 1, //加载页面
+                // 猜你喜欢商品列表
+                likeGoodsList: [],
+                // 当前分页数
+                page: 1,
+                // 定义加载方式 0: content down  1: content refresh 2: content nomore
                 loadingType: 0,
-                scan: '',
-                straining: true,
                 display: false, //热门推荐的遮罩层
-                arr: [],
-                tran: '',
                 goods_title: [],
-                plusArr: [],
-                cunt: 5,
-                coupon_t: true,
-                sign_t: true,
-                task_t: true,
-                draw_t: true,
                 // coupon: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/youhuiquan2x.png',
-                // coupon_hui: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/6662x.png',
                 // sign: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/qiandaolll2x.png',
-                // sign_hui: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/8882x.png',
-                // task: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/renwu2x.png',
-                // task_hui: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/7772x.png',
-                // draw: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/choujiang2x.png',
-                // draw_hui: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/9992x.png',
-                // group1: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/group12x.png',
-                // group2: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/group22x.png',
-
-                ptImg: true,
                 plugin_arr: [],
                 newapp: '',
                 isClick: false, //防止连续点击
@@ -538,31 +519,19 @@
                 return;
             }
             this.loadingType = 1;
-            var data = {
-                module: 'app',
-                action: 'index',
-                app: 'get_more',
+            let data = {
+                storeId: this.$common.STORE_ID,
                 page: this.page
-            };
-
-            if (this.goods_like && this.goods_like.length > 0) {
-
-                this.$req.post({
-                    data
-                }).then(res => {
-                    let {
-                        data
-                    } = res;
-                    this.page += 1;
-                    if (data.length > 0) {
-                        this.goods_like = this.goods_like.concat(data);
-                        this.loadingType = 0;
-                    } else {
-                        this.loadingType = 2;
-                    }
-                })
-
             }
+            this.$goods.getLikeGoodsList(data).then(res => {
+                this.page += 1;
+                if (res.length > 0) {
+                    this.likeGoodsList = this.likeGoodsList.concat(res);
+                    this.loadingType = 0;
+                } else {
+                    this.loadingType = 2;
+                }
+            }).catch(e => {})
         },
         methods: {
             getHomeProfile() {
@@ -576,6 +545,10 @@
                     this.pluginList = res.pluginList;
                     this.goodsClassList = res.goodsClassList;
                     this.goodsList = this.goodsClassList[this.goodsClassIndex].goodsList;
+                    this.likeGoodsList = res.likeGoodsList;
+
+                    // 分页数 + 1
+                    this.page += 1;
                 }).catch(e => {})
             },
 
