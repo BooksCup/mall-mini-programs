@@ -25,6 +25,16 @@
         LOGIN: 1
     }
 
+    // 商铺tab
+    const SHOP_TAB = {
+        // 推荐
+        RECOMMEND: 1,
+        // 所有商品
+        ALL_GOODS: 2,
+        // 商品类别
+        GOODS_CLASS: 3
+    }
+
     /**
      * 获取店铺类型
      * 1:微信小程序
@@ -59,6 +69,7 @@
         STORE_ID,
         SMS_TEMPLATE_TYPE,
         SMS_TEMPLATE_CATEGORY,
+        SHOP_TAB,
         getStoreType
     }
 </script>

@@ -12,6 +12,7 @@ import index from './common/api/index.js'
 import guide from './common/api/guide.js'
 import goodsClass from './common/api/goodsClass.js'
 import goods from './common/api/goods.js'
+import shop from './common/api/shop.js'
 import user from './common/api/user.js'
 import verifyCode from './common/api/verifyCode.js'
 
@@ -24,6 +25,7 @@ Vue.prototype.$index = index
 Vue.prototype.$guide = guide
 Vue.prototype.$goodsClass = goodsClass
 Vue.prototype.$goods = goods
+Vue.prototype.$shop = shop
 Vue.prototype.$user = user
 Vue.prototype.$verifyCode = verifyCode
 

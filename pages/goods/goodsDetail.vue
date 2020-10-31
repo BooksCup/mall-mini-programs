@@ -159,7 +159,7 @@
                                     分享店铺
                                 </div>
                                 <!-- #endif -->
-                                <div class="goStore store1Div" @tap="_goStore(shop_list.shop_id)">进店逛逛</div>
+                                <div class="goStore store1Div" @tap="_goStore(shop.id)">进店逛逛</div>
                             </div>
                         </div>
                         <div class="store store2">
