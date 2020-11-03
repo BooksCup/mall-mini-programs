@@ -1,0 +1,536 @@
+.container {
+    background-color: #f6f6f6;
+    min-height: 100vh;
+}
+
+.proClass {
+    width: 690rpx;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 6rpx;
+    margin-bottom: 20rpx;
+    box-sizing: border-box;
+    font-size: 28rpx;
+    color: #020202;
+    height: 90rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20rpx;
+}
+
+.proClass img {
+    width: 15rpx;
+    height: 27rpx;
+}
+
+.active {
+    color: #020202 !important;
+    font-weight: bold;
+}
+
+/* 遮罩层规格样式 */
+.mask {
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(000, 000, 000, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999 !important;
+}
+
+.shareMask {
+    width: 100%;
+    max-height: 90%;
+    background-color: #fff;
+    position: absolute;
+    bottom: 0;
+}
+
+.shareMaskTitle {
+    height: 100rpx;
+    line-height: 100rpx;
+    font-size: 36rpx;
+    text-align: center;
+    color: #020202;
+}
+
+.shareIcon {
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+
+.shareIcon img {
+    width: 80rpx;
+    height: 80rpx;
+    margin-bottom: 25rpx;
+}
+
+.shareIcon p {
+    height: 50rpx;
+    line-height: 50rpx;
+    font-size: 24rpx;
+    margin-bottom: 25rpx;
+    color: #666;
+    text-align: center;
+}
+
+.sharepyq {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.share_btn {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    width: 230rpx;
+    height: 200rpx;
+    line-height: 0;
+}
+
+.share_btn::after {
+    border: 1rpx solid #FFFFFF;
+}
+
+.shareEnd {
+    text-align: center;
+    font-size: 36rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+    border-top: 1px solid #eee;
+}
+
+.topThreeBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 90rpx;
+    font-size: 28rpx;
+    color: #888888;
+}
+
+.topThreeBar div {
+    position: relative;
+    width: 33.33%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+/* 店铺主页tab栏下的横线未居中 需在 .hen 中补充 left: 50%;transform: translateX(-50%); */
+.hen {
+    height: 4rpx;
+    width: 30rpx;
+    display: inline-block;
+    background-color: #2b2b2b;
+    position: absolute;
+    bottom: 15rpx;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.goods_li {
+    height: 80rpx;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    float: left;
+    width: 150rpx;
+}
+
+.goods_li_border {
+    height: 6rpx;
+    background-color: #2B2B2B;
+    width: 30rpx;
+    margin-top: 10rpx;
+    position: absolute;
+    bottom: 0;
+}
+
+.goods_li span {
+    color: #888888;
+    font-size: 26rpx;
+}
+
+.goods_all {
+    position: relative;
+    width: 100%;
+    overflow: scroll;
+}
+
+.goods_all::-webkit-scrollbar {
+    display: none;
+}
+
+.overflowText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 10rpx !important;
+    font-size: 20rpx;
+    color: #888;
+}
+
+.transp {
+    width: 100rpx;
+    height: 80rpx;
+    position: absolute;
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+    top: 0;
+    right: 0;
+    z-index: 999;
+    pointer-events: none;
+}
+
+.goods_ul {
+    padding: 0 4rpx;
+    justify-content: flex-start;
+    flex-flow: row wrap;
+    display: flex;
+    font-size: 28rpx;
+}
+
+.goods_like {
+    width: 346rpx;
+    border-radius: 10rpx;
+    text-align: center;
+    margin: 0 10rpx 20rpx 14rpx;
+    background-color: #fff;
+}
+
+.goods_like_img {
+    width: 200rpx;
+    height: 200rpx;
+    margin: 10rpx;
+}
+
+.goods_like > p {
+    padding: 0 20rpx;
+    margin-top: 40rpx;
+    text-align: left;
+}
+
+.overtitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.goods_mun {
+    margin-top: 10rpx;
+    justify-content: space-between;
+    padding: 0 20rpx;
+}
+
+.goods_mun > div {
+    width: 100%;
+    text-align: left;
+}
+
+.goods_mun img {
+    width: 32rpx;
+    height: 32rpx;
+}
+
+.storeTop {
+    background-color: #2b2624;
+    padding: 30rpx;
+    width: 100%;
+}
+
+.storeTop_title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.storeTopLeft {
+    display: flex;
+    justify-content: space-between;
+}
+
+.storeTopLeft img {
+    width: 100rpx;
+    height: 100rpx;
+}
+
+.storeTopLeftText {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 20rpx;
+    padding: 11rpx 0;
+}
+
+.storeTop_content {
+    padding-top: 28rpx;
+}
+
+.storeTop_content_top {
+    display: flex;
+    align-items: center;
+    font-size: 26rpx;
+    color: #777777;
+}
+
+.storeTop_content_bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: 24rpx;
+    color: #B8B8B8;
+    overflow: hidden;
+    transition: all 0.3s linear;
+}
+
+.storeTop_content_bottom p {
+    padding-top: 16rpx;
+}
+
+.storeTop_content img {
+    width: 22rpx;
+    height: 12rpx;
+    margin-left: 9rpx;
+}
+
+.storeName {
+    font-size: 30rpx;
+    color: #fff;
+    font-weight: 600;
+}
+
+.storeSellNum {
+    font-size: 22rpx;
+    color: #b8b8b8;
+}
+
+.storeTopRight {
+    font-size: 22rpx;
+    color: #fff;
+}
+
+.storeTopRight img {
+    width: 26rpx;
+    height: 24rpx;
+}
+
+.collectionBtn {
+    background: linear-gradient(to right, #ff7272 0%, #ff4444 100%);;
+    border-radius: 24rpx;
+    width: 132rpx;
+    height: 48rpx;
+    font-size: 24rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(255, 114, 114);
+}
+
+.collectionBtn1 {
+    background: none;
+    border-radius: 24rpx;
+    border: 1px solid #fff;
+    width: 132rpx;
+    height: 48rpx;
+    font-size: 24rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.head_img {
+    width: 24rpx;
+    height: 36rpx;
+}
+
+.wen_img {
+    width: 30rpx;
+    height: 30rpx;
+    display: inline-block;
+    margin-top: 5rpx;
+    position: absolute;
+    top: 26rpx;
+    right: 100rpx;
+}
+
+.shaer_font {
+    position: absolute;
+    top: 26rpx;
+    right: 30rpx;
+}
+
+.head_div {
+    position: relative;
+    background: #fff;
+}
+
+.head_div .gz {
+    position: fixed;
+    height: 88rpx;
+    width: 160rpx;
+    right: 0;
+    font-size: 28rpx;
+    font-family: PingFang-SC-Medium;
+    font-weight: 500;
+    z-index: 99999;
+    color: rgb(36, 36, 36);
+}
+
+.container > .gz {
+    height: 62rpx;
+    width: 160rpx;
+    font-size: 28rpx;
+    font-family: PingFang-SC-Medium;
+    font-weight: 500;
+    color: rgb(36, 36, 36);
+    margin-left: auto;
+    margin-right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container > .gz::after {
+    border: 0;
+}
+
+.container > .gz .wen_img, .container > .gz .shaer_font {
+    position: initial;
+}
+
+.container > .gz .shaer_font {
+    padding-left: 16rpx;
+}
+
+.saveEWMBtn {
+    border-top: 1px solid #E6E6E6;
+    width: 100%;
+    height: 100rpx;
+    font-size: 32rpx;
+    background-color: #fff;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    line-height: 100rpx;
+    color: #000;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}
+
+.saves {
+    width: 26rpx;
+    height: 26rpx;
+    padding-right: 20rpx;
+}
+
+.shareEwm {
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    /* height: 80%; */
+    width: 80%;
+    height: 1066rpx;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.imgEwm {
+    width: 100%;
+    height: 964rpx;
+}
+
+.close {
+    width: 40rpx;
+    height: 40rpx;
+    position: absolute;
+    top: 24rpx;
+    right: 24rpx;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.allCenter {
+    width: 630rpx;
+    height: 187rpx;
+    border-radius: 20rpx;
+    background-color: #fff;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 60rpx;
+    left: 60rpx;
+}
+
+.allCenter > div {
+    width: 25%;
+    text-align: center;
+}
+
+.allCenter > div .img {
+    width: 80rpx;
+    height: 80rpx;
+}
+
+.allCenter > div .span {
+    font-size: 24rpx;
+    color: #666666;
+}
+
+.collectionBtn .img {
+    margin-right: 10rpx;
+}
+
+.storeTopRight > div:last-child {
+    text-align: center;
+    margin-top: 10rpx;
+    font-size: 24rpx;
+}
+
+.w_50 {
+    width: 50%
+}
+
+.w_100 {
+    width: 100%;
+}
+
+.color_FF0 {
+    color: #FF0000
+}
+
+.weight {
+    font-weight: bold;
+}
+
+.volume {
+    font-size: 20rpx;
+    color: #9D9D9D;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.volume .img {
+    width: 30rpx;
+    height: 30rpx;
+    padding: 10rpx;
+}

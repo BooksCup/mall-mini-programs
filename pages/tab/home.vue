@@ -651,7 +651,7 @@
                 this.loadingType = 0;
                 this.pro_id(id);
                 uni.navigateTo({
-                    url: '/pages/goods/goodsDetailed?toback=true&pro_id=' + id
+                    url: '/pages/goods/goodsDetail?toback=true&pro_id=' + id
                 });
             },
             close_mask() {

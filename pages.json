@@ -73,7 +73,25 @@
 		            "titleNView": false
 		        }
 		    }
-		}
+		},
+        {
+            "path": "pages/goods/goodsDetail",
+            "style": {
+                "navigationBarTitleText": "商品详情",
+                "app-plus": {
+                    "titleNView": false
+                }
+            }
+        },
+        {
+            "path": "pages/shop/shop",
+            "style": {
+                "navigationBarTitleText": "店铺",
+                "app-plus": {
+                    "titleNView": false
+                }
+            }
+        }
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
