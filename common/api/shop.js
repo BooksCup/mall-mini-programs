@@ -11,6 +11,15 @@ class Shop extends Request {
             data: data
         })
     }
+
+    // 获取店铺商品列表
+    getShopGoodsList(data) {
+        return super.request({
+            url: common.ROOT_URL + '/shop/' + data.shopId + '/goods',
+            method: 'get',
+            data: data
+        })
+    }
 }
 
 const shop = new Shop()

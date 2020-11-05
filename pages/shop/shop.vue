@@ -85,7 +85,7 @@
             </div>
             <!-- #endif -->
             <ul class="goods_ul" v-if="tab == shop_tab_recommend">
-                <li class="goods_like" v-for="(item, index) in list" :key="index" @tap="_goods(item.id)">
+                <li class="goods_like" v-for="(item, index) in goodsList" :key="index" @tap="_goods(item.id)">
 
                     <div class="goods_like_img relative" style="margin: 5px auto;">
                         <image lazy-load :src="item.image" style="width: 100%;height: 100%;" />
@@ -112,7 +112,7 @@
                 </li>
             </ul>
             <ul class="goods_ul" v-if="tab == shop_tab_all_goods">
-                <li class="goods_like" v-for="(item, index) in list" :key="index" @tap="_goods(item.id)">
+                <li class="goods_like" v-for="(item, index) in goodsList" :key="index" @tap="_goods(item.id)">
                     <div class="goods_like_img relative" style="margin: 5px auto;">
                         <image lazy-load :src="item.image" style="width: 100%;height: 100%;" />
 
@@ -241,7 +241,7 @@
                 collStatus: true,
                 fastTap: true,
                 shop_id: 1,
-                list: '',
+                goodsList: [],
                 goodsClassList: [],
                 proList: '',
                 page: 1,
@@ -309,7 +309,7 @@
             width1: function() {
                 var width;
                 if (this.tab == this.$common.SHOP_TAB.RECOMMEND || this.tab == this.$common.SHOP_TAB.ALL_GOODS) {
-                    width = this.list.length * 150;
+                    width = this.goodsList.length * 150;
                 } else {
                     width = this.goodsClassList.length * 150;
                 }
@@ -335,29 +335,22 @@
                 return;
             }
             this.loadingType = 1;
-            if (this.tab != 3) {
-                var data = {
-                    module: 'app',
-                    action: 'mch',
-                    m: 'store_homepage_load',
-                    page: this.page,
-
-                    shop_id: this.shop_id,
-                    type: this.tab
-                };
-                if (this.list.length > 0) {
-                    this.$req.post({
-                        data
-                    }).then(res => {
-                        this.page += 1;
-                        if (res.list.length > 0) {
-                            this.list = this.list.concat(res.list);
-                            this.loadingType = 0;
-                        } else {
-                            this.loadingType = 2;
-                        }
-                    });
+            if (this.tab != this.shop_tab_goods_class) {
+                this.page += 1;
+                let data = {
+                    storeId: this.$common.STORE_ID,
+                    shopId: this.shop_id,
+                    tab: this.tab,
+                    page: this.page
                 }
+                this.$shop.getShopGoodsList(data).then(res => {
+                    if (res.length > 0) {
+                        this.goodsList = this.goodsList.concat(res);
+                        this.loadingType = 0;
+                    } else {
+                        this.loadingType = 2;
+                    }
+                })
             }
         },
         methods: {
@@ -376,8 +369,7 @@
                     uni.hideLoading();
                     this.shop = res;
                     this.entityStoreList = res.entityStoreList;
-                    console.log(this.entityStoreList)
-                    this.list = res.goodsList;
+                    this.goodsList = res.goodsList;
                     this.goodsClassList = res.goodsClassList;
                 })
             },
@@ -478,7 +470,6 @@
                 });
             },
             changeLoginStatus() {
-
                 this.axios();
             },
             toGoods(name, cid) {
@@ -631,7 +622,6 @@
                     this.show_hide_entity_store_img = this.$common.ROOT_URL +
                         '/static/images/icon/shop/icon_hide_content.png';
                 }
-                console.log(this.show_hide_entity_store_img);
             },
             ...mapMutations({
                 replayGoods: 'SET_REPLAY_GOODS'
