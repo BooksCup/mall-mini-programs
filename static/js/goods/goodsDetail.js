@@ -476,6 +476,25 @@ export function handleBuy(me) {
         // me.$refs.authorizeComp.handleAfterAuth(me, '../../pages/login/login?landing_code=1', function() {
         //正常登录未超时
         if (me.haveSkuBean) {
+            let data = {
+                storeId: me.$common.STORE_ID,
+                // goodsId: me.pro_id,
+                goodsId: '-1',
+                number: me.numb,
+                goodsSkuId: me.haveSkuBean.skuId
+            }
+
+            me.$cart.buyNow(data).then(res => {
+
+            }).catch(e => {
+                me.fastTap = true
+                uni.showToast({
+                    title: e.responseMessage,
+                    duration: 1000,
+                    icon: 'none'
+                })
+            })
+
             //     var product = []
             //     product.push({
             //         pid: me.pro_id
@@ -529,7 +548,7 @@ export function handleBuy(me) {
             //         }
             //     })
         } else {
-            me._mask_display()
+            me.showChooseSpecMask()
             me.fastTap = true
         }
         // })
@@ -544,10 +563,8 @@ export function confirmSku(me) {
             skus: me.sku_list.items[0]
         };
     }
-    
+
     if (Boolean(me.haveSkuBean)) {
-        console.log('!!!!!!!!!!!!!!!!' + me.skuStock)
-        console.log('@@@@@@@@@@@@@@@@' + me.type)
         if (me.skuStock == 0) {
             uni.showToast({
                 title: '库存不足',
@@ -562,7 +579,7 @@ export function confirmSku(me) {
                 me._shopping()
                 me.pay_lx('pt')
             } else if (me.type == 3) {
-                me._buy()
+                me.buy()
                 me.pay_lx('pt')
             }
         }

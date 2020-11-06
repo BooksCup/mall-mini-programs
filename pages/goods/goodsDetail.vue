@@ -429,9 +429,9 @@
                     <div class="mask_num">
                         <p>数量</p>
                         <div class="goods_mun">
-                            <span class="goods_mun_span" @tap="_reduce"><img :src="numb == 1 ? jian_hui : jian_hei" /></span>
+                            <span class="goods_mun_span" @tap="_reduce"><img :src="numb == 1 ? icon_sub_disable : icon_sub_enable" /></span>
                             <span class="mun">{{ numb }}</span>
-                            <span class="goods_mun_add" @tap="_add"><img :src="numb < skuStock ? jia_hei : jia_hui" /></span>
+                            <span class="goods_mun_add" @tap="_add"><img :src="numb < skuStock ? icon_add_enable : icon_add_disable" /></span>
                         </div>
                     </div>
                 </div>
@@ -675,10 +675,11 @@
                 icon_customer_service: this.$common.ROOT_URL + '/static/images/icon/icon_customer_service.png',
                 // top_img: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/kaobei2x.png',
                 // wx_img: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/wechat.png',
-                // jian_hei: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/jian2x.png',
-                // jian_hui: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/jianhui2x.png',
-                // jia_hei: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/jia+2x.png',
-                // jia_hui: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/add+2x.png',
+                icon_add_enable: this.$common.ROOT_URL + '/static/images/icon/goods/icon_add_enable.png',
+                icon_add_disable: this.$common.ROOT_URL + '/static/images/icon/goods/icon_add_disable.png',
+                icon_sub_enable: this.$common.ROOT_URL + '/static/images/icon/goods/icon_sub_enable.png',
+                icon_sub_disable: this.$common.ROOT_URL + '/static/images/icon/goods/icon_sub_disable.png',
+
                 // 已收藏
                 icon_collect_yes: this.$common.ROOT_URL + '/static/images/icon/icon_collect_yes.png',
                 // 未收藏
@@ -1395,7 +1396,7 @@
 
                     this.haveSkuBean = {
                         name: s.join(this.spliter),
-                        cid: curr.skus.skuId,
+                        skuId: curr.skus.skuId,
                         skus: curr.skus
                     };
                 } else {
