@@ -1,6 +1,6 @@
 <template>
     <div class="order_ii goodsDetail" :style="{ overflow: overflow }">
-        <lktauthorize ref="lktAuthorizeComp" v-on:pChangeLoginStatus="changeLoginStatus" v-on:cancle="cancle"></lktauthorize>
+        <authorize ref="authorizeComp" v-on:pChangeLoginStatus="changeLoginStatus" v-on:cancle="cancle"></authorize>
         <div ref="box" id="boxs" class="relative" @touchmove="setHead">
             <!--头部-->
             <!-- #ifndef MP -->
@@ -159,7 +159,7 @@
                                     分享店铺
                                 </div>
                                 <!-- #endif -->
-                                <div class="goStore store1Div" @tap="_goStore(shop.id)">进店逛逛</div>
+                                <div class="goStore store1Div" @tap="goShop(shop.id)">进店逛逛</div>
                             </div>
                         </div>
                         <div class="store store2">
@@ -257,22 +257,22 @@
                                 <p v-else>收藏</p>
                             </div>
 
-                            <template v-if="pro.status == '3'">
-                                <div v-if="pro.is_distribution == '1' || active == '6'">
+                            <template v-if="goods.status == '3'">
+                                <div v-if="goods.isDistribution == '1' || goods.activity == '6'">
                                     <div class="goods_two _buy" style="color: #333333;">立即购买</div>
                                 </div>
-                                <div v-else-if="pro.is_distribution == '0' && active != '6'">
+                                <div v-else-if="goods.isDistribution == '0' && goods.activity != '6'">
                                     <div class="goods_two" style="color: #333333;">加入购物车</div>
                                     <div class="goods_two _buy1" style="color: #333333;">立即购买</div>
                                 </div>
                             </template>
                             <template v-else>
-                                <div v-if="pro.is_distribution == '1' || active == '6'">
-                                    <div class="goods_two _buy" @tap="_buy">立即购买</div>
+                                <div v-if="goods.isDistribution == '1' || goods.activity == '6'">
+                                    <div class="goods_two _buy" @tap="buy">立即购买</div>
                                 </div>
-                                <div v-else-if="pro.is_distribution == '0' && active != '6'">
+                                <div v-else-if="goods.isDistribution == '0' && goods.activity != '6'">
                                     <div class="goods_two" @tap="_shopping">加入购物车</div>
-                                    <div class="goods_two _buy1" @tap="_buy">立即购买</div>
+                                    <div class="goods_two _buy1" @tap="buy">立即购买</div>
                                 </div>
                             </template>
                         </div>
@@ -615,7 +615,7 @@
         LaiKeTui_shopping,
         LaiKeTuiGetCoupon,
         LaiKeTui_receive,
-        LaiKeTui_buy_handle,
+        handleBuy,
         LaiKeTui_confirm,
         LaiKeTui_spec,
         LaiKeTuiShowState,
@@ -660,7 +660,8 @@
                 overflow: 'scroll',
                 mask_display1: false,
                 fastTap: true,
-                axios_complete: false, //是否已加载完初始数据
+                // 是否已加载完初始数据
+                load_complete: false,
                 title: '商品详情',
                 loadImg: true,
                 shop_id: '',
@@ -913,9 +914,52 @@
                     this.commentList = res.commentList;
                     this.shop = res.shop;
                     this.loadFlag = true;
+                    this.load_complete = true;
                 })
             },
+            // 立即购买
+            buy() {
+                if (!this.load_complete) {
+                    return false;
+                }
+                // 上架商品
+                if (this.status == this.$common.GOODS_STATUS.SHELVE) {
+                    if (this.goods.isAllowBuy == this.$common.GOODS_ALLOW_TO_BUY.ALLOW) {
+                        this.$common.noDoublePress(this, this.handleBuy);
+                    } else {
+                        if (this.active == 5) {
+                            uni.showToast({
+                                title: '您的会员等级不满足购买要求，请升级会员等级后再购买!',
+                                icon: 'none'
+                            });
+                        } else {
+                            uni.showToast({
+                                title: '您的分销等级不满足购买要求，请升级分销等级后再购买!',
+                                icon: 'none'
+                            });
+                        }
+                    }
+                } else {
+                    uni.showToast({
+                        title: '该商品已下架!',
+                        icon: 'none'
+                    });
+                }
+                if (this.active == 6) {
+                    if (this.is_grade == 0 && this.login_status == 1) {
+                        uni.showToast({
+                            icon: 'none',
+                            title: '对不起，你不是会员'
+                        });
+                    }
 
+                    return;
+                }
+            },
+            // 处理立即购买
+            handleBuy() {
+                handleBuy(this);
+            },
             /* 
                 ——————sku核心算法 开始——————
             */
@@ -1406,9 +1450,10 @@
                 }
                 LaiKeTuiToBr(this);
             },
-            _goStore(shop_id) {
+            // 进入店铺
+            goShop(shopId) {
                 uni.navigateTo({
-                    url: '/pages/shop/shop?shop_id=' + shop_id
+                    url: '/pages/shop/shop?shopId=' + shopId
                 });
             },
             _loadImg() {
@@ -1677,47 +1722,7 @@
             closeCouponMask() {
                 this.couponMask = false;
             },
-            _buy() {
-                if (!this.axios_complete) {
-                    return false;
-                }
-                if (this.status == 2) {
-                    if (this.pro.canbuy == 1) {
-                        this.LaiKeTuiCommon.laiketuiNoDoublePress(this, this._buy_handle);
-                    } else {
-                        if (this.active == 5) {
-                            uni.showToast({
-                                title: '您的会员等级不满足购买要求，请升级会员等级后再购买!',
-                                icon: 'none'
-                            });
-                        } else {
-                            uni.showToast({
-                                title: '您的分销等级不满足购买要求，请升级分销等级后再购买!',
-                                icon: 'none'
-                            });
-                        }
-                    }
-                } else {
-                    uni.showToast({
-                        title: '该商品已下架!',
-                        icon: 'none'
-                    });
-                }
-                if (this.active == 6) {
-                    if (this.is_grade == 0 && this.login_status == 1) {
-                        uni.showToast({
-                            icon: 'none',
-                            title: '对不起，你不是会员'
-                        });
-                    }
 
-                    return;
-                }
-            },
-            //立即购买
-            _buy_handle() {
-                LaiKeTui_buy_handle(this);
-            },
             //打开遮罩层
             _mask_display() {
                 this.mask_display = true;
@@ -1760,7 +1765,7 @@
             },
             _axios() {
                 LaiKeTui_axios(this);
-                this.axios_complete = true;
+                this.load_complete = true;
             },
             _toGradeUse(is) {
                 if (is) {

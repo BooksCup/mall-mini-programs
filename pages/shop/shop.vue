@@ -12,7 +12,7 @@
             <!-- #endif -->
         </div>
         <!-- #ifdef MP-WEIXIN -->
-        <button id="copyshare" :data-clipboard-text="shareHref" class="gz" @tap="showShareMask(shop_id)">
+        <button id="copyshare" :data-clipboard-text="shareHref" class="gz" @tap="showShareMask(shopId)">
             <img class="wen_img" :src="icon_share" />
             <font class="shaer_font">分享</font>
         </button>
@@ -152,12 +152,12 @@
                     </div>
                 </div>
             </div>
-            <div class="mask" v-if="saveEWM && saves">
+            <div class="mask" v-if="saveQrCodeFlag && icon_download">
                 <div class="shareEwm">
                     <img :src="ewmImg" class="imgEwm" />
-                    <img :src="close" class="close" @tap="_closeAllMask" />
+                    <img :src="icon_share_close" class="close" @tap="_closeAllMask" />
                     <view class="saveEWMBtn" @tap="_downEWM()">
-                        <img :src="saves" class="saves" />
+                        <img :src="icon_download" class="saves" />
                         保存图片
                     </view>
                 </div>
@@ -169,12 +169,12 @@
                     <div class="sharepyq">
                         <div class="shareIcon">
                             <button class="share_btn" open-type="share">
-                                <img :src="wx_img" />
+                                <img :src="icon_share_wechat" />
                                 <p class="p">微信好友</p>
                             </button>
                         </div>
-                        <div class="shareIcon" @tap="showSaveEWM('wx')">
-                            <img :src="erm_img" />
+                        <div class="shareIcon" @tap="showSaveQrCodeMask('wx')">
+                            <img :src="icon_share_qr_code" />
                             <p>二维码分享</p>
                         </div>
                         <div class="clearfix"></div>
@@ -210,7 +210,7 @@
                 shop_tab_recommend: this.$common.SHOP_TAB.RECOMMEND,
                 shop_tab_all_goods: this.$common.SHOP_TAB.ALL_GOODS,
                 shop_tab_goods_class: this.$common.SHOP_TAB.GOODS_CLASS,
-
+                shopId: '',
                 // 店铺
                 shop: '',
                 // 线下门店显示flag
@@ -220,7 +220,8 @@
                 show_hide_entity_store_img: this.$common.ROOT_URL + '/static/images/icon/shop/icon_hide_content.png',
 
                 tab: this.$common.SHOP_TAB.RECOMMEND,
-                // saves: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon/save.png',
+                // 下载
+                icon_download: this.$common.ROOT_URL + '/static/images/icon/icon_download.png',
                 // 分享
                 icon_share: this.$common.ROOT_URL + '/static/images/icon/shop/icon_share.png',
                 // 收藏关注
@@ -230,17 +231,20 @@
                 // "更多"箭头
                 icon_right_arrow: this.$common.ROOT_URL + '/static/images/icon/tab/icon_right_arrow.png',
                 title_index: 0,
-                // wx_img: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/wechat.png',
-                // erm_img: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/ewmShare.png',
+                // 微信分享
+                icon_share_wechat: this.$common.ROOT_URL + '/static/images/icon/icon_share_wechat.png',
+                // 二维码分享
+                icon_share_qr_code: this.$common.ROOT_URL + '/static/images/icon/icon_share_qr_code.png',
+                // 关闭分享
+                icon_share_close: this.$common.ROOT_URL + '/static/images/icon/icon_share_close.png',
                 // scImg: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/sc2x.png',
-                // close: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon/close_bb.png',
                 // live: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon/live.png',
                 // replay: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon/replay.png',
 
                 title: '店铺主页',
                 collStatus: true,
                 fastTap: true,
-                shop_id: 1,
+
                 goodsList: [],
                 goodsClassList: [],
                 proList: '',
@@ -256,11 +260,15 @@
                 shareHref2: '', //转发的链接
                 shareContent: '一起来用来客推吧！', //分享的内容
                 sharehrefTitle: '一起来用来客推吧!', //分享的链接的标题
+                // 分享标题
+                shareTitle: '',
+                // 分享内容
+                shareContent: '',
                 shareImg: '', //分享的图片
                 allPro: '',
                 shareDiv: false,
                 shareMask: false,
-                saveEWM: false,
+                saveQrCodeFlag: false,
                 ewmImg: '',
                 is_share: false,
                 shareWay: [
@@ -289,12 +297,11 @@
             };
         },
         onLoad(option) {
-
-            this.shop_id = option.shop_id;
+            this.shopId = option.shopId;
             this.is_share = option.is_share;
             var url = uni.getStorageSync('h5_url');
-            this.shareHref = url + '/pagesA/store/store?is_share=true&shop_id=' + this.shop_id;
-            this.shareHref2 = '/pagesA/store/store?is_share=true&shop_id=' + this.shop_id;
+            this.shareHref = url + '/pagesA/store/store?is_share=true&shop_id=' + this.shopId;
+            this.shareHref2 = '/pagesA/store/store?is_share=true&shop_id=' + this.shopId;
         },
 
         // 补充onShow,从登录页面回来后刷新登录状态
@@ -320,7 +327,7 @@
             this.shareMask = false;
 
             return {
-                title: this.sharehrefTitle,
+                title: this.shareTitle,
                 path: this.shareHref2,
                 imageUrl: this.shareImg,
                 bgImgUrl: this.shareImg,
@@ -339,7 +346,7 @@
                 this.page += 1;
                 let data = {
                     storeId: this.$common.STORE_ID,
-                    shopId: this.shop_id,
+                    shopId: this.shopId,
                     tab: this.tab,
                     page: this.page
                 }
@@ -361,7 +368,7 @@
                 });
                 let data = {
                     storeId: this.$common.STORE_ID,
-                    shopId: this.shop_id,
+                    shopId: this.shopId,
                     tab: this.tab
                 }
                 this.$shop.getShopDetail(data).then(res => {
@@ -436,7 +443,7 @@
             },
             _closeAllMask() {
                 this.shareMask = false;
-                this.saveEWM = false;
+                this.saveQrCodeFlag = false;
             },
             _shareDiv() {
                 this.shareDiv = false;
@@ -444,9 +451,40 @@
             _invite(type) {
                 LaiKeTuiInvite(type, this);
             },
-            showSaveEWM(string) {
+            // 显示保存二维码弹窗
+            showSaveQrCodeMask(string) {
                 this.shareMask = false;
-                LaiKeTuiShopEWM(string, this);
+                this.saveQrCodeFlag = true;
+                // LaiKeTuiShopEWM(string, this);
+            },
+            saveQrCode() {
+                // var data = {
+                //     module: 'app',
+                //     action: 'getcode',
+                //     m: 'share_shop',
+                //     shop_id: me.shop_id,
+                // }
+
+                // // #ifdef MP-WEIXIN
+                // data.store_type = 1
+                // // #endif
+                // // #ifndef MP-WEIXIN
+                // data.store_type = 2
+                // // #endif
+                // me.$req.post({data}).then(res => {
+                //     if (res.code == 200) {
+                //         me.ewmImg = uni.getStorageSync('endurl') + res.imgUrl
+                //         me.saveEWM = true
+                //     } else if (res.code == 404) {
+                //         me.$refs.lktAuthorizeComp.handleAfterAuth(me, '../login/login')
+                //     } else {
+                //         uni.showToast({
+                //             title: res.message,
+                //             duration: 1500,
+                //             icon: 'none'
+                //         })
+                //     }
+                // })
             },
             _share() {
                 this.isLogin(() => {
@@ -474,7 +512,7 @@
             },
             toGoods(name, cid) {
                 uni.navigateTo({
-                    url: '/pages/goods/goods?cid=' + cid + '&name=' + name + '&shop_id=' + this.shop_id
+                    url: '/pages/goods/goods?cid=' + cid + '&name=' + name + '&shop_id=' + this.shopId
                 });
             },
             changeTab(num) {
@@ -496,19 +534,21 @@
                     url: '/pages/goods/goodsDetailed?pro_id=' + id
                 });
             },
-            showShareMask(shop) {
+            // 显示分享弹窗
+            showShareMask(shopId) {
                 this.is_shop = true;
-                this.shop_id = shop;
-                this.sharehrefTitle = this.shop_list.shop_name;
+                this.shop_id = shopId;
+                this.shareTitle = this.shop.name;
                 this.shareImg = this.shop_list.shop_logo;
-                this.shareContent = this.shop_list.shop_name;
+                this.shareContent = this.shop.name;
                 var url = uni.getStorageSync('url');
                 url = url.split('index')[0];
-                this.shareHref = url + 'H5/#/pagesA/store/store?is_share=true&shop_id=' + shop;
-                this.shareHref2 = '/pagesA/store/store?is_share=true&shop_id=' + shop;
-                this.isLogin(() => {
-                    this.shareMask = true;
-                })
+                this.shareHref = url + 'H5/#/pagesA/store/store?is_share=true&shop_id=' + shopId;
+                this.shareHref2 = '/pagesA/store/store?is_share=true&shop_id=' + shopId;
+                // this.isLogin(() => {
+                //     this.shareMask = true;
+                // })
+                this.shareMask = true;
             },
             closeShareMask() {
                 this.shareMask = false;

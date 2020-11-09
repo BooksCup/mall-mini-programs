@@ -453,11 +453,11 @@ export function LaiKeTui_receive(me, id) {
 }
 
 // 立即购买
-export function LaiKeTui_buy_handle(me) {
+export function handleBuy(me) {
     if (me.fastTap) {
         me.fastTap = false
         me.type = 3
-        me.$refs.lktAuthorizeComp.handleAfterAuth(me, '../../pages/login/login?landing_code=1', function() {
+        me.$refs.authorizeComp.handleAfterAuth(me, '../../pages/login/login?landing_code=1', function() {
             //正常登录未超时
             if (me.haveSkuBean) {
                 var product = []

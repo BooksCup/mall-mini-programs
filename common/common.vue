@@ -3,7 +3,8 @@
      * 根路径
      */
     // const ROOT_URL = 'http://localhost:8082'
-    const ROOT_URL = 'http://192.168.0.133:8082'
+    // const ROOT_URL = 'http://192.168.0.133:8082'
+    const ROOT_URL = 'https://sc.winddots.com/'
     const STORE_ID = 1
     const DEFAULT_STORE_TYPE = 1
 
@@ -35,6 +36,24 @@
         GOODS_CLASS: 3
     }
 
+    // 商品状态
+    const GOODS_STATUS = {
+        // 待上架
+        WAIT_SHELVE: 1,
+        // 上架
+        SHELVE: 2,
+        // 下架
+        OFF_SHELVE: 3
+    }
+
+    // 商品是否允许购买
+    const GOODS_ALLOW_TO_BUY = {
+        // 不允许
+        NOT_ALLOW: 0,
+        // 允许
+        ALLOW: 1
+    }
+
     /**
      * 获取店铺类型
      * 1:微信小程序
@@ -63,6 +82,30 @@
         return store_type
     }
 
+    /**
+     * div按钮无重复点击
+     * @param {Object} me
+     * @param {Object} callback
+     * @param {Object} opts
+     */
+    function noDoublePress(me, callback, opts) {
+        var len = me.clicktimes.length
+        var now = new Date().getTime()
+        let lastclickBuyBtn = len > 0 ? me.clicktimes[len - 1] : now
+        me.clicktimes.push(now)
+        len = me.clicktimes.length
+        //第一次进的时候时间数组长度为一、或者两次点击时间间隔大于等于一秒
+        if (len == 1 || (now - lastclickBuyBtn) >= 1000) {
+            if (opts) {
+                callback(opts)
+            } else {
+                callback()
+            }
+        }
+        if (len >= 3) {
+            me.clicktimes.shift()
+        }
+    }
 
     export default {
         ROOT_URL,
@@ -70,6 +113,9 @@
         SMS_TEMPLATE_TYPE,
         SMS_TEMPLATE_CATEGORY,
         SHOP_TAB,
-        getStoreType
+        GOODS_STATUS,
+        GOODS_ALLOW_TO_BUY,
+        getStoreType,
+        noDoublePress
     }
 </script>

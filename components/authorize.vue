@@ -45,7 +45,7 @@
              * 认证后处理
              */
             handleAfterAuth(frompage, forwardUrl, callback, args) {
-                this.weixinAuth.laiketui_mp_weixin_checksession(this, frompage, callback, args)
+                this.weixinAuth.mp_weixin_checksession(this, frompage, callback, args)
                 // var _this = this
                 // var me = frompage
                 // me.LaiKeTuiCommon.getLKTApiUrl().then(function() {
@@ -98,9 +98,9 @@
                 // })
             },
 
-            //微信授权
+            // 微信授权
             bindGetUserInfo(res) {
-                this.LaiketuiWeixinAuth.laiketui_mp_weixin_auth(res, this)
+                this.weixinAuth.laiketui_mp_weixin_auth(res, this)
             },
 
             //头条授权

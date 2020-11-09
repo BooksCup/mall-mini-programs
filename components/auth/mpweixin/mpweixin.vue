@@ -1,17 +1,16 @@
 <script>
-
     /**
      *  微信授权
      * @param {Object} res
      * @param {Object} authPage
      */
-    function laiketui_mp_weixin_auth (res, authPage) {
+    function laiketui_mp_weixin_auth(res, authPage) {
         var me = authPage
         let userInfo = res.detail.userInfo
-        
+
         if (userInfo) {
             uni.login({
-                success: function (res) {
+                success: function(res) {
                     if (res.code) {
                         let data = {
                             nickName: userInfo.nickName,
@@ -28,12 +27,12 @@
                             data
                         }).then(res => {
                             me.showWin = false;
-                            if(!res){
+                            if (!res) {
                                 me.showWin = true;
                                 return;
                             }
                             let code = res.code;
-                            if(code == 200){
+                            if (code == 200) {
                                 let access_id = res.access_id
                                 let userinfo = {}
                                 userinfo['openid'] = res.openid
@@ -57,7 +56,7 @@
                             } else {
                                 let msg = res.message;
                                 uni.showToast({
-                                    title: ''+msg,
+                                    title: '' + msg,
                                     duration: 2000,
                                     icon: 'none'
                                 })
@@ -84,10 +83,10 @@
      * 关闭微信后重新登陆来客系统获取相关操作钥匙
      * @param {Object} me
      */
-    function reloadToLaikeOS (me, callback, args) {
-        return new Promise(function (laikeok, error) {
+    function reloadToLaikeOS(me, callback, args) {
+        return new Promise(function(laikeok, error) {
             uni.login({
-                success: function (res) {
+                success: function(res) {
                     if (res.code) {
                         let data = {
                             code: res.code,
@@ -138,19 +137,19 @@
      * 授权过后，没有失效时
      * @param {Object} obj
      */
-    function laiketui_mp_weixin_load (fromPage, callback, args) {
+    function laiketui_mp_weixin_load(fromPage, callback, args) {
         var me = fromPage;
         let p = new Promise((resolve, reject) => {
             var userinfo = uni.getStorageSync('userinfo') || []
             if (userinfo['openid']) {
-                laikeGetRightToken(me, userinfo['openid']).then(function (token) {
+                laikeGetRightToken(me, userinfo['openid']).then(function(token) {
                     resolve(token)
                 })
             } else {
                 reloadToLaikeOS(me, callback, args)
             }
         })
-        p.then(function (token) {
+        p.then(function(token) {
             var userinfo = uni.getStorageSync('userinfo') || []
             var headimgurl = userinfo.user.headimgurl || ''
             me.$store.state.access_id = token
@@ -169,7 +168,7 @@
      * 检测accessID 是否过期，若过期则生成新accessid
      * @param {Object} access_id
      */
-    function laikeGetRightToken (me, openid) {
+    function laikeGetRightToken(me, openid) {
         var data = {
             module: 'app',
             action: 'login',
@@ -181,7 +180,7 @@
             uni.request({
                 url: me.$store.state.url,
                 data,
-                success: function (res) {
+                success: function(res) {
                     var code = res.data.code
                     let token = res.data.access_id
                     console.log('laikeLoginTimeout：')
@@ -206,24 +205,24 @@
      * @param {Object} authPage
      * @param {Object} fromPage
      */
-    function laiketui_mp_weixin_checksession (authPage, fromPage, callback, args) {
+    function mp_weixin_checksession(authPage, fromPage, callback, args) {
         var _this = authPage
         var me = fromPage;
         uni.checkSession({
-            success: function (res) {
+            success: function(res) {
                 console.log(res, '登录未过期')
-                var access_id = uni.getStorageSync('laiketuiAccessId') ;
-                if(!access_id){
+                var access_id = uni.getStorageSync('laiketuiAccessId');
+                if (!access_id) {
                     _this.showWin = true;
-                    if(!me.fastTap){
-                       me.fastTap = true; 
+                    if (!me.fastTap) {
+                        me.fastTap = true;
                     }
-                }else{
+                } else {
                     _this.showWin = false
                     laiketui_mp_weixin_load(me, callback, args)
                 }
             },
-            fail: function (res) {
+            fail: function(res) {
                 console.log(res, '登录过期了')
                 _this.showWin = true
             }
@@ -236,17 +235,17 @@
      * @param {Object} callback
      * @param {Object} args
      */
-    function laiketui_mp_weixin_checkauth (fromPage, callback, args) {
+    function laiketui_mp_weixin_checkauth(fromPage, callback, args) {
         var me = fromPage
         let LoingByHand = uni.getStorageSync('LoingByHand')
         let needRegister = uni.getStorageSync('needRegister')
         if (needRegister == me.LaiKeTuiCommon.LKT_NRL_TYPE.NRL && !LoingByHand) {
             uni.checkSession({
-                success: function (res) {
+                success: function(res) {
                     console.log(res, '登录未过期')
                     laiketui_mp_weixin_load(me, callback, args)
                 },
-                fail: function (res) {
+                fail: function(res) {
                     console.log(res, '登录过期了')
                 }
             })
@@ -256,8 +255,7 @@
     export default {
         laiketui_mp_weixin_auth,
         laiketui_mp_weixin_load,
-        laiketui_mp_weixin_checksession,
+        mp_weixin_checksession,
         laiketui_mp_weixin_checkauth,
     }
-
 </script>
