@@ -1,10 +1,10 @@
 <script>
     /**
-     *  微信授权
+     * 绑定微信用户
      * @param {Object} res
      * @param {Object} authPage
      */
-    function laiketui_mp_weixin_auth(res, authPage) {
+    function bindWechatUser(res, authPage) {
         var me = authPage
         let userInfo = res.detail.userInfo
 
@@ -13,54 +13,45 @@
                 success: function(res) {
                     if (res.code) {
                         let data = {
+                            storeId: me.$common.STORE_ID,
+                            storeType: me.$common.getStoreType(),
                             nickName: userInfo.nickName,
-                            headimgurl: userInfo.avatarUrl,
+                            avatar: userInfo.avatarUrl,
                             sex: userInfo.gender,
-                            code: res.code,
-                            module: 'app',
-                            action: 'login',
-                            app: 'user',
-                            pid: uni.getStorageSync('fatherId'),
-                            store_type: 1,
+                            code: res.code
                         }
-                        me.$req.post({
-                            data
-                        }).then(res => {
+                        me.$user.bindWechatUser(data).then(res => {
                             me.showWin = false;
-                            if (!res) {
-                                me.showWin = true;
-                                return;
-                            }
-                            let code = res.code;
-                            if (code == 200) {
-                                let access_id = res.access_id
-                                let userinfo = {}
-                                userinfo['openid'] = res.openid
-                                userinfo['session_key'] = res.session_key
-                                userinfo['user'] = res.user
-                                me.access_id = res.access_id
-                                me.$store.state.access_id = res.access_id
-                                uni.setStorageSync('userinfo', userinfo)
-                                me.access_id1 = true
-                                //调用父类的改变登录状态方法
-                                //手动登陆标志为false
-                                uni.setStorageSync('LoingByHand', false)
-                                uni.setStorageSync('laiketuiAccessId', me.access_id)
-                                uni.setStorageSync('online', true)
-                                me.$emit('pChangeLoginStatus')
+                            let code = res.responseCode
+                            if (code == 'BIND_WECHAT_USER_SUCCESS') {
                                 uni.showToast({
                                     title: '授权成功',
                                     duration: 1000,
                                     icon: 'none'
                                 })
+                                // 用户信息存至本地
+                                // setStorageSync只支持原生类型、Date、及能够通过JSON.stringify序列化的对象，不能直接传入对象
+                                let userinfo = {}
+                                userinfo['token'] = res.token
+                                userinfo['openid'] = res.wxOpenid
+                                userinfo['session_key'] = res.wxSessionKey
+                                uni.setStorageSync('userinfo', userinfo)
+                                uni.setStorageSync('token', me.token)
                             } else {
-                                let msg = res.message;
+                                let msg = res.responseMessage;
                                 uni.showToast({
-                                    title: '' + msg,
+                                    title: msg,
                                     duration: 2000,
                                     icon: 'none'
                                 })
                             }
+                        }).catch(e => {
+                            me.showWin = false
+                            uni.showToast({
+                                title: e.responseMessage,
+                                duration: 1000,
+                                icon: 'none'
+                            })
                         })
                     } else {
                         console.log('授权失败')
@@ -211,8 +202,8 @@
         uni.checkSession({
             success: function(res) {
                 console.log(res, '登录未过期')
-                var access_id = uni.getStorageSync('laiketuiAccessId');
-                if (!access_id) {
+                var token = uni.getStorageSync('token')
+                if (!token) {
                     _this.showWin = true;
                     if (!me.fastTap) {
                         me.fastTap = true;
@@ -253,7 +244,7 @@
     }
 
     export default {
-        laiketui_mp_weixin_auth,
+        bindWechatUser,
         laiketui_mp_weixin_load,
         mp_weixin_checksession,
         laiketui_mp_weixin_checkauth,

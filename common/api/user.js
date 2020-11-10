@@ -25,6 +25,14 @@ class User extends Request {
             data: data
         })
     }
+    
+    bindWechatUser(data) {
+        return super.request({
+            url: common.ROOT_URL + '/users/bindWechatUser',
+            method: 'post',
+            data: data
+        })
+    }
 }
 
 const user = new User()

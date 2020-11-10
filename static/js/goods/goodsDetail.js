@@ -458,64 +458,64 @@ export function handleBuy(me) {
         me.fastTap = false
         me.type = 3
         me.$refs.authorizeComp.handleAfterAuth(me, '../../pages/login/login?landing_code=1', function() {
-            //正常登录未超时
-            if (me.haveSkuBean) {
-                var product = []
-                product.push({
-                    pid: me.pro_id
-                })
+            // //正常登录未超时
+            // if (me.haveSkuBean) {
+            //     var product = []
+            //     product.push({
+            //         pid: me.pro_id
+            //     })
 
-                product.push({
-                    cid: me.haveSkuBean.cid
-                })
+            //     product.push({
+            //         cid: me.haveSkuBean.cid
+            //     })
 
-                product.push({
-                    num: me.numb
-                })
+            //     product.push({
+            //         num: me.numb
+            //     })
 
-                product.push({
-                    sec_id: me.option.id
-                })
+            //     product.push({
+            //         sec_id: me.option.id
+            //     })
 
-                product = JSON.stringify(product)
-                let data = {
-                    module: 'app',
-                    action: 'product',
-                    app: 'immediately_cart',
-                    product,
-                }
-                me.$req.post({data}).then(res => {
-                    me.clicktimes = []
-                    if (res.code == 200) {
-                        var url = '../pay/orderDetailsr?product=' + product +
-                            '&isDistribution=' + me.isDistribution +
-                            '&canshu=true&returnR=2'
-                        if (me.pages == 'pagesB') {
-                            var url = '/pages/pay/orderDetailsr?product=' + product + '&isDistribution=' +
-                                me.isDistribution +
-                                '&canshu=true&returnR=2'
-                        }
-                        me._mask_f()
-                        uni.navigateTo({
-                            url: url
-                        })
-                        me.fastTap = true
-                    } else {
-                        uni.showToast({
-                            title: res.message,
-                            duration: 1500,
-                            icon: 'none'
-                        })
-                        setTimeout(function() {
-                            me._axios()
-                            me.fastTap = true
-                        }, 1500)
-                    }
-                })
-            } else {
-                me._mask_display()
-                me.fastTap = true
-            }
+            //     product = JSON.stringify(product)
+            //     let data = {
+            //         module: 'app',
+            //         action: 'product',
+            //         app: 'immediately_cart',
+            //         product,
+            //     }
+            //     me.$req.post({data}).then(res => {
+            //         me.clicktimes = []
+            //         if (res.code == 200) {
+            //             var url = '../pay/orderDetailsr?product=' + product +
+            //                 '&isDistribution=' + me.isDistribution +
+            //                 '&canshu=true&returnR=2'
+            //             if (me.pages == 'pagesB') {
+            //                 var url = '/pages/pay/orderDetailsr?product=' + product + '&isDistribution=' +
+            //                     me.isDistribution +
+            //                     '&canshu=true&returnR=2'
+            //             }
+            //             me._mask_f()
+            //             uni.navigateTo({
+            //                 url: url
+            //             })
+            //             me.fastTap = true
+            //         } else {
+            //             uni.showToast({
+            //                 title: res.message,
+            //                 duration: 1500,
+            //                 icon: 'none'
+            //             })
+            //             setTimeout(function() {
+            //                 me._axios()
+            //                 me.fastTap = true
+            //             }, 1500)
+            //         }
+            //     })
+            // } else {
+            //     me._mask_display()
+            //     me.fastTap = true
+            // }
         })
     }
 }

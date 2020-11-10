@@ -18,7 +18,7 @@
                 <button open-type="getUserInfo" @tap="ttAuth" size="mini" type="primary">授权</button>
                 <!-- #endif -->
                 <!-- #ifdef MP-WEIXIN -->
-                <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" type="primary" size="mini">授权</button>
+                <button open-type="getUserInfo" @getuserinfo="bindWechatUser" type="primary" size="mini">授权</button>
                 <!-- #endif -->
 
             </div>
@@ -98,9 +98,9 @@
                 // })
             },
 
-            // 微信授权
-            bindGetUserInfo(res) {
-                this.weixinAuth.laiketui_mp_weixin_auth(res, this)
+            // 绑定微信用户
+            bindWechatUser(res) {
+                this.weixinAuth.bindWechatUser(res, this)
             },
 
             //头条授权
