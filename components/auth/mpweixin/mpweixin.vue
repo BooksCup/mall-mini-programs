@@ -36,7 +36,7 @@
                                 userinfo['openid'] = res.wxOpenid
                                 userinfo['session_key'] = res.wxSessionKey
                                 uni.setStorageSync('userinfo', userinfo)
-                                uni.setStorageSync('token', me.token)
+                                uni.setStorageSync('token', res.token)
                             } else {
                                 let msg = res.responseMessage;
                                 uni.showToast({
@@ -128,12 +128,12 @@
      * 授权过后，没有失效时
      * @param {Object} obj
      */
-    function laiketui_mp_weixin_load(fromPage, callback, args) {
+    function mp_weixin_load(fromPage, callback, args) {
         var me = fromPage;
         let p = new Promise((resolve, reject) => {
             var userinfo = uni.getStorageSync('userinfo') || []
             if (userinfo['openid']) {
-                laikeGetRightToken(me, userinfo['openid']).then(function(token) {
+                checkToken(me, userinfo['openid']).then(function(token) {
                     resolve(token)
                 })
             } else {
@@ -142,10 +142,10 @@
         })
         p.then(function(token) {
             var userinfo = uni.getStorageSync('userinfo') || []
-            var headimgurl = userinfo.user.headimgurl || ''
-            me.$store.state.access_id = token
-            uni.setStorageSync('access_id', token)
-            me.access_id = me.$store.state.access_id
+            // var headimgurl = userinfo.user.headimgurl || ''
+            // me.$store.state.access_id = token
+            uni.setStorageSync('token', token)
+            // me.access_id = me.$store.state.access_id
             me.login_status = 1
             if (callback && args) {
                 callback(args)
@@ -159,36 +159,65 @@
      * 检测accessID 是否过期，若过期则生成新accessid
      * @param {Object} access_id
      */
-    function laikeGetRightToken(me, openid) {
-        var data = {
-            module: 'app',
-            action: 'login',
-            app: 'login_access',
-            openid: openid,
-            store_type: 1
+    function checkToken(me, openid) {
+        let data = {
+            storeId: me.$common.STORE_ID,
+            storeType: me.$common.getStoreType(),
+            openid: openid
         }
         return new Promise((resolve, reject) => {
-            uni.request({
-                url: me.$store.state.url,
-                data,
-                success: function(res) {
-                    var code = res.data.code
-                    let token = res.data.access_id
-                    console.log('laikeLoginTimeout：')
-                    console.log(JSON.stringify(res))
-                    if (code == 200 && token) {
-                        resolve(token)
-                    } else {
-                        let message = res.data.message || '登陆异常，请联系管理员！'
-                        uni.showToast({
-                            title: message,
-                            icon: 'none',
-                            duration: 1500
-                        })
-                    }
+            me.$token.checkToken(data).then(res => {
+                let code = res.responseCode
+                let token = res.token
+                console.log('111111:' + code)
+                console.log('222222:' + token)
+                if (code == 'CHECK_TOKEN_SUCCESS' && token) {
+                    resolve(token)
+                } else {
+                    let message = res.responseMessage || '登陆异常，请联系管理员！'
+                    uni.showToast({
+                        title: message,
+                        icon: 'none',
+                        duration: 1500
+                    })
                 }
+            }).catch(e => {
+                uni.showToast({
+                    title: e.responseMessage,
+                    duration: 1000,
+                    icon: 'none'
+                })
             })
         })
+        // var data = {
+        //     module: 'app',
+        //     action: 'login',
+        //     app: 'login_access',
+        //     openid: openid,
+        //     store_type: 1
+        // }
+        // return new Promise((resolve, reject) => {
+        //     uni.request({
+        //         url: me.$store.state.url,
+        //         data,
+        //         success: function(res) {
+        //             var code = res.data.code
+        //             let token = res.data.access_id
+        //             console.log('laikeLoginTimeout：')
+        //             console.log(JSON.stringify(res))
+        //             if (code == 200 && token) {
+        //                 resolve(token)
+        //             } else {
+        //                 let message = res.data.message || '登陆异常，请联系管理员！'
+        //                 uni.showToast({
+        //                     title: message,
+        //                     icon: 'none',
+        //                     duration: 1500
+        //                 })
+        //             }
+        //         }
+        //     })
+        // })
     }
 
     /**
@@ -210,7 +239,7 @@
                     }
                 } else {
                     _this.showWin = false
-                    laiketui_mp_weixin_load(me, callback, args)
+                    mp_weixin_load(me, callback, args)
                 }
             },
             fail: function(res) {
@@ -234,7 +263,7 @@
             uni.checkSession({
                 success: function(res) {
                     console.log(res, '登录未过期')
-                    laiketui_mp_weixin_load(me, callback, args)
+                    mp_weixin_load(me, callback, args)
                 },
                 fail: function(res) {
                     console.log(res, '登录过期了')
@@ -245,7 +274,7 @@
 
     export default {
         bindWechatUser,
-        laiketui_mp_weixin_load,
+        mp_weixin_load,
         mp_weixin_checksession,
         laiketui_mp_weixin_checkauth,
     }

@@ -14,6 +14,7 @@ import goodsClass from './common/api/goodsClass.js'
 import goods from './common/api/goods.js'
 import shop from './common/api/shop.js'
 import user from './common/api/user.js'
+import token from './common/api/token.js'
 import verifyCode from './common/api/verifyCode.js'
 
 Vue.config.productionTip = false
@@ -27,6 +28,7 @@ Vue.prototype.$goodsClass = goodsClass
 Vue.prototype.$goods = goods
 Vue.prototype.$shop = shop
 Vue.prototype.$user = user
+Vue.prototype.$token = token
 Vue.prototype.$verifyCode = verifyCode
 
 Vue.component('authorize', authorize)
