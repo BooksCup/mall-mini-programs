@@ -400,7 +400,7 @@
             <div class="mask_guige">
                 <div class="mask_one" @touchmove.stop.prevent>
                     <div class="mask_imgDiv">
-                        <img v-if="loadImg" @load="_loadImg()" class="shangp" :src="imgurl" />
+                        <img v-if="loadImg" @load="_loadImg()" class="shangp" :src="skuImage" />
                         <img v-if="!loadImg" :src="load_img" class="img" />
                     </div>
                     <div class="mask_pric">
@@ -408,7 +408,7 @@
                             ￥
                             <span class="font_30">{{ price }}</span>
                         </p>
-                        <p class="mask_pric_num">库存{{ num }}</p>
+                        <p class="mask_pric_num">库存: {{ skuStock }}</p>
                     </div>
                     <img class="cha" :src="icon_close" @tap="_mask_f()" />
                 </div>
@@ -431,7 +431,7 @@
                         <div class="goods_mun">
                             <span class="goods_mun_span" @tap="_reduce"><img :src="numb == 1 ? jian_hui : jian_hei" /></span>
                             <span class="mun">{{ numb }}</span>
-                            <span class="goods_mun_add" @tap="_add"><img :src="numb < num ? jia_hei : jia_hui" /></span>
+                            <span class="goods_mun_add" @tap="_add"><img :src="numb < skuStock ? jia_hei : jia_hui" /></span>
                         </div>
                     </div>
                 </div>
@@ -690,6 +690,9 @@
                 attribute_id: '',
                 attrList: '',
                 skuBeanList: '',
+                // 规格(map格式)
+                goodsSkuMapList: [],
+
                 mask_display: false,
                 // 规格初始价格
                 specOriginalPrice: '',
@@ -697,11 +700,13 @@
                 specNum: '',
                 // 规格出售价格
                 specSellPrice: '',
-                // 规格图片
-                specImage: '',
                 ys_price: '', //规格初始价格
-                num: '', //规格数量
-                price: '', //规格价格
+                // 规格库存
+                skuStock: '',
+                // 规格价格
+                price: '',
+                // 规格图片
+                skuImage: '',
                 imgurl: '', //规格图片
                 collection_id: '', //收藏id
                 pro: '', //商品信息
@@ -783,6 +788,11 @@
                 skuName1: 'Price',
                 skuName2: 'Pic',
                 skuName3: 'Stock',
+                sku_key_id: this.$common.SKU_KEY.ID,
+                sku_key_stock: this.$common.SKU_KEY.STOCK,
+                sku_key_price: this.$common.SKU_KEY.PRICE,
+                sku_key_image: this.$common.SKU_KEY.IMAGE,
+
                 spliter: ',',
                 sku_list: {},
                 result: {}
@@ -912,9 +922,15 @@
                 this.$goods.getGoodsDetail(data).then(res => {
                     this.goods = res;
                     this.commentList = res.commentList;
+                    this.goodsSkuMapList = res.goodsSkuMapList;
+                    this.skuStock = res.remainStock;
+                    this.price = res.sellPrice;
+                    this.skuImage = res.defSkuImage;
                     this.shop = res.shop;
                     this.loadFlag = true;
                     this.load_complete = true;
+
+                    this.initData();
                 })
             },
             // 立即购买
@@ -982,13 +998,15 @@
              */
             initData() {
                 this.result = {};
-                this.keys = this.getAllKeys(); //arrKeys["颜色", "尺码", "型号"]
+                // arrkeys, e.g.: ["颜色", "尺码", "型号"]
+                this.keys = this.getAllKeys();
 
                 for (let i = 0; i < this.keys.length; i++) {
-                    this.highKeys[this.keys[i]] = false; //所有的都为false
+                    // 所有的都为false,非高亮
+                    this.highKeys[this.keys[i]] = false;
                 }
 
-                this.sku_list = this.combineAttr(this.skuBeanList, this.keys);
+                this.sku_list = this.combineAttr(this.goodsSkuMapList, this.keys);
 
                 // this.initSeleted(this.SkuID);
                 // this.initSeleted(this.Pic);
@@ -1001,7 +1019,7 @@
                 // 初始筛选出库存为0的属性
                 let filterObj = {}
                 for (let i in this.result) {
-                    if ((!i.includes(',')) && this.result[i].skus.Stock == 0) {
+                    if ((!i.includes(',')) && this.result[i].skus.stock == 0) {
                         filterObj[i] = this.result[i]
                     }
                 }
@@ -1123,7 +1141,7 @@
                             result[key][item[key]] = {
                                 name: item[key],
                                 active: false,
-                                disabled: item['Stock'] > 0 ? false : true
+                                disabled: item[this.sku_key_stock] > 0 ? false : true
                             };
                         }
 
@@ -1132,10 +1150,10 @@
 
                     allKeys.push({
                         path: values.join(this.spliter),
-                        sku: item['SkuID'],
-                        price: item['Price'],
-                        Pic: item['Pic'],
-                        Stock: item['Stock']
+                        skuId: item[this.sku_key_id],
+                        price: item[this.sku_key_price],
+                        image: item[this.sku_key_image],
+                        stock: item[this.sku_key_stock]
                     });
                 }
 
@@ -1163,19 +1181,25 @@
              */
             getAllKeys() {
                 let arrKeys = [];
-                for (let attribute in this.skuBeanList[0]) {
-                    if (!this.skuBeanList[0].hasOwnProperty(attribute)) {
+                for (let attribute in this.goodsSkuMapList[0]) {
+                    if (!this.goodsSkuMapList[0].hasOwnProperty(attribute)) {
                         continue;
                     }
-                    if (attribute !== this.skuName && attribute !== this.skuName1 && attribute !== this.skuName2 &&
-                        attribute !== this.skuName3) {
+                    // if (attribute !== this.skuName && attribute !== this.skuName1 && attribute !== this.skuName2 &&
+                    //     attribute !== this.skuName3) {
+                    //     arrKeys.push(attribute);
+                    // }
+                    if (attribute !== this.sku_key_id &&
+                        attribute !== this.sku_key_price &&
+                        attribute !== this.sku_key_stock &&
+                        attribute !== this.sku_key_image) {
                         arrKeys.push(attribute);
                     }
                 }
 
                 if (arrKeys.length == 0) {
                     arrKeys = ["undefined"]
-                    this.skuBeanList[0]["undefined"] = "undefined"
+                    this.goodsSkuMapList[0]["undefined"] = "undefined"
                 }
                 return arrKeys;
             },
@@ -1199,10 +1223,10 @@
                 //价格 , 库存, 图片 赋值
                 for (let i = 0; i < allKeys.length; i++) {
                     let curr = allKeys[i];
-                    let sku = items[i].sku;
-                    let Pic = items[i].Pic;
+                    let skuId = items[i].skuId;
+                    let image = items[i].image;
                     let price = items[i].price;
-                    let Stock = items[i].Stock;
+                    let stock = items[i].stock;
                     let values = curr.split(this.spliter);
                     let allSets = this.powerset(values);
 
@@ -1213,10 +1237,10 @@
                         if (key && !this.result[key]) {
                             this.result[key] = {
                                 skus: {
-                                    sku,
-                                    Pic,
+                                    skuId,
+                                    image,
                                     price,
-                                    Stock
+                                    stock
                                 }
                             };
 
@@ -1224,10 +1248,10 @@
                                     allKeys[i].split(',').length)) {
                                 attr[key] = {
                                     skus: {
-                                        sku,
-                                        Pic,
+                                        skuId,
+                                        image,
                                         price,
-                                        Stock
+                                        stock
                                     }
                                 };
                             }
@@ -1236,10 +1260,10 @@
                 }
 
                 for (let i in attr) {
-                    attr[i].skus.Stock = 0;
+                    attr[i].skus.stock = 0;
                     for (let k in this.result) {
                         if (i != k && k.split(',').length == allKeys[0].split(',').length && k.includes(i)) {
-                            attr[i].skus.Stock += Number(this.result[k].skus.Stock);
+                            attr[i].skus.stock += Number(this.result[k].skus.stock);
                         } else if (k.split(',').length == allKeys[0].split(',').length) {
                             let flag = [];
 
@@ -1252,7 +1276,7 @@
                             });
 
                             if (flag.length == i.split(',').length) {
-                                attr[i].skus.Stock += Number(this.result[k].skus.Stock);
+                                attr[i].skus.stock += Number(this.result[k].skus.stock);
                             }
                         }
                     }
@@ -1277,7 +1301,6 @@
 
                     result.push(attributeName);
                 }
-
                 return result;
             },
 
@@ -1290,7 +1313,6 @@
                         data = this.sku_list.result[key],
                         hasActive = !!selected[i],
                         copy = selected.slice();
-
                     for (let j in data) {
                         let item = data[j]['name'];
                         if (selected[i] == item) {
@@ -1303,7 +1325,7 @@
                         if (type) {
                             this.sku_list.result[key][j]['disabled'] = this.result[curr] ? false : true;
                         } else {
-                            this.sku_list.result[key][j]['disabled'] = this.result[curr].skus.Stock > 0 ? false : true;
+                            this.sku_list.result[key][j]['disabled'] = this.result[curr].skus.stock > 0 ? false : true;
                         }
                     }
                 }
@@ -1325,11 +1347,14 @@
              * @return {[type]}       [description]
              */
             initSeleted(a) {
-                for (let i in this.skuBeanList) {
-                    if (this.skuBeanList[i][this.skuName] == a) {
-                        for (let x in this.skuBeanList[i]) {
-                            if (x !== this.skuName && x !== this.skuName1 && x !== this.skuName2 && x !== this.skuName3) {
-                                this.sku_list.result[x][this.skuBeanList[i][x]].active = true;
+                for (let i in this.goodsSkuMapList) {
+                    if (this.goodsSkuMapList[i][this.sku_key_id] == a) {
+                        for (let x in this.goodsSkuMapList[i]) {
+                            if (x !== this.sku_key_id &&
+                                x !== this.sku_key_stock &&
+                                x !== this.sku_key_price &&
+                                x !== this.sku_key_image) {
+                                this.sku_list.result[x][this.goodsSkuMapList[i][x]].active = true;
                             }
                         }
                         break;
@@ -1352,25 +1377,25 @@
                 }
 
                 if (s.length > 0) {
-                    this.num = this.result[s.join(this.spliter)].skus.Stock;
+                    this.skuStock = this.result[s.join(this.spliter)].skus.stock;
                 }
 
                 if (s.length == this.keys.length) {
                     let curr = this.result[s.join(this.spliter)];
                     if (curr) {
-                        this.SkuID = curr.skus.sku;
-                        this.Pic = curr.skus.Pic;
+                        this.skuId = curr.skus.skuId;
+                        this.skuImage = curr.skus.image;
                         this.price = curr.skus.price;
-                        this.Stock = curr.skus.Stock;
+                        this.stock = curr.skus.stock;
 
-                        if (Number(this.numb) > Number(this.Stock)) {
-                            this.numb = Number(this.Stock)
+                        if (Number(this.numb) > Number(this.stock)) {
+                            this.numb = Number(this.stock)
                         }
                     }
 
                     this.haveSkuBean = {
                         name: s.join(this.spliter),
-                        cid: curr.skus.sku,
+                        cid: curr.skus.skuId,
                         skus: curr.skus
                     };
                 } else {
@@ -1378,9 +1403,9 @@
                 }
             },
 
-            /* 
-            ——————sku核心算法 结束——————
-       */
+            /**
+             * ——————sku核心算法 结束——————
+             */
 
             swiperChange(e) {
                 this.swiperIndex = e.detail.current + 1;
@@ -1431,7 +1456,7 @@
                     cid: this.attr_id
                 });
                 product.push({
-                    num: 1
+                    skuStock: 1
                 });
                 product = JSON.stringify(product);
                 uni.navigateTo({
@@ -1440,7 +1465,7 @@
                 });
             },
             toBr() {
-                if (this.pro.num < 1) {
+                if (this.pro.skuStock < 1) {
                     uni.showToast({
                         title: '库存不足，无法参与砍价！',
                         icon: 'none',
@@ -1632,7 +1657,7 @@
                 }
             },
             _add() {
-                if (this.numb < this.num && Boolean(this.haveSkuBean)) {
+                if (this.numb < this.skuStock && Boolean(this.haveSkuBean)) {
                     this.numb++;
                 } else {
                     if (!this.haveSkuBean) {

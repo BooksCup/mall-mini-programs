@@ -3,8 +3,8 @@
      * 根路径
      */
     // const ROOT_URL = 'http://localhost:8082'
-    // const ROOT_URL = 'http://192.168.0.133:8082'
-    const ROOT_URL = 'https://sc.winddots.com/'
+    const ROOT_URL = 'http://192.168.0.133:8082'
+    // const ROOT_URL = 'https://sc.winddots.com/'
     const STORE_ID = 1
     const DEFAULT_STORE_TYPE = 1
 
@@ -52,6 +52,18 @@
         NOT_ALLOW: 0,
         // 允许
         ALLOW: 1
+    }
+
+    // SKU KEY
+    const SKU_KEY = {
+        // id
+        ID: 'skuId',
+        // 库存
+        STOCK: 'stock',
+        // 价格
+        PRICE: 'price',
+        // 图片
+        IMAGE: 'image'
     }
 
     /**
@@ -115,6 +127,7 @@
         SHOP_TAB,
         GOODS_STATUS,
         GOODS_ALLOW_TO_BUY,
+        SKU_KEY,
         getStoreType,
         noDoublePress
     }

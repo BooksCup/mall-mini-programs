@@ -457,9 +457,9 @@ export function handleBuy(me) {
     if (me.fastTap) {
         me.fastTap = false
         me.type = 3
-        me.$refs.authorizeComp.handleAfterAuth(me, '../../pages/login/login?landing_code=1', function() {
-            // //正常登录未超时
-            // if (me.haveSkuBean) {
+        // me.$refs.authorizeComp.handleAfterAuth(me, '../../pages/login/login?landing_code=1', function() {
+            //正常登录未超时
+            if (me.haveSkuBean) {
             //     var product = []
             //     product.push({
             //         pid: me.pro_id
@@ -512,11 +512,11 @@ export function handleBuy(me) {
             //             }, 1500)
             //         }
             //     })
-            // } else {
-            //     me._mask_display()
-            //     me.fastTap = true
-            // }
-        })
+            } else {
+                me._mask_display()
+                me.fastTap = true
+            }
+        // })
     }
 }
 
