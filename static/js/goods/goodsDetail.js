@@ -17,7 +17,9 @@ export function LaiKeTui_axios(me) {
         data.navType = me.navType
         data.id = me.id
     }
-    me.$req.post({data}).then(res => {
+    me.$req.post({
+        data
+    }).then(res => {
         console.log(res)
         // uni.hideLoading()
         if (res && res.data) {
@@ -54,7 +56,7 @@ export function LaiKeTui_axios(me) {
             me.attrList = attrList
             me.collection = type
             me.coupon_str = coupon_str
-            
+
             me.skuBeanList = attribute_list
             me.initData();
             if (data.type == 'MS') {
@@ -104,7 +106,7 @@ export function LaiKeTui_axios(me) {
                 icon: 'none'
             })
         }
-    }).catch((err)=>{
+    }).catch((err) => {
         me.load = false
     })
 }
@@ -204,7 +206,9 @@ export function LaiKeTuiShowSaveEWM(string, me) {
     } else {
         data.store_type = 2
     }
-    me.$req.post({data}).then(res => {
+    me.$req.post({
+        data
+    }).then(res => {
         if (res.code == 200) {
             me.ewmImg = uni.getStorageSync('endurl') + res.imgUrl
             me.saveEWM = true
@@ -236,7 +240,9 @@ export function LaiKeTuiShopEWM(string, me) {
     // #ifndef MP-WEIXIN
     data.store_type = 2
     // #endif
-    me.$req.post({data}).then(res => {
+    me.$req.post({
+        data
+    }).then(res => {
         if (res.code == 200) {
             me.ewmImg = uni.getStorageSync('endurl') + res.imgUrl
             me.saveEWM = true
@@ -284,7 +290,9 @@ export function LaiKeTui_collection(me) {
             data.app = 'removeFavorites'
             data.collection = []
             data.collection.push(me.collection_id)
-            me.$req.post({data}).then(res => {
+            me.$req.post({
+                data
+            }).then(res => {
                 me.fastTap = true
                 let {
                     code,
@@ -308,7 +316,9 @@ export function LaiKeTui_collection(me) {
         } else {
             data.app = 'index'
             data.pro_id = me.pro_id
-            me.$req.post({data}).then(res => {
+            me.$req.post({
+                data
+            }).then(res => {
                 let {
                     code,
                     message,
@@ -351,7 +361,9 @@ export function LaiKeTui_shopping(me) {
             num: me.numb,
             type: 'addcart'
         }
-        me.$req.post({data}).then(res => {
+        me.$req.post({
+            data
+        }).then(res => {
             me.fastTap = true
             let {
                 code,
@@ -396,7 +408,9 @@ export function LaiKeTuiGetCoupon(me) {
         app: 'pro_coupon',
         pro_id: me.pro_id,
     }
-    me.$req.post({data}).then(res => {
+    me.$req.post({
+        data
+    }).then(res => {
         if (res.code == 200) {
             me.coupon_list = res.list
         } else {
@@ -426,7 +440,9 @@ export function LaiKeTui_receive(me, id) {
         app: 'receive',
         id: id
     }
-    me.$req.post({data}).then(res => {
+    me.$req.post({
+        data
+    }).then(res => {
         let code = res.code
         if (code == 200) {
             uni.showToast({
@@ -447,7 +463,7 @@ export function LaiKeTui_receive(me, id) {
                 me.getCoupon()
             }, 1500)
         }
-    }).catch((err)=>{
+    }).catch((err) => {
         me.fastTap = true
     })
 }
@@ -458,8 +474,8 @@ export function handleBuy(me) {
         me.fastTap = false
         me.type = 3
         // me.$refs.authorizeComp.handleAfterAuth(me, '../../pages/login/login?landing_code=1', function() {
-            //正常登录未超时
-            if (me.haveSkuBean) {
+        //正常登录未超时
+        if (me.haveSkuBean) {
             //     var product = []
             //     product.push({
             //         pid: me.pro_id
@@ -512,32 +528,33 @@ export function handleBuy(me) {
             //             }, 1500)
             //         }
             //     })
-            } else {
-                me._mask_display()
-                me.fastTap = true
-            }
+        } else {
+            me._mask_display()
+            me.fastTap = true
+        }
         // })
     }
 }
 
 // 确认
-export function LaiKeTui_confirm(me) {
-    
-    if(me.sku_list.result['undefined']){
-    	me.haveSkuBean = {
-    		cid: me.sku_list.items[0].sku,
-    		skus: me.sku_list.items[0]
-    	};
+export function confirmSku(me) {
+    if (me.sku_list.result['undefined']) {
+        me.haveSkuBean = {
+            cid: me.sku_list.items[0].sku,
+            skus: me.sku_list.items[0]
+        };
     }
     
     if (Boolean(me.haveSkuBean)) {
-        if (me.num == 0) {
+        console.log('!!!!!!!!!!!!!!!!' + me.skuStock)
+        console.log('@@@@@@@@@@@@@@@@' + me.type)
+        if (me.skuStock == 0) {
             uni.showToast({
                 title: '库存不足',
                 duration: 1000,
                 icon: 'none'
             })
-        } else if (me.num != 0) {
+        } else if (me.skuStock != 0) {
             if (me.type == 1) {
                 me._mask_false()
                 me.pay_lx('pt')
@@ -550,7 +567,7 @@ export function LaiKeTui_confirm(me) {
             }
         }
     } else {
-        if (me.num == 0) {
+        if (me.skuStock == 0) {
             uni.showToast({
                 title: '库存不足',
                 duration: 1000,
@@ -570,16 +587,16 @@ export function LaiKeTui_confirm(me) {
 export function LaiKeTui_spec(me) {
     var attrListIn = me.attrList;
     var skuBeanListIn = me.skuBeanList;
-    for(var i = 0; i < attrListIn.length; i++) {
+    for (var i = 0; i < attrListIn.length; i++) {
         var attrListBig = attrListIn[i];
         //当前类别之外的选择列表
         var attrsOtherSelect = [];
-        for(var j = 0; j < attrListIn.length; j++) {
+        for (var j = 0; j < attrListIn.length; j++) {
             var attrListSmall = attrListIn[j];
-            if(attrListSmall.id != attrListBig.id) {
-                for(var k = 0; k < attrListSmall.attr.length; k++) {
+            if (attrListSmall.id != attrListBig.id) {
+                for (var k = 0; k < attrListSmall.attr.length; k++) {
                     var attrListSmallAttr = attrListSmall.attr[k];
-                    if(attrListSmallAttr.enable && attrListSmallAttr.select) {
+                    if (attrListSmallAttr.enable && attrListSmallAttr.select) {
                         //可选并且已经选择的属性
                         attrsOtherSelect.push(attrListSmallAttr);
                     }
@@ -587,14 +604,14 @@ export function LaiKeTui_spec(me) {
             }
         }
         var enableIds = [];
-        for(var z = 0; z < skuBeanListIn.length; z++) {
+        for (var z = 0; z < skuBeanListIn.length; z++) {
             var ism = true;
             var skuBean = skuBeanListIn[z];
-            for(var j = 0; j < attrsOtherSelect.length; j++) {
+            for (var j = 0; j < attrsOtherSelect.length; j++) {
                 var enable = false;
-                for(var k = 0; k < skuBean.attributes.length; k++) {
+                for (var k = 0; k < skuBean.attributes.length; k++) {
                     var goodAttrBean = skuBean.attributes[k];
-                    if(attrsOtherSelect[j].attributeId == goodAttrBean.attributeId &&
+                    if (attrsOtherSelect[j].attributeId == goodAttrBean.attributeId &&
                         attrsOtherSelect[j].id == goodAttrBean.attributeValId) {
                         enable = true;
                         break;
@@ -602,17 +619,17 @@ export function LaiKeTui_spec(me) {
                 }
                 ism = enable && ism;
             }
-    
-            if(ism) {
-                for(var o = 0; o < skuBean.attributes.length; o++) {
+
+            if (ism) {
+                for (var o = 0; o < skuBean.attributes.length; o++) {
                     var goodAttrBean = skuBean.attributes[o];
-                    if(attrListBig.id == goodAttrBean.attributeId) {
+                    if (attrListBig.id == goodAttrBean.attributeId) {
                         enableIds.push(goodAttrBean.attributeValId);
                     }
                 }
             }
         }
-        for(let s = 0; s < attrListBig.attr.length; s++) {
+        for (let s = 0; s < attrListBig.attr.length; s++) {
             let attrItem = attrListBig.attr[s];
             attrItem.enable = Number(skuBeanListIn[s].count);
             // 这里需修改，如何改变enabale的真假
@@ -620,7 +637,7 @@ export function LaiKeTui_spec(me) {
     }
     // 重新赋值
     me.attrList = attrListIn,
-    me.skuBeanList = skuBeanListIn
+        me.skuBeanList = skuBeanListIn
 }
 
 // 选择属性
@@ -749,7 +766,9 @@ export function LaiKeTuiToBr(me) {
         action: 'login',
         app: 'token',
     }
-    me.$req.post({data}).then(res => {
+    me.$req.post({
+        data
+    }).then(res => {
         if (res.code == 404 || res.login_status == 0) {
             me.$refs.lktAuthorizeComp.handleAfterAuth(me, '../../pages/login/login?landing_code=1')
         } else {

@@ -95,7 +95,7 @@
                     </div>
                     <div class="hr"></div>
                     <!-- 非砍价商品选择商品规格 -->
-                    <div v-if="!bargain" class="guige" @tap="showChooseSpecMask()" ref="homeHead">
+                    <div v-if="!bargain" class="guige" @tap="chooseSpec()" ref="homeHead">
                         <span>{{ haveSkuBean == '' ? '选择商品规格' : haveSkuBean.name }}</span>
                         <img class="arrow" :src="icon_right_arrow" />
                     </div>
@@ -346,7 +346,7 @@
                     </div>
                     <div class="hr"></div>
                     <!-- 非砍价商品选择商品规格 -->
-                    <div v-if="!bargain" class="guige skeleton-rect" @tap="_shopping1()" ref="homeHead">
+                    <div v-if="!bargain" class="guige skeleton-rect" @tap="chooseSpec()" ref="homeHead">
                         <span>{{ haveSkuBean == '' ? '选择商品规格' : haveSkuBean.name }}</span>
                         <img class="arrow" :src="you_img" />
                     </div>
@@ -438,7 +438,7 @@
             </div>
 
             <div class="mask_querenDiv">
-                <div class="mask_quren" @tap="_confirm">确认</div>
+                <div class="mask_quren" @tap="confirmSku">确认</div>
             </div>
         </div>
 
@@ -616,7 +616,7 @@
         LaiKeTuiGetCoupon,
         LaiKeTui_receive,
         handleBuy,
-        LaiKeTui_confirm,
+        confirmSku,
         LaiKeTui_spec,
         LaiKeTuiShowState,
         LaiKeTuiSetTimeData,
@@ -1709,11 +1709,6 @@
             _collection() {
                 LaiKeTui_collection(this);
             },
-            //规格选择
-            _selectG() {
-                this.type = 1;
-                this._mask_display();
-            },
             //加入购物车
             _shopping() {
                 if (this.status == 2) {
@@ -1731,11 +1726,6 @@
                 this.fastTap = true;
                 this.showChooseSpecMask();
             },
-            _shopping1() {
-                this.type = 1;
-                this.fastTap = true;
-                this._mask_display();
-            },
             getCoupon() {
                 LaiKeTuiGetCoupon(this);
             },
@@ -1746,12 +1736,6 @@
             },
             closeCouponMask() {
                 this.couponMask = false;
-            },
-
-            //打开遮罩层
-            _mask_display() {
-                this.mask_display = true;
-                this.overflow = 'hidden';
             },
             // 打开选择规格遮罩
             showChooseSpecMask() {
@@ -1777,9 +1761,9 @@
                 this._mask_false();
                 this.overflow = 'scroll';
             },
-            //确认
-            _confirm() {
-                LaiKeTui_confirm(this);
+            // 规格确认
+            confirmSku() {
+                confirmSku(this);
             },
             _spec() {
                 LaiKeTui_spec(this);
