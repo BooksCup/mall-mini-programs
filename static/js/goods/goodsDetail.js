@@ -478,8 +478,7 @@ export function handleBuy(me) {
         if (me.haveSkuBean) {
             let data = {
                 storeId: me.$common.STORE_ID,
-                // goodsId: me.pro_id,
-                goodsId: '-1',
+                goodsId: me.pro_id,
                 number: me.numb,
                 goodsSkuId: me.haveSkuBean.skuId
             }
@@ -487,12 +486,15 @@ export function handleBuy(me) {
             me.$cart.buyNow(data).then(res => {
 
             }).catch(e => {
-                me.fastTap = true
                 uni.showToast({
                     title: e.responseMessage,
                     duration: 1000,
                     icon: 'none'
                 })
+                setTimeout(function() {
+                    // me.getGoodsDetail()
+                    me.fastTap = true
+                }, 1500)
             })
 
             //     var product = []
