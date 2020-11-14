@@ -15,6 +15,7 @@ import goods from './common/api/goods.js'
 import cart from './common/api/cart.js'
 import shop from './common/api/shop.js'
 import user from './common/api/user.js'
+import userCollection from './common/api/userCollection.js'
 import token from './common/api/token.js'
 import verifyCode from './common/api/verifyCode.js'
 
@@ -30,6 +31,7 @@ Vue.prototype.$goods = goods
 Vue.prototype.$cart = cart
 Vue.prototype.$shop = shop
 Vue.prototype.$user = user
+Vue.prototype.$userCollection = userCollection
 Vue.prototype.$token = token
 Vue.prototype.$verifyCode = verifyCode
 

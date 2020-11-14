@@ -344,6 +344,72 @@ export function LaiKeTui_collection(me) {
     })
 }
 
+// 收藏
+export function collect(me) {
+    if (!me.fastTap) {
+        return;
+    }
+    me.fastTap = false
+    uni.setStorageSync('userId', '61430a543dad4a8ca236b2b0b6627cdd')
+    // me.$refs.lktAuthorizeComp.handleAfterAuth(me, '../login/login', function() {
+    if (me.isCollected == me.$common.COLLECT_STATUS.NO) {
+        // 未收藏,点击收藏
+        let data = {
+            storeId: me.$common.STORE_ID,
+            goodsId: me.pro_id,
+            userId: uni.getStorageSync('userId')
+        }
+
+        me.$userCollection.collectGoods(data).then(res => {
+            me.fastTap = true
+            me.isCollected = me.$common.COLLECT_STATUS.YES
+            uni.showToast({
+                title: '收藏成功!',
+                duration: 1000,
+                icon: 'none'
+            })
+        }).catch(e => {
+            me.fastTap = true
+            uni.showToast({
+                title: e.responseMessage,
+                duration: 1000,
+                icon: 'none'
+            })
+        })
+
+    } else {
+        // 已收藏,点击取消收藏
+
+        data.app = 'index'
+        data.pro_id = me.pro_id
+        me.$req.post({
+            data
+        }).then(res => {
+            let {
+                code,
+                message,
+                collection_id
+            } = res
+            if (code == 200) {
+                me.collection = true
+                me.collection_id = collection_id
+                uni.showToast({
+                    title: '收藏成功！',
+                    duration: 1000,
+                    icon: 'none'
+                })
+            } else {
+                uni.showToast({
+                    title: message,
+                    duration: 1000,
+                    icon: 'none'
+                })
+            }
+        })
+    }
+    // })
+}
+
 // 加入购物车
 export function addToCart(me) {
     me.type = 2
@@ -371,7 +437,7 @@ export function addToCart(me) {
             me.haveSkuBean = ''
             me.setCartNum(me.numb + me.cartNum)
             me.allCartNum = me.cartNum
-            
+
             me._mask_false()
         }).catch(e => {
             me.fastTap = true
@@ -795,7 +861,7 @@ export function showState(me, index, indx) {
 
     // 重新赋值
     me.attrList = listItem
-    
+
     // 重新sku运算
     me._spec()
 }

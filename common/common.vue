@@ -54,6 +54,14 @@
         ALLOW: 1
     }
 
+    // 收藏状态
+    const COLLECT_STATUS = {
+        // 未收藏
+        NO: '0',
+        // 已收藏
+        YES: '1'
+    }
+
     // SKU KEY
     const SKU_KEY = {
         // id
@@ -128,6 +136,7 @@
         GOODS_STATUS,
         GOODS_ALLOW_TO_BUY,
         SKU_KEY,
+        COLLECT_STATUS,
         getStoreType,
         noDoublePress
     }

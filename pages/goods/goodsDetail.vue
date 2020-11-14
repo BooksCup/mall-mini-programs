@@ -251,9 +251,9 @@
                             </div>
                             <!-- #endif -->
 
-                            <div class="goods_one center" @tap="_collection">
-                                <img :src="goods.isCollected == '1' ? icon_collect_yes : icon_collect_no" />
-                                <p v-if="collection">已收藏</p>
+                            <div class="goods_one center" @tap="collect">
+                                <img :src="isCollected == collect_status_yes ? icon_collect_yes : icon_collect_no" />
+                                <p v-if="isCollected == collect_status_yes">已收藏</p>
                                 <p v-else>收藏</p>
                             </div>
 
@@ -611,7 +611,7 @@
         LaiKeTui_axios,
         LaiKeTuiInvite,
         LaiKeTuiShowSaveEWM,
-        LaiKeTui_collection,
+        collect,
         addToCart,
         LaiKeTuiGetCoupon,
         LaiKeTui_receive,
@@ -717,9 +717,13 @@
                 comments: '', //评价信息
                 // 商品评价
                 commentList: [],
-                haveSkuBean: '', //选择规则属性
-                numb: 1, //规格选择的数量
-                collection: '', //收藏状态
+                // 选择规则属性
+                haveSkuBean: '',
+                // 规格选择的数量
+                numb: 1,
+                // 收藏状态
+                isCollected: '',
+
                 type: '', //判断进入规格选择是从立即购买1、加入购物车2、规格选择进入3
                 goods_x: true,
                 goods_g: false,
@@ -796,6 +800,8 @@
                 sku_key_price: this.$common.SKU_KEY.PRICE,
                 sku_key_image: this.$common.SKU_KEY.IMAGE,
 
+                collect_status_yes: this.$common.COLLECT_STATUS.YES,
+
                 spliter: ',',
                 sku_list: {},
                 result: {}
@@ -868,6 +874,7 @@
             uni.setStorageSync('fatherId', option.fatherId);
         },
         onShow(option) {
+            console.log('3123123123' + this.collect_status_yes)
             // 加载详情页数据
             this.getGoodsDetail();
 
@@ -918,12 +925,13 @@
         methods: {
             getGoodsDetail: function() {
                 let data = {
-                    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTcyMjg2ODUsImV4cCI6MTU5NzIzNTg4NSwianRpIjoiN2I1ZWM5NzIzOGVmODhmOTRiMDkxY2IxMDAxYTJmMWMifQ._mj5ajjGnrFolVr76hjxsbr6IvNIx_0h3f1zkfNYoQ1',
+                    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDUwNjg3MTAsImlhdCI6MTYwNTA2MTUxMCwianRpIjoiYzZlZDhjN2IyMzBhODBkOTJkZTgyYzE1ZmIyYTlhNDIifQ.g9rvZc5LtIDQDGO78tH1O3V_7-hQASYfFvd7ZmpYtec',
                     storeId: this.$common.STORE_ID,
                     goodsId: this.pro_id
                 }
                 this.$goods.getGoodsDetail(data).then(res => {
                     this.goods = res;
+                    this.isCollected = res.isCollected;
                     this.commentList = res.commentList;
                     this.goodsSkuMapList = res.goodsSkuMapList;
                     this.attrList = res.attrList;
@@ -1711,10 +1719,11 @@
                 }
             },
 
-            //收藏
-            _collection() {
-                LaiKeTui_collection(this);
+            // 收藏
+            collect() {
+                collect(this);
             },
+
             // 加入购物车
             addToCart() {
                 // 上架商品
