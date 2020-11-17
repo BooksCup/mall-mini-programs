@@ -1,11 +1,11 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		},
+    "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+        {
+            "path": "pages/index/index",
+            "style": {
+                "navigationBarTitleText": "uni-app"
+            }
+        },
         {
             "path": "pages/tab/home",
             "style": {
@@ -15,69 +15,79 @@
                 }
             }
         },
-		{
-		    "path": "pages/tab/goodsClass",
-		    "style": {
-		        "navigationBarTitleText": "全部分类",
-		        // "navigationStyle": "custom",
-		        "app-plus": {
-		            "titleNView": false
-		        }
-		    }
-		},
-		{
-		    "path": "pages/tab/shoppingCart",
-		    "style": {
-		        "navigationBarTitleText": "购物车",
-		        "app-plus": {
-		            "titleNView": false
-		        }
-		    }
-		},
-		{
-		    "path": "pages/tab/my",
-		    "style": {
-		        "navigationBarTitleText": "我的",
-		        // "navigationStyle": "custom",
-		        "app-plus": {
-		            "titleNView": false
-		        }
-		    }
-		},
-		{
-		    "path": "pages/login/login",
-		    "style": {
-		        "navigationStyle": "custom",
-		        "navigationBarTitleText": "用户登录",
-		        "app-plus": {
-		            "titleNView": false
-		        }
-		    }
-		},
-		{
-		    "path": "pages/login/register",
-		    "style": {
-		        "navigationStyle": "custom",
-		        "navigationBarTitleText": "用户注册",
-		        "app-plus": {
-		            "titleNView": false
-		        }
-		    }
-		},
-		{
-		    "path": "pages/login/retrievepassword",
-		    "style": {
-		        "navigationBarTitleText": "找回密码",
-		        "navigationStyle": "custom",
-		        "app-plus": {
-		            "titleNView": false
-		        }
-		    }
-		},
+        {
+            "path": "pages/tab/goodsClass",
+            "style": {
+                "navigationBarTitleText": "全部分类",
+                // "navigationStyle": "custom",
+                "app-plus": {
+                    "titleNView": false
+                }
+            }
+        },
+        {
+            "path": "pages/tab/shoppingCart",
+            "style": {
+                "navigationBarTitleText": "购物车",
+                "app-plus": {
+                    "titleNView": false
+                }
+            }
+        },
+        {
+            "path": "pages/tab/my",
+            "style": {
+                "navigationBarTitleText": "我的",
+                // "navigationStyle": "custom",
+                "app-plus": {
+                    "titleNView": false
+                }
+            }
+        },
+        {
+            "path": "pages/login/login",
+            "style": {
+                "navigationStyle": "custom",
+                "navigationBarTitleText": "用户登录",
+                "app-plus": {
+                    "titleNView": false
+                }
+            }
+        },
+        {
+            "path": "pages/login/register",
+            "style": {
+                "navigationStyle": "custom",
+                "navigationBarTitleText": "用户注册",
+                "app-plus": {
+                    "titleNView": false
+                }
+            }
+        },
+        {
+            "path": "pages/login/retrievepassword",
+            "style": {
+                "navigationBarTitleText": "找回密码",
+                "navigationStyle": "custom",
+                "app-plus": {
+                    "titleNView": false
+                }
+            }
+        },
         {
             "path": "pages/goods/goodsDetail",
             "style": {
                 "navigationBarTitleText": "商品详情",
+                "app-plus": {
+                    "titleNView": false
+                }
+            }
+        },
+        {
+            "path": "pages/order/orderDetail",
+            "style": {
+                "navigationBarTitleText": "确认订单信息",
+                "navigationStyle": "custom",
                 "app-plus": {
                     "titleNView": false
                 }
@@ -92,42 +102,42 @@
                 }
             }
         }
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	},
-	"tabBar": {
-	    "color": "#9D9D9D",
-	    "selectedColor": "#020202",
-	    "borderStyle": "black",
-	    "backgroundColor": "#ffffff",
-	    "list": [{
-	            "pagePath": "pages/tab/home",
-	            "iconPath": "static/img/homeWx.png",
-	            "selectedIconPath": "static/img/homeWxh.png",
-	            "text": "首页"
-	        },
-	        {
-	            "pagePath": "pages/tab/goodsClass",
-	            "iconPath": "static/img/goShoppingWx.png",
-	            "selectedIconPath": "static/img/goShoppingWxh.png",
-	            "text": "全部分类"
-	        },
-	        {
-	            "pagePath": "pages/tab/shoppingCart",
-	            "iconPath": "static/img/shoppingWx.png",
-	            "selectedIconPath": "static/img/shoppingWxh.png",
-	            "text": "购物车"
-	        },
-	        {
-	            "pagePath": "pages/tab/my",
-	            "iconPath": "static/img/myWx.png",
-	            "selectedIconPath": "static/img/myWxh.png",
-	            "text": "个人中心"
-	        }
-	    ]
-	}
+    ],
+    "globalStyle": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "uni-app",
+        "navigationBarBackgroundColor": "#F8F8F8",
+        "backgroundColor": "#F8F8F8"
+    },
+    "tabBar": {
+        "color": "#9D9D9D",
+        "selectedColor": "#020202",
+        "borderStyle": "black",
+        "backgroundColor": "#ffffff",
+        "list": [{
+                "pagePath": "pages/tab/home",
+                "iconPath": "static/img/homeWx.png",
+                "selectedIconPath": "static/img/homeWxh.png",
+                "text": "首页"
+            },
+            {
+                "pagePath": "pages/tab/goodsClass",
+                "iconPath": "static/img/goShoppingWx.png",
+                "selectedIconPath": "static/img/goShoppingWxh.png",
+                "text": "全部分类"
+            },
+            {
+                "pagePath": "pages/tab/shoppingCart",
+                "iconPath": "static/img/shoppingWx.png",
+                "selectedIconPath": "static/img/shoppingWxh.png",
+                "text": "购物车"
+            },
+            {
+                "pagePath": "pages/tab/my",
+                "iconPath": "static/img/myWx.png",
+                "selectedIconPath": "static/img/myWxh.png",
+                "text": "个人中心"
+            }
+        ]
+    }
 }

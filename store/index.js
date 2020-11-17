@@ -41,7 +41,8 @@ const store = new Vuex.Store({
         tableWidth: 0,
         goodsDetail: '',
         h_content: '',
-        cart_num: 0, //购物车商品数量
+        // 购物车商品数量
+        cartNum: 0,
         seckilldata: null,
         replayGoods: [], //直播回放的商品
     },
@@ -117,13 +118,15 @@ const store = new Vuex.Store({
         SET_PAY_LX(state, pay_lx) {
             state.pay_lx = pay_lx
         },
-        SET_CART_NUM(state, cart_num) {
-            state.cart_num = cart_num
+        SET_CART_NUM(state, cartNum) {
+            state.cartNum = cartNum
+        },
+        setCartNum(state, cartNum) {
+            state.cartNum = cartNum
         },
         SET_REPLAY_GOODS(state, goods) {
             state.replayGoods = goods
         },
-
     },
     actions: {
         // lazy loading access_id

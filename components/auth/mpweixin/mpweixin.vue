@@ -169,8 +169,6 @@
             me.$token.checkToken(data).then(res => {
                 let code = res.responseCode
                 let token = res.token
-                console.log('111111:' + code)
-                console.log('222222:' + token)
                 if (code == 'CHECK_TOKEN_SUCCESS' && token) {
                     resolve(token)
                 } else {

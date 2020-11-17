@@ -345,57 +345,87 @@ export function LaiKeTui_collection(me) {
 }
 
 // 加入购物车
-export function LaiKeTui_shopping(me) {
+export function addToCart(me) {
     me.type = 2
     if (!me.fastTap) {
         return
     }
     me.fastTap = false
     if (me.haveSkuBean) {
-        var data = {
-            module: 'app',
-            action: 'product',
-            app: 'add_cart',
-            pro_id: me.pro_id,
-            attribute_id: me.haveSkuBean.cid,
-            num: me.numb,
-            type: 'addcart'
+        let data = {
+            storeId: me.$common.STORE_ID,
+            storeType: me.$common.getStoreType(),
+            goodsId: me.pro_id,
+            goodsNum: me.numb,
+            goodsSkuId: me.haveSkuBean.skuId,
+            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDUwNjg3MTAsImlhdCI6MTYwNTA2MTUxMCwianRpIjoiYzZlZDhjN2IyMzBhODBkOTJkZTgyYzE1ZmIyYTlhNDIifQ.g9rvZc5LtIDQDGO78tH1O3V_7-hQASYfFvd7ZmpYtec',
         }
-        me.$req.post({
-            data
-        }).then(res => {
+
+        me.$cart.addToCart(data).then(res => {
             me.fastTap = true
-            let {
-                code,
-                data,
-                message
-            } = res
-            if (code == 200) {
-                uni.showToast({
-                    title: '添加成功，在购物车等您哦~',
-                    duration: 1000,
-                    icon: 'none'
-                })
-                me.haveSkuBean = ''
-                me.cart_num(me.numb + me._cart_num)
-                me.allCartNum = me._cart_num
-                me._mask_false()
-            } else {
-                uni.showToast({
-                    title: message,
-                    duration: 1500,
-                    icon: 'none'
-                })
-            }
-            if (data.cart_id) {
-                if (!in_array(data.cart_id, me.$store.state.nCart)) {
-                    me.$store.state.nCart.push(data.cart_id)
-                }
-            }
+            uni.showToast({
+                title: '添加成功，在购物车等您哦~',
+                duration: 1000,
+                icon: 'none'
+            })
+            me.haveSkuBean = ''
+            me.setCartNum(me.numb + me.cartNum)
+            me.allCartNum = me.cartNum
+            
+            me._mask_false()
+        }).catch(e => {
+            me.fastTap = true
+            uni.showToast({
+                title: e.responseMessage,
+                duration: 1000,
+                icon: 'none'
+            })
         })
+
+        // var data = {
+        //     module: 'app',
+        //     action: 'product',
+        //     app: 'add_cart',
+        //     pro_id: me.pro_id,
+        //     attribute_id: me.haveSkuBean.cid,
+        //     num: me.numb,
+        //     type: 'addcart'
+        // }
+        // me.$req.post({
+        //     data
+        // }).then(res => {
+        //     me.fastTap = true
+        //     let {
+        //         code,
+        //         data,
+        //         message
+        //     } = res
+        //     if (code == 200) {
+        //         uni.showToast({
+        //             title: '添加成功，在购物车等您哦~',
+        //             duration: 1000,
+        //             icon: 'none'
+        //         })
+        //         me.haveSkuBean = ''
+        //         me.cart_num(me.numb + me._cart_num)
+        //         me.allCartNum = me._cart_num
+        //         me._mask_false()
+        //     } else {
+        //         uni.showToast({
+        //             title: message,
+        //             duration: 1500,
+        //             icon: 'none'
+        //         })
+        //     }
+        //     if (data.cart_id) {
+        //         if (!in_array(data.cart_id, me.$store.state.nCart)) {
+        //             me.$store.state.nCart.push(data.cart_id)
+        //         }
+        //     }
+        // })
     } else {
         me.fastTap = true
-        me._mask_display()
+        me.showChooseSpecMask()
     }
 }
 
@@ -482,9 +512,34 @@ export function handleBuy(me) {
                 number: me.numb,
                 goodsSkuId: me.haveSkuBean.skuId
             }
+            product = JSON.stringify(data)
+            var product = []
+            product.push({
+                pid: me.pro_id
+            })
 
+            product.push({
+                cid: me.haveSkuBean.skuId
+            })
+
+            product.push({
+                num: me.numb
+            })
+
+            product.push({
+                sec_id: me.option.id
+            })
+            product = JSON.stringify(product)
             me.$cart.buyNow(data).then(res => {
-
+                me.fastTap = true
+                var url = '/pages/order/orderDetail?product=' + product +
+                    '&isDistribution=' + me.isDistribution +
+                    '&canshu=true&returnR=2'
+                // me._mask_f()
+                uni.navigateTo({
+                    url: url
+                })
+                console.log('你好鸭')
             }).catch(e => {
                 uni.showToast({
                     title: e.responseMessage,
@@ -578,7 +633,7 @@ export function confirmSku(me) {
                 me._mask_false()
                 me.pay_lx('pt')
             } else if (me.type == 2) {
-                me._shopping()
+                me.addToCart()
                 me.pay_lx('pt')
             } else if (me.type == 3) {
                 me.buy()

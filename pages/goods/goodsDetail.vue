@@ -271,7 +271,7 @@
                                     <div class="goods_two _buy" @tap="buy">立即购买</div>
                                 </div>
                                 <div v-else-if="goods.isDistribution == '0' && goods.activity != '6'">
-                                    <div class="goods_two" @tap="_shopping">加入购物车</div>
+                                    <div class="goods_two" @tap="addToCart">加入购物车</div>
                                     <div class="goods_two _buy1" @tap="buy">立即购买</div>
                                 </div>
                             </template>
@@ -612,7 +612,7 @@
         LaiKeTuiInvite,
         LaiKeTuiShowSaveEWM,
         LaiKeTui_collection,
-        LaiKeTui_shopping,
+        addToCart,
         LaiKeTuiGetCoupon,
         LaiKeTui_receive,
         handleBuy,
@@ -774,7 +774,8 @@
                 couponMask: false,
                 coupon_list: [],
                 clicktimes: [], //记录点击buy按钮时的时间
-                allCartNum: 0, //购物车的总商品数
+                // 购物车的总商品数
+                allCartNum: 0, 
                 status: '2',
                 is_shop: false,
                 headerplus: false,
@@ -815,7 +816,7 @@
                 }
             },
             ...mapState({
-                _cart_num: 'cart_num'
+                cartNum: 'cartNum'
             })
         },
         beforeCreate() {
@@ -868,8 +869,8 @@
         onShow(option) {
             // 加载详情页数据
             this.getGoodsDetail();
-
-            // this.allCartNum = this.$store.state.cart_num;
+            
+            this.allCartNum = this.$store.state.cartNum;
             // this.close = this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon/close_bb.png';
             // this.saves = this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon/save.png';
             // this.fastTap = true;
@@ -1692,7 +1693,7 @@
                 order_id: 'SET_ORDER_ID',
                 address_id: 'SET_ADDRESS_ID',
                 pay_lx: 'SET_PAY_LX',
-                cart_num: 'SET_CART_NUM'
+                setCartNum: 'setCartNum'
             }),
             _evaluate(pro_id) {
                 if (this.bargain) {
@@ -1710,10 +1711,11 @@
             _collection() {
                 LaiKeTui_collection(this);
             },
-            //加入购物车
-            _shopping() {
-                if (this.status == 2) {
-                    LaiKeTui_shopping(this);
+            // 加入购物车
+            addToCart() {
+                // 上架商品
+                if (this.status == this.$common.GOODS_STATUS.SHELVE) {
+                    addToCart(this);
                 } else {
                     uni.showToast({
                         title: '该商品已下架!',
