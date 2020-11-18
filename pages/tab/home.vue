@@ -434,7 +434,7 @@
                 return uni.upx2px(width) + 'px';
             },
             ...mapState({
-                _cart_num: 'cart_num'
+                cartNum: 'cartNum'
             })
         },
         onShow() {
@@ -724,12 +724,12 @@
             },
             //添加tabbar购物车小点提醒
             showCartNumInfo() {
-                if (this._cart_num) {
-                    var cart_num_str = String(this._cart_num);
+                if (this.cartNum) {
+                    var cart_num_str = String(this.cartNum);
 
                     // #ifdef MP-WEIXIN
                     uni.setTabBarBadge({
-                        index: 3,
+                        index: 2,
                         text: cart_num_str
                     });
                     // #endif

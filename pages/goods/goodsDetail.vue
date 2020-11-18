@@ -46,7 +46,7 @@
                     id="copyy" :data-clipboard-text="shareHref" />
                 <!-- #endif -->
 
-                <img v-if="isDistribution == false && !bargain && active != 6" :src="gw_img" class="gd_share" @tap="navSwitchTab('/pages/tabBar/shoppingCart')" />
+                <img v-if="isDistribution == false && !bargain && active != 6" :src="icon_cart" class="gd_share" @tap="navSwitchTab('/pages/tabBar/shoppingCart')" />
                 <div class="cartnum" v-if="isDistribution == false && allCartNum && active != 6">{{ allCartNum }}</div>
             </div>
 
@@ -666,9 +666,9 @@
                 loadImg: true,
                 shop_id: '',
                 // bback_img: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon/bback.png',
-                // gw_img: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/gw.png',
                 // load_img: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/5-121204193R7.gif',
                 // you_img: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/jiantouhei2x.png',
+                icon_cart: this.$common.ROOT_URL + '/static/images/icon/goods/icon_cart.png',
                 icon_share: this.$common.ROOT_URL + '/static/images/icon/goods/icon_share.png',
                 icon_right_arrow: this.$common.ROOT_URL + '/static/images/icon/icon_right_arrow_black.png',
                 icon_close: this.$common.ROOT_URL + '/static/images/icon/login/icon_close.png',
@@ -775,7 +775,7 @@
                 coupon_list: [],
                 clicktimes: [], //记录点击buy按钮时的时间
                 // 购物车的总商品数
-                allCartNum: 0, 
+                allCartNum: 0,
                 status: '2',
                 is_shop: false,
                 headerplus: false,
@@ -869,7 +869,7 @@
         onShow(option) {
             // 加载详情页数据
             this.getGoodsDetail();
-            
+
             this.allCartNum = this.$store.state.cartNum;
             // this.close = this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon/close_bb.png';
             // this.saves = this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon/save.png';
