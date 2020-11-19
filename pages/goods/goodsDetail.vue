@@ -420,7 +420,7 @@
                             <ul>
                                 <li v-for="(value,i) in item" :key="i" :class="{select: (!value.active)&&(!value.disabled),orange: value.active, back: value.disabled}"
                                     @tap='handleActive(key, value)'>
-                                    <div>{{ value.name }} </div>
+                                    <div>{{ value.name }}</div>
                                 </li>
                             </ul>
                         </div>
@@ -429,9 +429,9 @@
                     <div class="mask_num">
                         <p>数量</p>
                         <div class="goods_mun">
-                            <span class="goods_mun_span" @tap="_reduce"><img :src="numb == 1 ? icon_sub_disable : icon_sub_enable" /></span>
+                            <span class="goods_mun_span" @tap="reduceGoodsNum"><img :src="numb == 1 ? icon_sub_disable : icon_sub_enable" /></span>
                             <span class="mun">{{ numb }}</span>
-                            <span class="goods_mun_add" @tap="_add"><img :src="numb < skuStock ? icon_add_enable : icon_add_disable" /></span>
+                            <span class="goods_mun_add" @tap="addGoodsNum"><img :src="numb < skuStock ? icon_add_enable : icon_add_disable" /></span>
                         </div>
                     </div>
                 </div>
@@ -618,7 +618,7 @@
         handleBuy,
         confirmSku,
         LaiKeTui_spec,
-        LaiKeTuiShowState,
+        showState,
         LaiKeTuiSetTimeData,
         LaiKeTuiToBr,
         LaiKeTuiShopEWM
@@ -689,7 +689,8 @@
                 // coupon_on: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/coupon_on.png',
                 // no_coupon: this.LaiKeTuiCommon.LKT_ROOT_VERSION_URL + 'images/icon1/noFind.png',
                 attribute_id: '',
-                attrList: '',
+                // 商品属性列表
+                attrList: [],
                 skuBeanList: '',
                 // 规格(map格式)
                 goodsSkuMapList: [],
@@ -925,6 +926,7 @@
                     this.goods = res;
                     this.commentList = res.commentList;
                     this.goodsSkuMapList = res.goodsSkuMapList;
+                    this.attrList = res.attrList;
                     this.skuStock = res.remainStock;
                     this.price = res.sellPrice;
                     this.skuImage = res.defSkuImage;
@@ -1097,6 +1099,10 @@
              * @param  value 点击的按钮的数据
              */
             handleActive: function(key, value) {
+
+                console.log('sku_list.result', this.sku_list.result);
+
+
                 if (value.disabled === true) {
                     uni.showToast({
                         title: '库存不足，请选择其它!',
@@ -1187,10 +1193,6 @@
                     if (!this.goodsSkuMapList[0].hasOwnProperty(attribute)) {
                         continue;
                     }
-                    // if (attribute !== this.skuName && attribute !== this.skuName1 && attribute !== this.skuName2 &&
-                    //     attribute !== this.skuName3) {
-                    //     arrKeys.push(attribute);
-                    // }
                     if (attribute !== this.sku_key_id &&
                         attribute !== this.sku_key_price &&
                         attribute !== this.sku_key_stock &&
@@ -1638,7 +1640,8 @@
                     });
                 });
             },
-            _reduce() {
+            // 减少商品数量
+            reduceGoodsNum() {
                 if (this.numb > 1 && Boolean(this.haveSkuBean)) {
                     this.numb--;
                 } else {
@@ -1658,7 +1661,8 @@
                     }
                 }
             },
-            _add() {
+            // 新增商品数量
+            addGoodsNum() {
                 if (this.numb < this.skuStock && Boolean(this.haveSkuBean)) {
                     this.numb++;
                 } else {
@@ -1753,16 +1757,21 @@
                     this.mask_display = false;
                     this.mask_display1 = false;
                 }, 500);
-                for (var i = 0; i < this.attrList.length; i++) {
-                    for (var b = 0; b < this.attrList[i].attr.length; b++) {
-                        this.attrList[i].attr[b].select = false;
-                    }
-                }
+                this.resetSku();
             },
             _mask_f() {
                 this.haveSkuBean = '';
                 this._mask_false();
                 this.overflow = 'scroll';
+            },
+            resetSku() {
+                this.skuImage = this.goods.defSkuImage;
+                for (let i in this.sku_list.result) {
+                    for (let k in this.sku_list.result[i]) {
+                        this.sku_list.result[i][k].active = false
+                    }
+                }
+                this.numb = 1;
             },
             // 规格确认
             confirmSku() {
@@ -1773,7 +1782,7 @@
             },
             //选择属性
             showState(index, indx) {
-                LaiKeTuiShowState(this, index, indx);
+                showState(this, index, indx);
             },
             _axios() {
                 LaiKeTui_axios(this);

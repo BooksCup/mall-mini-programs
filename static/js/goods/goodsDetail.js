@@ -710,12 +710,12 @@ export function LaiKeTui_spec(me) {
         }
     }
     // 重新赋值
-    me.attrList = attrListIn,
-        me.skuBeanList = skuBeanListIn
+    me.attrList = attrListIn
+    me.skuBeanList = skuBeanListIn
 }
 
 // 选择属性
-export function LaiKeTuiShowState(me, index, indx) {
+export function showState(me, index, indx) {
     var listItem = me.attrList
 
     var items = listItem[indx]
@@ -795,7 +795,7 @@ export function LaiKeTuiShowState(me, index, indx) {
 
     // 重新赋值
     me.attrList = listItem
-
+    
     // 重新sku运算
     me._spec()
 }
