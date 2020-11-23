@@ -25,6 +25,7 @@ class Cart extends Request {
             data: data
         })
     }
+    
 }
 
 const cart = new Cart()

@@ -791,10 +791,6 @@
                 loadFlag: false,
 
                 highKeys: {},
-                skuName: 'SkuID',
-                skuName1: 'Price',
-                skuName2: 'Pic',
-                skuName3: 'Stock',
                 sku_key_id: this.$common.SKU_KEY.ID,
                 sku_key_stock: this.$common.SKU_KEY.STOCK,
                 sku_key_price: this.$common.SKU_KEY.PRICE,
@@ -874,7 +870,6 @@
             uni.setStorageSync('fatherId', option.fatherId);
         },
         onShow(option) {
-            console.log('3123123123' + this.collect_status_yes)
             // 加载详情页数据
             this.getGoodsDetail();
 

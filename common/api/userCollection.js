@@ -17,6 +17,14 @@ class UserCollection extends Request {
         })
     }
 
+    // 取消收藏商品
+    cancelCollectGoods(data) {
+        return super.request({
+            url: common.ROOT_URL + '/userCollection/cancelCollectGoods',
+            method: 'post',
+            data: data
+        })
+    }
 }
 
 const userCollection = new UserCollection()

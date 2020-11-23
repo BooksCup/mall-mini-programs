@@ -259,92 +259,6 @@ export function LaiKeTuiShopEWM(string, me) {
 }
 
 // 收藏
-export function LaiKeTui_collection(me) {
-    if (!me.fastTap) {
-        return
-    }
-
-    var data = {
-        module: 'app',
-        action: 'addFavorites',
-    }
-
-    // #ifdef MP
-    data.store_type = 1
-    // #endif
-    // #ifndef MP
-    data.store_type = 2
-    // #endif
-
-    if (me.is_jifen) {
-        data.type = 2
-    }
-
-    me.fastTap = false
-    setTimeout(function() {
-        me.fastTap = true
-    }, 800)
-
-    me.$refs.lktAuthorizeComp.handleAfterAuth(me, '../login/login', function() {
-        if (me.collection) {
-            data.app = 'removeFavorites'
-            data.collection = []
-            data.collection.push(me.collection_id)
-            me.$req.post({
-                data
-            }).then(res => {
-                me.fastTap = true
-                let {
-                    code,
-                    message
-                } = res
-                if (code == 200) {
-                    me.collection = false
-                    uni.showToast({
-                        title: message,
-                        duration: 1000,
-                        icon: 'none'
-                    })
-                } else {
-                    uni.showToast({
-                        title: message,
-                        duration: 1000,
-                        icon: 'none'
-                    })
-                }
-            })
-        } else {
-            data.app = 'index'
-            data.pro_id = me.pro_id
-            me.$req.post({
-                data
-            }).then(res => {
-                let {
-                    code,
-                    message,
-                    collection_id
-                } = res
-                if (code == 200) {
-                    me.collection = true
-                    me.collection_id = collection_id
-                    uni.showToast({
-                        title: '收藏成功！',
-                        duration: 1000,
-                        icon: 'none'
-                    })
-                } else {
-                    uni.showToast({
-                        title: message,
-                        duration: 1000,
-                        icon: 'none'
-                    })
-                }
-            })
-        }
-    })
-}
-
-// 收藏
 export function collect(me) {
     if (!me.fastTap) {
         return;
@@ -364,7 +278,7 @@ export function collect(me) {
             me.fastTap = true
             me.isCollected = me.$common.COLLECT_STATUS.YES
             uni.showToast({
-                title: '收藏成功!',
+                title: res.responseMessage,
                 duration: 1000,
                 icon: 'none'
             })
@@ -379,32 +293,27 @@ export function collect(me) {
 
     } else {
         // 已收藏,点击取消收藏
+        let data = {
+            storeId: me.$common.STORE_ID,
+            goodsId: me.pro_id,
+            userId: uni.getStorageSync('userId')
+        }
 
-        data.app = 'index'
-        data.pro_id = me.pro_id
-        me.$req.post({
-            data
-        }).then(res => {
-            let {
-                code,
-                message,
-                collection_id
-            } = res
-            if (code == 200) {
-                me.collection = true
-                me.collection_id = collection_id
-                uni.showToast({
-                    title: '收藏成功！',
-                    duration: 1000,
-                    icon: 'none'
-                })
-            } else {
-                uni.showToast({
-                    title: message,
-                    duration: 1000,
-                    icon: 'none'
-                })
-            }
+        me.$userCollection.cancelCollectGoods(data).then(res => {
+            me.fastTap = true
+            me.isCollected = me.$common.COLLECT_STATUS.NO
+            uni.showToast({
+                title: res.responseMessage,
+                duration: 1000,
+                icon: 'none'
+            })
+        }).catch(e => {
+            me.fastTap = true
+            uni.showToast({
+                title: e.responseMessage,
+                duration: 1000,
+                icon: 'none'
+            })
         })
     }
     // })

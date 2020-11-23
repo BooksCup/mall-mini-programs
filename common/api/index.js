@@ -11,6 +11,14 @@ class Index extends Request {
         })
     }
     
+    getCartProfile(data) {
+        return super.request({
+            url: common.ROOT_URL + '/index/cart',
+            method: 'get',
+            data: data
+        })
+    }
+    
     getMyProfile(data) {
         return super.request({
             url: common.ROOT_URL + '/index/me',
@@ -18,6 +26,7 @@ class Index extends Request {
             data: data
         })
     }
+    
 }
 
 const index = new Index()
